@@ -1,0 +1,13 @@
+[book]
+title = "CTF Handbook"
+authors = ["Fenguopeng"]
+description = "CTF"
+language = "zh"
+src = "src"
+
+[preprocessor.pagetoc]
+[output.html]
+git-repository-url = "https://github.com/Fenguopeng/ctf101"
+additional-css = ["theme/pagetoc.css"]
+additional-js = ["theme/pagetoc.js"]
+mathjax-support = true

@@ -1,0 +1,7 @@
+{
+  "plugins": {},
+  "filters": {},
+  "rules": {
+    "textlint-rule-ja-space-between-half-and-full-width": { "space": "always" }
+  }
+}

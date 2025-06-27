@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" width="640" height="1333" viewBox="0 0 640 1333"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xml:space="preserve"
+	lang="en-US"
+><defs>
+	<style type="text/css">
+		text{ font-family: Arial, Helvetica, sans-serif; }
+	</style>
+	<linearGradient id="arrow-fill" gradientUnits="userSpaceOnUse" x1="298" y1="143" x2="382.5" y2="143">
+		<stop offset="0"      style="stop-color: #000080"/>
+		<stop offset="0.8163" style="stop-color: #9cf"/>
+		<stop offset="0.8685" style="stop-color: #9cf"/>
+	</linearGradient>
+</defs>
+
+<!-- Drawing title -->
+<title>The Structure of the Bitmap Image File (BMP)</title>
+<text id="title" x="488.7705" y="23.4595" font-size="19.5" font-weight="bold" text-anchor="middle"><!--
+	--><tspan x="488.7705" y="23.4595">The Structure of</tspan><!--
+	--><tspan x="488.7705" y="47.4595">the Bitmap Image File</tspan><!--
+	--><tspan x="488.7705" y="71.4595">(BMP)</tspan><!--
+--></text>
+
+<!-- Grey lines running vertically behind file-sections ladder -->
+<g id="byte-offset-columns">
+	<g fill="none" stroke="#c0c0c0">
+		<rect x="114.5" y="98.5"     width="40" height="1234"/>
+		<rect x="154.5" y="98.5"     width="40" height="1234"/>
+		<rect x="194.5" y="98.5"     width="40" height="1234"/>
+		<rect x="234.5" y="98.5"     width="40" height="1234"/>
+		<rect x="274.5" y="986.3439" width="40" height="346.1561"/>
+		<rect x="314.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="354.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="394.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="434.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="474.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="514.5" y="831.6043" width="40" height="500.8956"/>
+		<rect x="554.5" y="831.6043" width="40" height="500.8956"/>
+	</g>
+	<g stroke="#000" font-size="11.5" text-anchor="middle">
+		<text x="134.5696" y="1330.5282">0</text>
+		<text x="174.5696" y="1330.5282">1</text>
+		<text x="214.5696" y="1330.5282">2</text>
+		<text x="254.5696" y="1330.5282">3</text>
+		<text x="294.5696" y="1330.5282">4</text>
+		<text x="334.5696" y="1330.5282">5</text>
+		<text x="374.5696" y="1330.5282">6</text>
+		<text x="414.5696" y="1330.5282">7</text>
+		<text x="454.5696" y="1330.5282">8</text>
+		<text x="494.5696" y="1330.5282">9</text>
+		<text x="534.5696" y="1330.5282">10</text>
+		<text x="574.5696" y="1330.5282">11</text>
+	</g>
+</g>
+<g transform="rotate(-90 134.5 755.5)">
+	<rect x="98.5" y="735.5" width="72" height="40" fill="#fff" stroke="#000"/>
+	<text x="135.3083" y="750.7426" font-size="13" text-anchor="middle"><!--
+		--><tspan x="135.3083" y="750.7426" font-weight="bold">GAP1</tspan><!--
+		--><tspan x="135.3083" y="766.7426" font-size="11" font-weight="normal">( optional )</tspan><!--
+	--></text>
+</g>
+<g>
+	<path fill="url(#arrow-fill)" stroke="#000" stroke-miterlimit="2"
+		d="M315.5,153v7.5L298,143l17.5-17.5v8h53V153H315.5zM376.5,132.5h-5v21h5V132.5z M382.5,132.5h-3v21h3V132.5z"/>
+	<text x="505.7549" y="139.6396" font-size="13" text-anchor="middle"><!--
+		--><tspan x="505.7549" y="139.6396">Older DIB Headers can be substituted</tspan><!--
+		--><tspan x="445.4549" y="157.6396"> for the </tspan><!--
+		--><tspan x="527.8330" y="157.6396" font-weight="bold">BITMAPV5HEADER</tspan><!--
+	--></text>
+</g>
+
+<g transform="rotate(-90 134.5 1151.5)">
+	<rect x="98.5" y="1131.5" width="72" height="40" fill="#fff" stroke="#000"/>
+	<text x="135.3023" y="1146.7405" font-size="13" text-anchor="middle"><!--
+		--><tspan x="135.3023" y="1146.7405" font-weight="bold">GAP2</tspan><!--
+		--><tspan x="135.3023" y="1162.7405" font-size="11" font-weight="normal">( optional )</tspan><!--
+	--></text>
+</g>
+<g>
+	<line fill="none" stroke="#005400" stroke-dasharray="4,3" x1="15.5" y1="71.5" x2="117.5" y2="71.5"/>
+	<circle fill="#005400" cx="12.5" cy="71.5" r="3.75"/>
+</g>
+<g>
+	<line fill="none" stroke="#000" stroke-dasharray="4,3" x1="28.5" y1="107.5" x2="114.5" y2="107.5"/>
+	<circle cx="28.5" cy="107.5" r="3.75"/>
+</g>
+<g>
+	<line fill="none" stroke="#f00" stroke-dasharray="4,3" x1="44.5" y1="531.5" x2="114.5" y2="531.5"/>
+	<circle fill="#f00" cx="44.5" cy="531.5" r="3.75"/>
+</g>
+<g>
+	<line fill="none" stroke="#005400" x1="12.5" y1="1314.5" x2="12.5" y2="49.5"/>
+	<polygon fill="#005400" points="7.5,54.5 12.5,45.5 17.5,54.5 12.5,50.7478"/>
+	<polygon fill="#005400" points="17.5,1309.5 12.5,1318.5 7.5,1309.5 12.5,1313.2522"/>
+</g>
+<g>
+	<line fill="none" stroke="#f00" x1="44.5" y1="1206.5" x2="44.5" y2="166.5"/>
+	<polygon fill="#f00" points="39.5,171.5 44.5,162.5 49.5,171.5 44.5,167.7478"/>
+	<polygon fill="#f00" points="49.5,1201.5 44.5,1210.5 39.5,1201.5 44.5,1205.2522"/>
+</g>
+<g>
+	<line fill="none" stroke="#000" x1="28.5" y1="842.5" x2="28.5" y2="49.5"/>
+	<polygon points="23.5,54.5 28.5,45.5 33.5,54.5 28.5,50.7478"/>
+	<polygon points="33.5,836.5 28.5,845.5001 23.5,836.4999 28.5,840.2523"/>
+</g>
+<g>
+	<polyline fill="none" stroke="#000" stroke-dasharray="4" points="114.7195,549.5386 61.5,549.5386 61.5,1264.5386 91.7195,1264.5386"/>
+	<polygon points="86.4902,1259.5386 95.4902,1264.5386 86.4902,1269.5386 90.2425,1264.5386"/>
+</g>
+<g>
+	<g>
+		<circle fill="#00f" cx="94.25" cy="422.5" r="3.75"/>
+		<line fill="none" stroke="#00f" stroke-dasharray="3,2" x1="96.5" y1="424.5" x2="111.5" y2="439.5"/>
+		<polygon fill="#00f" points="111.3668,432.3779 113.0331,440.468 104.7918,439.9125 110.1446,437.9474"/>
+	</g>
+	<g>
+		<circle fill="#00f" cx="94.25" cy="440.5" r="3.75"/>
+		<line fill="none" stroke="#00f" stroke-dasharray="3,2" x1="96.5" y1="442.5" x2="111.5" y2="457.5"/>
+		<polygon fill="#00f" points="111.3668,450.3779 113.0331,458.468 104.7918,457.9125 110.1446,455.9474"/>
+	</g>
+	<g>
+		<circle fill="#00f" cx="94.25" cy="458.5" r="3.75"/>
+		<line fill="none" stroke="#00f" stroke-dasharray="3,2" x1="96.5" y1="460.5" x2="111.5" y2="475.5"/>
+		<polygon fill="#00f" points="111.3668,468.3779 113.0331,476.468 104.7918,475.9125 110.1446,473.9474"/>
+	</g>
+	<g>
+		<circle fill="#00f" cx="94.25" cy="476.5" r="3.75"/>
+		<line fill="none" stroke="#00f" stroke-dasharray="3,2" x1="96.5" y1="478.5" x2="111.5" y2="493.5"/>
+		<polygon fill="#00f" points="111.3668,486.3779 113.0331,494.468 104.7918,493.9125 110.1446,491.9474"/>
+	</g>
+	<g>
+		<circle fill="#00f" cx="94.25" cy="511.5" r="3.75"/>
+		<line fill="none" stroke="#00f" stroke-dasharray="3,2" x1="96.5" y1="513.5" x2="111.5" y2="528.5"/>
+		<polygon fill="#00f" points="111.3668,521.3779 113.0331,529.4681 104.7918,528.9125 110.1446,526.9474"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#00f" stroke-dasharray="3,2" points="111.375,546.625 94.25,529.5 94.25,422.5 114.25,422.5"/>
+		<polygon fill="#00f" points="111.3668,539.3779 113.0331,547.4681 104.7918,546.9125 110.1446,544.9474"/>
+	</g>
+</g>
+<g>
+	<g>
+		<polyline fill="none" stroke="#800080" stroke-dasharray="4" points="114.5,314.5 79.5,314.5 79.5,656.5 91.5,656.5"/>
+		<polygon fill="#800080" points="85.9152,651.5 94.9153,656.5 85.9152,661.5 89.6674,656.5"/>
+	</g>
+	<path fill="none" stroke="#800080" stroke-width="2" d="M112,709.0143h-1.4848c-2.7698,0-7.0152-1-7.0152-7.0152v-37.9622c0-5.0226-1.5-8.0298-7-8.0298c5.5,0,7-3.0071,7-8.0298v-37.9622C103.5,604,107.7454,603,110.5152,603H112"/>
+</g>
+<path fill="none" stroke="#000" stroke-width="2" d="M112,1317.0143h-1.4848c-2.7698,0-7.0152-1-7.0152-7.0151v-37.9623c0-5.0226-1.5-8.0369-7-8.0369v0.0143c5.5,0,7-3.0143,7-8.037v-37.9622c0-6.0151,4.2454-7.0151,7.0152-7.0151H112"/>
+<g>
+	<g>
+		<polyline fill="none" stroke="#f60" stroke-dasharray="4" points="119.5,260.5 70.5,260.5 70.5,971.5 91.5,971.5"/>
+		<polygon fill="#f60" points="86.2707,966.5 95.2707,971.5 86.2707,976.5 90.0229,971.5"/>
+	</g>
+	<path fill="none" stroke="#f60" stroke-width="2" d="M112,847h-1.4848c-2.7698,0-7.0152,1-6.0152,7.0152v108.9622c0,5.0226-2.5,8.0298-8,8.0298c5.5,0,8,2.9929,8,8.0298v119.9622c-1,6.0151,3.2454,7.0151,6.0152,7.0151H587.5c2.7698,0,7.0152-1,7.0152-7.0151"/>
+</g>
+<g>
+	<text x="510" y="752" font-size="13.5" text-anchor="middle">Pad row size to a multiple of 4 Bytes</text>
+	<rect fill="none" stroke="#f00" stroke-dasharray="2" x="400" y="738" width="220" height="20"/>
+	<line fill="none" stroke="#f00" stroke-dasharray="3" x1="555.5" y1="757.5" x2="555.5" y2="783.5"/>
+	<polygon fill="#f00" points="560.5001,779.5702 555.4996,788.57 550.5,779.5701 555.4999,783.3223"/>
+	<path fill="none" stroke="#f00" d="M515.749,806.9999v-3.2662c0-2.3621,0.9197-6.2336,6.4519-6.2336h26.9141c4.6194,0,6.385-0.0093,6.385-6.5c0,6.4907,2.7657,6.5,7.3851,6.5h24.9141c5.5322,0,6.4519,3.8717,6.4519,6.2338V807"/>
+</g>
+<g>
+	<path fill="none" stroke="#00f" stroke-width="2" d="M114.6291,807l0-2.1101c0-2.5474,1.0613-6.4518,7.4452-6.4518h261.7496c5.3305,0,10.1761,0.062,10.1761-6.9381c0,7.0001,4.9992,6.9381,10.3297,6.9381h101.5957c6.3839,0.0001,7.4452,3.9046,7.4452,6.452V807"/>
+	<path fill="none" stroke="#00f" stroke-width="2" d="M276.9288,574.8889h1.4848c2.7698,0,7.0152-1,7.0152-7.0152V186.9115c0-5.0227,1.5-8.0298,7-8.0298c-5.5,0-7-2.9882-7-8.0109c0-7.8709-4.2454-8.9963-7.0152-8.9963h-1.4848"/>
+	<polyline fill="none" stroke="#00f" stroke-dasharray="4,3" points="274.5,170.5 315.5,170.5 315.5,179.5 300.5,179.5"/>
+	<polyline fill="none" stroke="#00f" stroke-dasharray="4,3" points="274.5,188.5 394.5,188.5 394.5,784.5"/>
+	<polygon fill="#00f" points="304.6039,184.5 295.6039,179.5 304.6039,174.5 300.8517,179.5"/>
+	<polygon fill="#00f" points="399.5,780.5 394.5,789.5 389.5,780.5 394.5,784.2522"/>
+</g>
+<g>
+	<path fill="none" stroke="#000" stroke-width="2" d="M596.9848,1096.0143c2.7698,0,7.0152-1,7.0152-7.0151V978.0369c0-5.0226,1.5-8.0369,7-8.0369v0.0143c-5.5,0-7-3.0143-7-8.0369V854.0152C604,848,599.7546,847,596.9848,847"/>
+	<polyline fill="none" stroke="#000" stroke-dasharray="4,3" points="274.5,206.5 629.5,206.5 629.5,970.5 617.5,970.5"/>
+	<polygon points="622.5002,975.5 613.5,970.4999 622.5002,965.5 618.7479,970.4999"/>
+</g>
+<g>
+	<text x="330.4268" y="721.1714" transform="rotate(-90 330.4268 721.1714)" font-size="13.5" text-anchor="middle">Pixel Format</text>
+	<path fill="none" stroke="#000" stroke-width="2" d="M274.749,790.8897c0-2.5474,0.9197-6.4519,6.4519-6.4519l24.9141,0.0001c4.6194,0,8.385-2.4379,8.385-9.4379c0,7.0001,4.7657,9.438,9.3851,9.438l23.914,0.0001c5.5322,0,6.4519,3.9045,6.4519,6.4519"/>
+	<line fill="none" stroke="#000" stroke-dasharray="2,1" x1="274.5" y1="792.5" x2="274.5" y2="809.5"/>
+	<line fill="none" stroke="#000" stroke-dasharray="2,1" x1="354.5" y1="792.5" x2="354.5" y2="809.5"/>
+	<polyline fill="none" stroke="#000" stroke-dasharray="4,3" points="274.5,224.5 315.5,224.5 315.5,770.5"/>
+	<polygon points="320.6348,765.3564 315.6348,774.3564 310.6348,765.3564 315.6348,769.1086"/>
+	<g>
+		<polyline fill="none" stroke="#000" stroke-dasharray="4,2" points="274.5,242.5 302.5,242.5 315.6348,255.6348"/>
+		<circle cx="315.6348" cy="255.6348" r="3.75"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#000" stroke-dasharray="4,2" points="274.5,350.5 302.5,350.5 315.6348,363.6348"/>
+		<circle cx="315.6348" cy="363.6348" r="3.75"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#000" stroke-dasharray="4,2" points="274.5,368.5 302.5,368.5 315.6348,381.6348"/>
+		<circle cx="315.6348" cy="381.6348" r="3.75"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#000" stroke-dasharray="4,2" points="274.5,386.5 302.5,386.5 315.6348,399.6348"/>
+		<circle cx="315.6348" cy="399.6348" r="3.75"/>
+	</g>
+	<g>
+		<polyline fill="none" stroke="#000" stroke-dasharray="4,2" points="274.5,404.5 302.5,404.5 315.6348,417.6348"/>
+		<circle cx="315.6348" cy="417.6348" r="3.75"/>
+	</g>
+</g>
+
+<g id="colour-table">
+	<g>
+		<rect x="114.5" y="584.5" width="160" height="18" fill="#800080" stroke="#000"/>
+		<text x="156.5" y="598.1138" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle"><!--
+			--><tspan x="156.5" y="598.1138">Color Table</tspan><!--
+			--><tspan x="232" y="597.6138" font-size="11" font-weight="normal"> (semi-optional)</tspan><!--
+		--></text>
+	</g>
+	<g>
+		<rect x="114.5" y="602.5" width="160" height="18" fill="#c9f" stroke="#000"/>
+		<text x="194.1543" y="615.8062" font-size="13" text-anchor="middle">Color Definition (index 0)</text>
+	</g>
+	<g>
+		<rect x="114.5" y="620.5" width="160" height="18" fill="#c9f" stroke="#000"/>
+		<text x="194.1543" y="633.8062" font-size="13" text-anchor="middle">Color Definition (index 1)</text>
+	</g>
+	<g>
+		<rect x="114.5" y="638.5" width="160" height="18" fill="#c9f" stroke="#000"/>
+		<text x="194.1543" y="651.8062" font-size="13" text-anchor="middle">Color Definition (index 2)</text>
+	</g>
+	<g>
+		<rect x="114.5" y="656.5" width="160" height="36" fill="#c9f" stroke="#000"/>
+		<path d="M194.0873,667.3621l-2.75-2.75l2.75-2.75l2.75,2.75L194.0873,667.3621z M196.8373,674.6121l-2.75-2.75l-2.75,2.75l2.75,2.75L196.8373,674.6121z M196.8373,684.6121l-2.75-2.75l-2.75,2.75l2.75,2.75L196.8373,684.6121z"/>
+	</g>
+	<g>
+		<rect x="114.5" y="692.5" width="160" height="18" fill="#c9f" stroke="#000"/>
+		<text x="194.1543" y="705.8062" font-size="13" text-anchor="middle">Color Definition (index n)</text>
+	</g>
+</g>
+
+<g id="dib-header">
+	<g>
+		<rect x="114.5" y="125.5" width="160" height="36" fill="#000080" stroke="#000"/>
+		<text x="194.3066" y="139.1138" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle"><!--
+			--><tspan x="195.5" y="139.1138">DIB Header</tspan><!--
+			--><tspan x="197" y="156.6138" font-size="13.5"> BITMAPV5HEADER</tspan><!--
+		--></text>
+	</g>
+	<g>
+		<rect x="114.5" y="161.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="173.8062" font-size="13" text-anchor="middle">DIB Header Size</text>
+	</g>
+	<g>
+		<rect x="114.5" y="179.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.5" y="191.8062" font-size="13" text-anchor="middle">Image Width <tspan font-size="11" font-weight="normal">(w)</tspan></text>
+	</g>
+	<g>
+		<rect x="114.5" y="197.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.5" y="210" font-size="13" text-anchor="middle">Image Height <tspan font-size="11" font-weight="normal">(h)</tspan></text>
+	</g>
+	<g>
+		<rect x="114.5" y="215.5" width="79" height="18" fill="#9cf" stroke="#000"/>
+		<text x="155.1543" y="227.8062" font-size="13" text-anchor="middle">Planes</text>
+	</g>
+	<g>
+		<rect x="193.5" y="215.5" width="81" height="18" fill="#9cf" stroke="#000"/>
+		<text x="234.1543" y="227.8062" font-size="13.5" text-anchor="middle">Bits per Pixel</text>
+	</g>
+	<g>
+		<rect x="114.5" y="233.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="195.1543" y="245.8062" font-size="13" text-anchor="middle">Compression</text>
+	</g>
+	<g>
+		<rect x="114.5" y="251.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="263.8062" font-size="13" text-anchor="middle">Image Size</text>
+	</g>
+	<g>
+		<rect x="114.5" y="269.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194" y="281.8062" font-size="13" text-anchor="middle">X Pixels Per Meter</text>
+	</g>
+	<g>
+		<rect x="114.5" y="287.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194" y="299.8062" font-size="13" text-anchor="middle">Y Pixels Per Meter</text>
+	</g>
+	<g>
+		<rect x="114.5" y="305.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="317.8062" font-size="12" text-anchor="middle">Colors in Color Table</text>
+	</g>
+	<g>
+		<rect x="114.5" y="323.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="195.1543" y="335.8062" font-size="12" text-anchor="middle">Important Color Count</text>
+	</g>
+	<g>
+		<rect x="114.5" y="341.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="353.8062" font-size="13" text-anchor="middle">Red channel bitmask</text>
+	</g>
+	<g>
+		<rect x="114.5" y="359.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="371.8062" font-size="13" text-anchor="middle">Green channel bitmask</text>
+	</g>
+	<g>
+		<rect x="114.5" y="377.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="389.8062" font-size="13" text-anchor="middle">Blue channel bitmask</text>
+	</g>
+	<g>
+		<rect x="114.5" y="395.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="407.8062" font-size="13" text-anchor="middle">Alpha channel bitmask</text>
+	</g>
+	<g>
+		<rect x="114.5" y="413.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="425.8062" font-size="13" text-anchor="middle">Color Space Type</text>
+	</g>
+	<g>
+		<rect x="114.5" y="431.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<rect x="116.5" y="433.5" width="156" height="14" fill="none" stroke="#f00"/>
+		<text x="194.1543" y="443.8062" font-size="13" text-anchor="middle">Color Space Endpoints</text>
+	</g>
+	<g>
+		<rect x="114.5" y="449.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="461.8062" font-size="13" text-anchor="middle">Gamma for Red channel</text>
+	</g>
+	<g>
+		<rect x="114.5" y="467.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="479.8062" font-size="13" text-anchor="middle">Gamma for Green channel</text>
+	</g>
+	<g>
+		<rect x="114.5" y="485.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="195.1543" y="497.8062" font-size="13" text-anchor="middle">Gamma for Blue channel</text>
+	</g>
+	<g>
+		<rect x="114.5" y="503.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="195.1543" y="515.8062" font-size="13" text-anchor="middle">Intent</text>
+	</g>
+	<g>
+		<rect x="114.5" y="521.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="533.8062" font-size="13" text-anchor="middle">ICC Profile Data</text>
+	</g>
+	<g>
+		<rect x="114.5" y="539.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="551.8062" font-size="13" text-anchor="middle">ICC Profile Size</text>
+	</g>
+	<g>
+		<rect x="114.5" y="557.5" width="160" height="18" fill="#9cf" stroke="#000"/>
+		<text x="194.1543" y="569.8062" font-size="13" text-anchor="middle">Reserved</text>
+	</g>
+</g>
+<g>
+	<g>
+		<rect x="114.5" y="8.5" width="160" height="36" fill="#030" stroke="#000"/>
+		<text x="194.3066" y="22.1138" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle"><!--
+			--><tspan x="156.7232" y="22.1138">Bitmap</tspan><!--
+			--><tspan x="240.0747" y="22.1138"> </tspan><!--
+			--><tspan x="194.6976" y="22.1138">File</tspan><!--
+			--><tspan x="266.9619" y="22.1138"> </tspan><!--
+			--><tspan x="233.2181" y="22.1138">Header</tspan><!--
+			--><tspan x="195.3066" y="39.6138" font-size="13"> BITMAPFILEHEADER</tspan><!--
+		--></text>
+	</g>
+	<g>
+		<rect x="114.5" y="44.5" width="80" height="18" fill="#cfc" stroke="#000"/>
+		<text x="155.1543" y="57.8062" font-size="13" text-anchor="middle">Signature</text>
+	</g>
+	<g>
+		<rect x="114.5" y="62.5" width="160" height="18" fill="#cfc" stroke="#000"/>
+		<text x="194.1543" y="76.8062" font-size="14" text-anchor="middle">File Size</text>
+	</g>
+	<g>
+		<rect x="114.5" y="80.5" width="80" height="18" fill="#cfc" stroke="#000"/>
+		<text x="155.1543" y="94.8062" font-size="13" text-anchor="middle">Reserved1</text>
+	</g>
+	<g>
+		<rect x="194.5" y="80.5" width="80" height="18" fill="#cfc" stroke="#000"/>
+		<text x="235.1543" y="94.8062" font-size="13" text-anchor="middle">Reserved2</text>
+	</g>
+	<g>
+		<rect x="114.5" y="98.5" width="160" height="18" fill="#cfc" stroke="#000"/>
+		<text x="196.1543" y="111.8062" font-size="13.5" text-anchor="middle">File Offset to PixelArray</text>
+	</g>
+</g>
+<g>
+	<g>
+		<text x="400.751" y="441.6104" text-anchor="start" font-size="13"><!--
+			--><tspan x="400.751"  y="441.6104" font-weight="bold">Note:</tspan><!--
+			--><tspan x="433.9688" y="441.6104"> The size of</tspan><!--
+			--><tspan x="400.751"  y="460.6104">Color Space Endpoints is 36 Bytes</tspan><!--
+		--></text>
+		<text x="402.6777" y="478.5117" text-anchor="start" font-size="10.5"><!--
+			--><tspan x="402.6777" y="478.5117">( This diagram does not depict it proportionally.</tspan><!--
+			--><tspan x="402.6777" y="490.5117"> &#xA0; It is drawn in that manner only to save</tspan><!--
+			--><tspan x="402.6777" y="502.5117"> &#xA0; vertical space. )</tspan><!--
+		--></text>
+	</g>
+	<text x="400.751" y="597.6104" text-anchor="start" font-size="13"><!--
+		--><tspan x="400.751"  y="597.6104" font-weight="bold">Note:</tspan><!--
+		--><tspan x="433.9688" y="597.6104"> The presence of the Color Table</tspan><!--
+		--><tspan x="400.751"  y="615.6104">is mandatory when </tspan><!--
+		--><tspan x="514.9024" y="615.6104">Bits </tspan><!--
+		--><tspan x="540.7051" y="615.6104">per Pixel</tspan><!--
+		--><tspan x="595.6758" y="615.6104">≤</tspan><!--
+		--><tspan x="607.3321" y="615.6104">8</tspan><!--
+	--></text>
+	<text x="400.751" y="669.6104" text-anchor="start" font-size="13"><!--
+		--><tspan x="400.751"  y="669.6104" font-weight="bold">Note:</tspan><!--
+		--><tspan x="433.9688" y="669.6104"> The size of Color Table Entries</tspan><!--
+		--><tspan x="400.751"  y="687.6104">is 3 Bytes if </tspan><!--
+		--><tspan x="474.4688" y="687.6104" font-weight="bold">BITMAPCOREHEADER</tspan><!--
+		--><tspan x="400.751"  y="705.6104">is substituted for </tspan><!--
+		--><tspan x="502.2305" y="705.6104" font-weight="bold">BITMAPV5HEADER</tspan><!--
+		--><tspan x="619.5781" y="705.6104">.</tspan><!--
+	--></text>
+</g>
+
+<g id="colour-profile">
+	<g id="profile-sidenotes">
+		<rect x="274.5" y="1192.5" width="320" height="126" fill="#fff" stroke="#c0c0c0"/>
+		<text x="436.5" y="1205.9824" font-size="13" text-anchor="middle"><!--
+			--><tspan font-weight="bold">Note</tspan>: The ICC Color Profile may be present only when <!--
+			--><tspan x="432.9492" y="1222.9824">the <tspan font-weight="bold">BITMAPV5HEADER</tspan> is used.</tspan>
+		</text>
+		<text x="280.4551" y="1273.3184" font-size="13" text-anchor="start"><!--
+			--><tspan x="280.4551" y="1273.3184">( This diagram wrongly suggests that the size of</tspan><!--
+			--><tspan x="280.4551" y="1290.3184">Color Profile must be a multiple of 4 Bytes.</tspan><!--
+			--><tspan x="280.4551" y="1307.3184">It is drawn in that manner only to save vertical space.)</tspan><!--
+		--></text>
+	</g>
+	<g>
+		<rect x="114.5" y="1192.5" width="160" height="18" fill="#333" stroke="#000"/>
+		<text x="194.8174" y="1207.0103" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">ICC Color Profile<tspan font-size="11" font-weight="normal"> (optional)</tspan></text>
+	</g>
+	<g>
+		<rect x="114.5" y="1210.5" width="160" height="108" fill="#c0c0c0" stroke="#000"/>
+		<text x="194.3516" y="1226.0977" font-size="13" text-anchor="middle"><!--
+			--><tspan x="194.3516" y="1226.0977"><tspan font-weight="bold">Embedded</tspan>, variable size</tspan><!--
+			--><tspan x="194.3516" y="1243.0977">ICC Color Profile Data.</tspan><!--
+			--><tspan x="195.3516" y="1277.0977">( or path to a <tspan font-weight="bold">linked</tspan> file</tspan><!--
+			--><tspan x="195.3516" y="1294.0977">containing</tspan><!--
+			--><tspan x="195.3516" y="1311.0977">ICC Color Profile Data )</tspan><!--
+		--></text>
+	</g>
+</g>
+
+<g id="byte-offset" fill="none" stroke="#000">
+	<text x="111.5696" y="1329.5282" fill="#000" stroke="none" font-weight="bold" font-size="11.5" text-anchor="end">Byte offset:</text>
+	<g>
+		<line x1="0" y1="1318.5" x2="1.5" y2="1318.5"/>
+		<line x1="3.0205" y1="1318.5" x2="111.7397" y2="1318.5" stroke-dasharray="3.0411,1.5205"/>
+		<line x1="112.5" y1="1318.5" x2="114" y2="1318.5"/>
+	</g>
+	<g>
+		<line x1="0" y1="44.5" x2="1.625" y2="44.5"/>
+		<line x1="2.6183" y1="44.5" x2="111.8784" y2="44.5" stroke-dasharray="3.2281,0.9933"/>
+		<line x1="112.375" y1="44.5" x2="114" y2="44.5"/>
+	</g>
+	<line stroke-dasharray="3.25,1" x1="36" y1="161.5"     x2="114" y2="161.5"/>
+	<line stroke-dasharray="3,1"    x1="20" y1="845.5618"  x2="114" y2="845.5618"/>
+	<line stroke-dasharray="3,1"    x1="36" y1="1210.5619" x2="114" y2="1210.5619"/>
+</g>
+
+<g id="image-data">
+	<g id="header">
+		<rect x="114.5" y="809.5" stroke="#000" width="480" height="36"/>
+		<text x="355.0906" y="823.2141" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle"><!--
+			--><tspan x="355.0906" y="823.2141">Image Data</tspan><!--
+			--><tspan x="355.0906" y="841.2141">PixelArray[x,y]</tspan><!--
+		--></text>
+	</g>
+	<g id="rows" fill="#ff9" stroke="#000">
+		<g id="row-continuation">
+			<rect x="114.5" y="881.5" width="480" height="36"/>
+			<path d="M393.5,893.25l-2.75-2.75l2.75-2.75l2.75,2.75L393.5,893.25z M396.25,900.5l-2.75-2.75l-2.75,2.75l2.75,2.75L396.25,900.5z M396.25,910.5l-2.75-2.75l-2.75,2.75l2.75,2.75L396.25,910.5z"/>
+		</g>
+		<g>
+			<rect x="114.5" y="917.5" width="80" height="18"/>
+			<rect x="194.5" y="917.5" width="80" height="18"/>
+			<rect x="274.5" y="917.5" width="80" height="18"/>
+			<rect x="354.5" y="917.5" width="80" height="18"/>
+			<rect x="434.5" y="917.5" width="80" height="18"/>
+			<rect x="514.5" y="917.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="935.5" width="80" height="18"/>
+			<rect x="194.5" y="935.5" width="80" height="18"/>
+			<rect x="274.5" y="935.5" width="80" height="18"/>
+			<rect x="354.5" y="935.5" width="80" height="18"/>
+			<rect x="434.5" y="935.5" width="80" height="18"/>
+			<rect x="514.5" y="935.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="845.5" width="80" height="18"/>
+			<rect x="194.5" y="845.5" width="80" height="18"/>
+			<rect x="274.5" y="845.5" width="80" height="18"/>
+			<rect x="354.5" y="845.5" width="80" height="18"/>
+			<rect x="434.5" y="845.5" width="80" height="18"/>
+			<rect x="514.5" y="845.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="863.5" width="80" height="18"/>
+			<rect x="194.5" y="863.5" width="80" height="18"/>
+			<rect x="274.5" y="863.5" width="80" height="18"/>
+			<rect x="354.5" y="863.5" width="80" height="18"/>
+			<rect x="434.5" y="863.5" width="80" height="18"/>
+			<rect x="514.5" y="863.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="953.5" width="80" height="18"/>
+			<rect x="194.5" y="953.5" width="80" height="18"/>
+			<rect x="274.5" y="953.5" width="80" height="18"/>
+			<rect x="354.5" y="953.5" width="80" height="18"/>
+			<rect x="434.5" y="953.5" width="80" height="18"/>
+			<rect x="514.5" y="953.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="971.5" width="80" height="18"/>
+			<rect x="194.5" y="971.5" width="80" height="18"/>
+			<rect x="274.5" y="971.5" width="80" height="18"/>
+			<rect x="354.5" y="971.5" width="80" height="18"/>
+			<rect x="434.5" y="971.5" width="80" height="18"/>
+			<rect x="514.5" y="971.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="989.5" width="80" height="18"/>
+			<rect x="194.5" y="989.5" width="80" height="18"/>
+			<rect x="274.5" y="989.5" width="80" height="18"/>
+			<rect x="354.5" y="989.5" width="80" height="18"/>
+			<rect x="434.5" y="989.5" width="80" height="18"/>
+			<rect x="514.5" y="989.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="1007.5" width="80" height="18"/>
+			<rect x="194.5" y="1007.5" width="80" height="18"/>
+			<rect x="274.5" y="1007.5" width="80" height="18"/>
+			<rect x="354.5" y="1007.5" width="80" height="18"/>
+			<rect x="434.5" y="1007.5" width="80" height="18"/>
+			<rect x="514.5" y="1007.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="1025.5" width="80" height="18"/>
+			<rect x="194.5" y="1025.5" width="80" height="18"/>
+			<rect x="274.5" y="1025.5" width="80" height="18"/>
+			<rect x="354.5" y="1025.5" width="80" height="18"/>
+			<rect x="434.5" y="1025.5" width="80" height="18"/>
+			<rect x="514.5" y="1025.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="1043.5" width="80" height="18"/>
+			<rect x="194.5" y="1043.5" width="80" height="18"/>
+			<rect x="274.5" y="1043.5" width="80" height="18"/>
+			<rect x="354.5" y="1043.5" width="80" height="18"/>
+			<rect x="434.5" y="1043.5" width="80" height="18"/>
+			<rect x="514.5" y="1043.5" width="80" height="18"/>
+		</g>
+		<g>
+			<rect x="114.5" y="1061.5" width="80" height="17"/>
+			<rect x="194.5" y="1061.5" width="80" height="17"/>
+			<rect x="274.5" y="1061.5" width="80" height="17"/>
+			<rect x="354.5" y="1061.5" width="80" height="17"/>
+			<rect x="434.5" y="1061.5" width="80" height="17"/>
+			<rect x="514.5" y="1061.5" width="80" height="17"/>
+		</g>
+		<g>
+			<rect x="114.5" y="1078.5" width="80" height="18"/>
+			<rect x="194.5" y="1078.5" width="80" height="18"/>
+			<rect x="274.5" y="1078.5" width="80" height="18"/>
+			<rect x="354.5" y="1078.5" width="80" height="18"/>
+			<rect x="434.5" y="1078.5" width="80" height="18"/>
+			<rect x="514.5" y="1078.5" width="80" height="18"/>
+		</g>
+	</g>
+	<g id="columns" font-size="10.5" text-anchor="middle">
+		<g id="column-1">
+			<text x="153.5949" y="857.761">Pixel[0,h-1]</text>
+			<text x="153.5949" y="875.761">Pixel[0,h-2]</text>
+			<text x="153.5949" y="929.761">Pixel[0,9]</text>
+			<text x="153.5949" y="947.761">Pixel[0,8]</text>
+			<text x="153.5949" y="965.761">Pixel[0,7]</text>
+			<text x="153.5949" y="983.761">Pixel[0,6]</text>
+			<text x="153.5949" y="1001.761">Pixel[0,5]</text>
+			<text x="153.5949" y="1019.761">Pixel[0,4]</text>
+			<text x="153.5949" y="1037.761">Pixel[0,3]</text>
+			<text x="153.5949" y="1055.761">Pixel[0,2]</text>
+			<text x="153.5949" y="1072.761">Pixel[0,1]</text>
+			<text x="153.5949" y="1090.761">Pixel[0,0]</text>
+		</g>
+		<g id="column-2">
+			<text x="233.5949" y="857.761">Pixel[1,h-1]</text>
+			<text x="233.5949" y="875.761">Pixel[1,h-2]</text>
+			<text x="233.5949" y="929.761">Pixel[1,9]</text>
+			<text x="233.5949" y="947.761">Pixel[1,8]</text>
+			<text x="233.5949" y="965.761">Pixel[1,7]</text>
+			<text x="233.5949" y="983.761">Pixel[1,6]</text>
+			<text x="233.5949" y="1001.761">Pixel[1,5]</text>
+			<text x="233.5949" y="1019.761">Pixel[1,4]</text>
+			<text x="233.5949" y="1037.761">Pixel[1,3]</text>
+			<text x="233.5949" y="1055.761">Pixel[1,2]</text>
+			<text x="233.5949" y="1072.761">Pixel[1,1]</text>
+			<text x="233.5949" y="1090.761">Pixel[1,0]</text>
+		</g>
+		<g id="column-3">
+			<text x="313.5949" y="857.761">Pixel[2,h-1]</text>
+			<text x="313.5949" y="875.761">Pixel[2,h-2]</text>
+			<text x="313.5949" y="929.761">Pixel[2,9]</text>
+			<text x="313.5949" y="947.761">Pixel[2,8]</text>
+			<text x="313.5949" y="965.761">Pixel[2,7]</text>
+			<text x="313.5949" y="983.761">Pixel[2,6]</text>
+			<text x="313.5949" y="1001.761">Pixel[2,5]</text>
+			<text x="313.5949" y="1019.761">Pixel[2,4]</text>
+			<text x="313.5949" y="1037.761">Pixel[2,3]</text>
+			<text x="313.5949" y="1055.761">Pixel[2,2]</text>
+			<text x="313.5949" y="1072.761">Pixel[2,1]</text>
+			<text x="313.5949" y="1090.761">Pixel[2,0]</text>
+		</g>
+		<g id="column-4" font-size="11">
+			<text x="472.5949" y="857.761">Pixel[w-1,h-1]</text>
+			<text x="472.5949" y="875.761">Pixel[w-1,h-2]</text>
+			<text x="472.5949" y="929.761">Pixel[w-1,9]</text>
+			<text x="472.5949" y="947.761">Pixel[w-1,8]</text>
+			<text x="472.5949" y="965.761">Pixel[w-1,7]</text>
+			<text x="472.5949" y="983.761">Pixel[w-1,6]</text>
+			<text x="472.5949" y="1001.761">Pixel[w-1,5]</text>
+			<text x="472.5949" y="1019.761">Pixel[w-1,4]</text>
+			<text x="472.5949" y="1037.761">Pixel[w-1,3]</text>
+			<text x="472.5949" y="1055.761">Pixel[w-1,2]</text>
+			<text x="472.5949" y="1072.761">Pixel[w-1,1]</text>
+			<text x="472.5949" y="1090.761">Pixel[w-1,0]</text>
+		</g>
+		<g id="column-continuation" font-size="14" font-weight="bold">
+			<text x="394.0" y="858.761">…</text>
+			<text x="394.0" y="876.761">…</text>
+			<text x="394.0" y="931.761">…</text>
+			<text x="394.0" y="948.761">…</text>
+			<text x="394.0" y="966.761">…</text>
+			<text x="394.0" y="984.761">…</text>
+			<text x="394.0" y="1002.761">…</text>
+			<text x="394.0" y="1020.761">…</text>
+			<text x="394.0" y="1038.761">…</text>
+			<text x="394.0" y="1056.761">…</text>
+			<text x="394.0" y="1073.761">…</text>
+			<text x="394.0" y="1091.761">…</text>
+		</g>
+		<g id="column-5">
+			<text x="554.5949" y="857.761">Padding</text>
+			<text x="554.5949" y="875.761">Padding</text>
+			<text x="554.5949" y="929.761">Padding</text>
+			<text x="554.5949" y="947.761">Padding</text>
+			<text x="554.5949" y="965.761">Padding</text>
+			<text x="554.5949" y="983.761">Padding</text>
+			<text x="554.5949" y="1001.761">Padding</text>
+			<text x="554.5949" y="1019.761">Padding</text>
+			<text x="554.5949" y="1037.761">Padding</text>
+			<text x="554.5949" y="1055.761">Padding</text>
+			<text x="554.5949" y="1072.761">Padding</text>
+			<text x="554.5949" y="1090.761">Padding</text>
+		</g>
+	</g>
+</g>
+</svg>

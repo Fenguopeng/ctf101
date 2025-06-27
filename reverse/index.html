@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>逆向工程 - CTF Handbook</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="CTF">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CTF Handbook</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fenguopeng/ctf101" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="逆向工程"><a class="header" href="#逆向工程">逆向工程</a></h1>
+<h2 id="进制转换"><a class="header" href="#进制转换">进制转换</a></h2>
+<h2 id="字节序"><a class="header" href="#字节序">字节序</a></h2>
+<p>字节序是指在计算机中存储多字节数据时，字节的顺序。主要有两种字节序：</p>
+<ul>
+<li><strong>大端字节序（Big-endian）</strong>：高位字节存储在低地址，低位字节存储在高地址。</li>
+<li><strong>小端字节序（Little-endian）</strong>：低位字节存储在低地址，高位字节存储在高地址。</li>
+</ul>
+<p>例如，一个值为 <code>0x0A0B0C0D</code> 的整型数，采用小端序和大端序时在内存中的存储情况如下图所示。</p>
+<p><img src="../images/Endianness-example.png" alt="字节序" /></p>
+<p>x86 的 CPU 使用小端序。</p>
+<p><a href="https://getiot.tech/computerbasics/endianness/">https://getiot.tech/computerbasics/endianness/</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html">https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html</a></p>
+<pre><code class="language-bash"></code></pre>
+<p><a href="https://xiaolincoding.com/os/1_hardware/how_cpu_run.html">https://xiaolincoding.com/os/1_hardware/how_cpu_run.html</a></p>
+<p><img src="../images/Compiler_scheme.png" alt="Compiler_scheme" /></p>
+<h2 id="反汇编"><a class="header" href="#反汇编">反汇编</a></h2>
+<h2 id="反编译"><a class="header" href="#反编译">反编译</a></h2>
+<h2 id="寄存器"><a class="header" href="#寄存器">寄存器</a></h2>
+<p>寄存器（register）是CPU内部用于暂存指令、数据和地址的存储器。</p>
+<p>常见的寄存器种类：</p>
+<ul>
+<li>通用寄存器，用来存放需要进行运算的数据，比如需要进行加和运算的两个数据。</li>
+<li>程序计数器，用来存储 CPU 要执行下一条指令「所在的内存地址」，注意不是存储了下一条要执行的指令，此时指令还在内存中，程序计数器只是存储了下一条指令「的地址」。</li>
+<li>指令寄存器，用来存放当前正在执行的指令，也就是指令本身，指令被执行完成之前，指令都存储在这里。
+段寄存器？</li>
+</ul>
+<p>物理地址？逻辑地址？</p>
+<p>现代（即386及以后）x86 处理器具有八个32位通用寄存器。32 位寄存器是以<code>E</code>开头，<code>E</code>代表扩展（extended）。</p>
+<p><img src="../images/x86-registers.png" alt="x86寄存器" /></p>
+<p>寄存器的名称承载着其历史和用途</p>
+<ul>
+<li>EAX，累加器（Accumulator），最初被设计为执行算术运算和数据操作的主要寄存器。</li>
+<li>EBX，基址寄存器（Base Register），指向数据段（DS段）中的数据。用于存储程序的基址。</li>
+<li>ECX, 计数器（Counter），最初用于循环和迭代操作，特别是在处理循环时，ECX被用来保持循环的计数器。</li>
+<li>EDX， 数据寄存器（Data Register），最初被设计来存储数据操作期间的附加数据，通常用于扩展特定运算（如乘法和除法）。</li>
+<li>ESI, 源索引寄存器（Source Index Register）</li>
+<li>EDI，目的索引寄存器（Destination Index Register）</li>
+</ul>
+<p>但按照惯例，有两个寄存器保留为特殊用途，即栈指针（ESP）和基址指针（EBP）。</p>
+<ul>
+<li>ESP 栈指针（Stack Pointer）,始终指向当前栈顶的位置。在函数调用和返回、局部变量存储时，ESP 的值会发生变化。</li>
+<li>EBP 基址指针（Base Pointer）,通常用于指向当前函数的栈帧基址。它维护了一种稳定的方式来访问局部变量和函数参数。</li>
+</ul>
+<p>请注意，上述每个寄存器都是32位或4字节长。EAX、EBX、ECX和EDX寄存器的低2字节可以通过AX进行引用，并可进一步细分为高字节（AH、BH、CH和DH）和低字节（AL、BL、CL和DL），每个字节长度为1字节。</p>
+<p>此外，ESI、EDI、EBP和ESP也可以通过它们的16位等效寄存器SI、DI、BP和SP进行引用。</p>
+<p>段寄存器</p>
+<p>共有六个段寄存器，如下所示：</p>
+<p>CS：代码段寄存器，用于存储代码段（.text段）的基址，供数据访问使用。</p>
+<p>DS：数据段寄存器，存储变量的默认位置（.data段），供数据访问使用。</p>
+<p>ES：额外段寄存器，在字符串操作过程中使用。</p>
+<p>SS：堆栈段寄存器，存储堆栈段的基址，当隐式使用堆栈指针或显式使用基址指针时使用。</p>
+<p>FS：额外段寄存器。</p>
+<p>GS：额外段寄存器。</p>
+<p>标志寄存器</p>
+<p>IDA 界面 快捷键</p>
+<p>IDA插件</p>
+<p>GDB
+调试</p>
+<p>静态链接、动态链接</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+   printf("Hello, World!");
+   return 0;
+}
+</code></pre>
+<p>magic</p>
+<p>栈溢出</p>
+<p>exeinfo</p>
+<p>静态分析
+动态分析</p>
+<ul>
+<li>ida，windows、linux</li>
+<li>pwndbg</li>
+</ul>
+<p>迷宫问题</p>
+<p>栈溢出</p>
+<p>gdb =&gt; pwndbg</p>
+<h2 id="内存布局"><a class="header" href="#内存布局">内存布局</a></h2>
+<p><img src="../images/program_in_memory.png" alt="" /></p>
+<ul>
+<li>每个进程在多任务操作系统中运行在独立的虚拟地址空间，32位系统的虚拟地址空间总是4GB。</li>
+<li>程序的代码段（Text）包含可执行指令，通常是只读的，防止程序修改其指令。</li>
+<li>数据段包含全局和静态变量，其内容可以在运行时改变，但可以分为只读和可写区域。</li>
+<li>BSS段存储所有未初始化的全局和静态变量，操作系统会在执行前将其初始化为0。</li>
+<li>栈区用于存储函数调用的数据，以LIFO结构管理函数的局部变量和返回地址。</li>
+<li>堆区用于动态内存分配，处理程序在运行时请求的内存，通常由malloc和free等函数管理。</li>
+</ul>
+<p><a href="https://x64dbg.com/">x64dbg</a> 是一款免费且开源的调试器，支持32位和64位Windows应用程序的调试。</p>
+<h2 id="ida"><a class="header" href="#ida">IDA</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../crypto/RSA.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../crypto/RSA.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

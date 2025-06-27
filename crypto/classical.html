@@ -1,0 +1,449 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>古典密码 - CTF Handbook</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="CTF">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CTF Handbook</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fenguopeng/ctf101" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="古典密码"><a class="header" href="#古典密码">古典密码</a></h1>
+<p>古典密码是指在现代计算机技术出现之前使用的加密方法，主要<strong>基于字符</strong>，分为两种类型：<code>代换密码</code>和<code>置换密码</code>。</p>
+<h2 id="代换替换密码substitution-cipher"><a class="header" href="#代换替换密码substitution-cipher">代换（替换）密码（Substitution Cipher）</a></h2>
+<p>代换密码是将明文中的字符替换成其他字符，即替代转换。若加密过程中，每个字符采用同一张表替代，则为<strong>单表代换密码</strong>；若整个加密过程中每个字符采用不同的表替代，则为<strong>多表代换密码</strong>。</p>
+<p>破解代换加密的基本方法是用统计手段，即统计语言中的一些字或字母出现频率的规律。</p>
+<h3 id="单表代换密码"><a class="header" href="#单表代换密码">单表代换密码</a></h3>
+<p>单表代换密码是在明文和密文之间建立一一映射关系，也就是说明文与密文一一对应。所以有以下两种方式来进行破解：</p>
+<ol>
+<li>在密钥空间较小的情况下，采用暴力破解方式</li>
+<li>在密文长度足够长的情况下，采用词频分析方式</li>
+</ol>
+<p>当密钥空间足够大，且密文长度足够短的情况下，破解较为困难。</p>
+<h4 id="单字母替换密码mono-alphabetic-substitution-cipher"><a class="header" href="#单字母替换密码mono-alphabetic-substitution-cipher">单字母替换密码（Mono-Alphabetic Substitution Cipher）</a></h4>
+<p>每个字母被固定的替换为另一个字母。</p>
+<pre><code class="language-python">key = {
+    "a": "f",
+    "b": "y",
+    "c": "a",
+    "d": "b",
+    "e": "z",
+    "f": "c",
+    "g": "m",
+    "h": "s",
+    "i": "n",
+    "j": "t",
+    "k": "o",
+    "l": "h",
+    "m": "q",
+    "n": "v",
+    "o": "r",
+    "p": "x",
+    "q": "w",
+    "r": "i",
+    "s": "k",
+    "t": "u",
+    "u": "l",
+    "v": "j",
+    "w": "p",
+    "x": "g",
+    "y": "d",
+    "z": "e"
+}
+
+secret = "The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it.".lower()
+secret = filter(str.isalpha, secret)
+
+encrypted = "".join([key[i] for i in secret])
+print(encrypted)
+#uszuirlyhzpnussfjnvmfvrxzvqnvbrcarlikznkusfuxzrxhzpnhhnvknkurvarqnvmfhrvmfvbuidnvmurxluusnvmknvnu
+</code></pre>
+<p>由于密文中的字母频率没有变化，在较长的密文和英文文本的情况下，可以通过字母频率分析来破解密码。可以使用在线工具 <a href="https://quipqiup.com/">https://quipqiup.com/</a> 辅助解密。</p>
+<p><img src="../images/quipqiup.gif" alt="quipqiup" /></p>
+<ul>
+<li><a href="https://cryptii.com/pipes/alphabetical-substitution">https://cryptii.com/pipes/alphabetical-substitution</a></li>
+<li><a href="https://www.101computing.net/mono-alphabetic-substitution-cipher/">https://www.101computing.net/mono-alphabetic-substitution-cipher/</a></li>
+</ul>
+<h4 id="移位密码凯撒密码"><a class="header" href="#移位密码凯撒密码">移位密码（凯撒密码）</a></h4>
+<p>凯撒密码（Caesar Cipher）是移位密码（Shift Cipher）的一种，通过将明文中每个字母在字母表中向前或向后移动固定的长度来生成密文。例如，当偏移量为 3 时，字母<code>A</code>会被替换为<code>D</code>，字母<code>B</code>会变成<code>E</code>，以此类推。</p>
+<p><img src="../images/CaesarCipher-1.png" alt="CaesarCipher" /></p>
+<blockquote>
+<p>凯撒密码的密钥是 0 到 25 之间的整数，因此可以通过穷举法进行破解。</p>
+</blockquote>
+<h4 id="rot系列密码"><a class="header" href="#rot系列密码">ROT系列密码</a></h4>
+<ul>
+<li><a href="https://rot13.com/">ROT13</a>，实际上是凯撒密码的一种，默认位移量为 13，仅适用于字母，连续两次加密可恢复明文。</li>
+<li><a href="https://rot47.net/">ROT47</a>，处理 ASCII 码在 33 到 126 之间的字符，默认旋转位移为 47 。</li>
+<li><a href="https://rot8000.com/">ROT8000</a>，通过将每个 Unicode 字符向前或向后移动<code>0x8000</code>个位置。</li>
+</ul>
+<h4 id="埃特巴什码atbash-cipher"><a class="header" href="#埃特巴什码atbash-cipher">埃特巴什码（Atbash Cipher）</a></h4>
+<p>埃特巴什码（Atbash Cipher）是一种单字母替换密码，采用字母表中的最后一个字母代表示第一个字母，倒数第二个字母表示第二个字母，以此类推。</p>
+<pre><code>明文：ABCDEFGHIJKLMNOPQRSTUVWXYZ
+密文：ZYXWVUTSRQPONMLKJIHGFEDCBA
+</code></pre>
+<p>例如，明文<code>MIRROR</code>加密为<code>NRIILI</code>。埃特巴什码也被称为<code>镜像密码</code>。</p>
+<!-- #### rabbit -->
+<h4 id="仿射密码affine-cipher"><a class="header" href="#仿射密码affine-cipher">仿射密码（Affine Cipher）</a></h4>
+<p>仿射加密（Affine cipher）是一种基于线性变换的加密方法。</p>
+<p>加密过程：
+$$
+E(x)=(ax+b) \mod m
+$$</p>
+<p>解密解密：
+$$
+D(x)=a^{-1}(x-b) \mod m
+$$</p>
+<p><code>x</code>为字符在字母表中的位置，从<code>0</code>开始。<code>m</code>为字母表的长度，例如对于英文字母为 26。</p>
+<p>假设我们要加密字符串 "HELLO"，使用以下参数：</p>
+<ul>
+<li>a=5</li>
+<li>b=8</li>
+<li>字母表长度 m=26</li>
+</ul>
+<p><code>H → 7</code></p>
+<p><code>E(7)=(5⋅7+8) mod 26 = (35+8) mod 26 = 17</code>,17 对应的字母为 R。
+因此，字符串 "HELLO" 的加密结果是 "RCLLA"。</p>
+<h4 id="培根密码bacon-cipher"><a class="header" href="#培根密码bacon-cipher">培根密码（Bacon Cipher）</a></h4>
+<p>培根密码（Bacon Cipher），又叫倍康尼密码，是由法兰西斯·培根发明的一种替换密码。加密时，明文中的每个字母都会替换成一组五个英文字母。其转换依靠下表：</p>
+<p><img src="../images/BaconCipher-2.png" alt="BaconCipher" /></p>
+<p>转换表有两个版本。一是<code>i</code> 和<code>j</code>、<code>u</code>和<code>v</code>使用相同的编码。二是所有字母使用不同的编码。
+例如，对明文<code>hello world</code>进行加密。步骤如下：
+第一步，将<code>H</code>替换为<code>aabbb</code>，<code>E</code>替换为<code>aabaa</code>等等</p>
+<p><img src="../images/BaconCipher-helloworld-1.png" alt="BaconCipher-helloworld-1" /></p>
+<p>第二步，隐藏信息。常规字体表示<code>a</code>，粗体表示<code>b</code></p>
+<p><img src="../images/BaconCipher-helloworld-2.png" alt="BaconCipher-helloworld-2" /></p>
+<p>也可以使用大小写来隐藏信息。</p>
+<pre><code>sSsSSsSSssSSsSsSsSssSSSSSSSssS{SSSsSsSSSsSsSSSsSSsSSssssssSSSSSSSsSSSSSSSSsSSsssSSssSsSSSsSSsSSSSssssSSsssSSsSSsSSSs}
+</code></pre>
+<pre><code>UTFLAG{CRISPYBACONCIPHER}
+</code></pre>
+<p>培根密码本质上是将二进制信息通过样式的区别，加在了正常书写之上，样式包括大小写、斜体和加粗等。培根密码所包含的信息可以和用于承载其的文章完全无关。</p>
+<!-- #### 希尔密码（Hill Cipher）希尔密码（Hill Cipher） -->
+<h3 id="多表代换密码"><a class="header" href="#多表代换密码">多表代换密码</a></h3>
+<p>在多表代换中，由于使用不同的字母表或关键词，相同的明文字母在不同的位置可能会对应不同的密文字母，实现<code>动态替换</code>。同时，明文字符的频率被改变，从而抵抗词频分析攻击。</p>
+<!-- #### 棋盘密码 -->
+<h4 id="维吉尼亚密码vigenère-cipher"><a class="header" href="#维吉尼亚密码vigenère-cipher">维吉尼亚密码（Vigenère Cipher）</a></h4>
+<p>维吉尼亚密码是一种基于凯撒密码的加密算法，属于多表代换的简单形式。</p>
+<p>加密时，密钥长度必须与明文长度相等，如果关键词长度不足，需要将其扩展至明文长度。该算法有重复（<code>Repeat</code>）和自钥（<code>Autokey</code>）两种模式，默认使用<code>重复模式</code>，即固定关键词重复扩展，如关键词为<code>key</code>时重复扩展为<code>keykey....</code>。自钥模式则是将关键词与明文组合形成密钥，如<code>key明文</code>。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/900px-Vigen%C3%A8re_square_shading.svg.png" alt="维吉尼亚密码字母表" /></p>
+<p>例如，明文<code>HELLOWORLD</code>，关键词<code>SECRET</code>，对于明文第 1 个字母 <code>H</code>，对应密钥的第 1 个字母 <code>S</code>，于是使用第 S 行字母进行加密，得到密文第一个字母 <code>Z</code>，以此类推，密文为<code>ZINCSPGVNU</code>。</p>
+<ul>
+<li><a href="https://cryptii.com/pipes/vigenere-cipher">https://cryptii.com/pipes/vigenere-cipher</a></li>
+</ul>
+<h4 id="普莱费尔密码playfair-cipher"><a class="header" href="#普莱费尔密码playfair-cipher">普莱费尔密码（Playfair Cipher）</a></h4>
+<p>普莱费尔密码（Playfair Cipher）是第一个二字母替换密码，1854 年由英国人查尔斯 · 惠斯通（Charles Wheatstone）发明，基本算法如下：</p>
+<p>例如，选取密钥为<code>playfair</code>，去除重复字母后，得到<code>playfir</code>，将字母按顺序填入$5 \times 5$的矩阵中，余下的位置用字母表中剩下的字母填充，其中<code>i</code>和<code>j</code>作为同一个字母。</p>
+<blockquote>
+<p>注意，由于矩阵大小只有25个，而字母有26个，可以将<code>i</code>和<code>j</code>视作同一字母，或者将<code>q</code>去除。</p>
+</blockquote>
+<p>$$
+\begin{array}{ccccc}
+P &amp; L &amp; A &amp; Y &amp; F \
+I &amp; R &amp; B &amp; C &amp; D \
+E &amp; G &amp; H &amp; K &amp; M \
+N &amp; O &amp; Q &amp; S &amp; T \
+U &amp; V &amp; W &amp; X &amp; Z \
+\end{array}
+$$</p>
+<p>加密过程如下：</p>
+<ul>
+<li>将明文去掉空格后，每两个字母一组，如果一组中的字母相同，则在中间插入一个填充字母（通常为<code>X</code>），然后重新分组。必要的话，在最后一组末尾加字母<code>X</code>。例如明文为<code>HELLO</code>，分组结果为<code>HE LX LO</code>。</li>
+<li>对每一组字母，按照以下规则进行加密
+<ul>
+<li>如果两个字母在同一行，则用它们右边的字母替换（如果在最右边，则循环到最左边）。例如<code>HE</code>-&gt;<code>KG</code>。</li>
+<li>如果两个字母在同一列，则用它们下边的字母替换（如果在最下边，则循环到最上边）。例如<code>LO</code>-&gt;<code>RV</code>。</li>
+<li>如果两个字母不在同一行也不在同一列，则用它们所在矩阵的对角线上字母替换。例如<code>LX</code>-&gt;<code>YV</code>。</li>
+</ul>
+</li>
+</ul>
+<p>完整的密文是<code>KGYVRV</code>。解密时，将这一过程倒过来。</p>
+<!-- 例题： [picoCTF 2021 Play nice](https://ctftime.org/task/15292)
+https://github.com/Dvd848/CTFs/blob/master/2021_picoCTF/Play_Nice.md -->
+<h3 id="图形代换密码"><a class="header" href="#图形代换密码">图形代换密码</a></h3>
+<h4 id="猪圈密码pigpen-cipher"><a class="header" href="#猪圈密码pigpen-cipher"><a href="https://www.dcode.fr/pigpen-cipher">猪圈密码</a>（Pigpen Cipher）</a></h4>
+<p>猪圈密码是一种以格子为基础的图形代换密码，最初由希伯来拉比和圣殿骑士使用。它通过将字母放置在“#”和“X”图形中，通过附近的线条和点表示编码字母，主要有两个版本：原始版本和修改版本。</p>
+<p><img src="../images/PigpenCipher-1.png" alt="猪圈密码" /></p>
+<p>例如，明文<code>X marks the spot</code>的密文如下：</p>
+<p><img src="../images/PigpenCipher-2.jpg" alt="猪圈密码示例" /></p>
+<p>在线加解密网站：</p>
+<ul>
+<li><a href="https://rumkin.com/tools/cipher/pigpen/">https://rumkin.com/tools/cipher/pigpen/</a></li>
+<li><a href="https://www.dcode.fr/pigpen-cipher">https://www.dcode.fr/pigpen-cipher</a></li>
+</ul>
+<!-- #### 键盘密码 -->
+<h4 id="跳舞小人密码dancing-men-cipher"><a class="header" href="#跳舞小人密码dancing-men-cipher">跳舞小人密码（Dancing Men Cipher）</a></h4>
+<p><img src="https://p9-tt-ipv6.byteimg.com/large/pgc-image/85c18be4a7824119a16b443f047341c6" alt="跳舞小人" /></p>
+<h4 id="键盘密码"><a class="header" href="#键盘密码">键盘密码</a></h4>
+<p>所谓键盘密码，就是采用手机键盘或者电脑键盘进行加密。</p>
+<ul>
+<li>手机键盘密码</li>
+</ul>
+<p>手机键盘加密方式，是每个数字键上有 3-4 个字母，用两位数字来表示字母，例如：ru 用手机键盘表示就是：7382，那么这里就可以知道了，手机键盘加密方式不可能用 1 开头，第二位数字不可能超过 4，解密的时候参考此。</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/mobile.jpg" alt="" /></p>
+<p>关于手机键盘加密还有另一种方式，就是「音的」式（这一点可能根据手机的不同会有所不同），具体参照手机键盘来打，例如：「数字」表示出来就是：748 94。在手机键盘上面按下这几个数，就会出：「数字」的拼音。</p>
+<ul>
+<li>电脑键盘棋盘</li>
+</ul>
+<p>电脑键盘棋盘加密，利用了电脑的棋盘方阵。</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-chess.jpg" alt="" /></p>
+<ul>
+<li>电脑键盘坐标</li>
+</ul>
+<p>电脑键盘坐标加密，利用键盘上面的字母行和数字行来加密，例：bye 用电脑键盘 XY 表示就是：351613</p>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-x-y.jpg" alt="" /></p>
+<ul>
+<li>电脑键盘 QWE
+电脑键盘 QWE 加密法，就是用字母表替换键盘上面的排列顺序。</li>
+</ul>
+<p><img src="https://ctf-wiki.org/crypto/classical/figure/computer-qwe.jpg" alt="" /></p>
+<p>例题分析：[SWPUCTF 2021 新生赛]我的银行卡密码</p>
+<!-- https://blog.csdn.net/2301_76328911/article/details/136545008 -->
+<h2 id="置换密码"><a class="header" href="#置换密码">置换密码</a></h2>
+<p>置换密码（Transposition Cipher）又称为转置密码或换位密码，是指通过改变明文中各字符位置得到密文，其字符不变，但位置改变，即<strong>位置转换</strong>。典型的有栅栏密码、曲路密码等。</p>
+<h3 id="栅栏密码"><a class="header" href="#栅栏密码">栅栏密码</a></h3>
+<p>栅栏密码（Rail Fence Cipher）通过将文本以波浪形排列实现。根据排列形状，分为 W 型（传统型）和 N 型。以下是对明文<code>helloworld</code>按照 3 栏加密的传统型示例。</p>
+<ul>
+<li>默认偏移<code>offset</code>为 0，密文为<code>holelwrdlo</code>。</li>
+</ul>
+<pre><code>h...o...l.
+.e.l.w.r.d
+..l...o...
+</code></pre>
+<ul>
+<li>若偏移<code>offset</code>为 1，密文为<code>lrhloolewd</code></li>
+</ul>
+<pre><code>...l...r..
+h.l.o.o.l.
+.e...w...d
+</code></pre>
+<p>例题分析：</p>
+<p><code>Ta _7N6DDDhlg:W3D_H3C31N__0D3ef sHR053F38N43D0F i33___NA</code>
+，原文中存在
+在线加解密网站：</p>
+<ul>
+<li><a href="https://www.geocachingtoolbox.com/index.php?page=railFenceCipher">https://www.geocachingtoolbox.com/index.php?page=railFenceCipher</a></li>
+<li><a href="https://rumkin.com/tools/cipher/rail-fence/">https://rumkin.com/tools/cipher/rail-fence/</a></li>
+</ul>
+<!-- ### 曲路密码 -->
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<ul>
+<li>如果给定的密文长度较长，考虑字母频率分析</li>
+</ul>
+<h2 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h2>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../crypto/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../crypto/RSA.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../crypto/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../crypto/RSA.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

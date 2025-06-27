@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html lang="zh" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>编码 - CTF Handbook</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="CTF">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CTF Handbook</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Fenguopeng/ctf101" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="编码"><a class="header" href="#编码">编码</a></h1>
+<h2 id="进制"><a class="header" href="#进制">进制</a></h2>
+<h3 id="二进制binary"><a class="header" href="#二进制binary">二进制（Binary）</a></h3>
+<p><img src="../images/Binary.png" alt="Binary" /></p>
+<p>二进制是一种使用 <code>0</code> 和 <code>1</code> 的数值表示方式。每个二进制位称为<code>比特</code>（bit）。</p>
+<h3 id="八进制octal"><a class="header" href="#八进制octal">八进制（Octal）</a></h3>
+<h3 id="十进制decimal"><a class="header" href="#十进制decimal">十进制（Decimal）</a></h3>
+<h3 id="十六进制hexadecimal"><a class="header" href="#十六进制hexadecimal">十六进制（Hexadecimal）</a></h3>
+<p>十六进制是一种基数为 16 的数值表示法，数字是由 0 到 9 和 A 到 F 组成，广泛应用于计算机科学及其相关领域。</p>
+<p><img src="../images/bytes-hexadecimal.png" alt="bytes-hexadecimal" /></p>
+<p>由于 1 Byte = 8 Bit，一个字节的一半（4 位）有 16 种不同的组合，也就是说可以用两个十六进制数来表示一个字节。</p>
+<p>常见用来表示十六进制数的前缀有<code>0x</code>和<code>\x</code>，如<code>0xA</code>、<code>\x61</code>等。</p>
+<p><code>666c61677b733333696e675f6833787d</code></p>
+<p><a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;None&#x27;)&amp;input=NjY2YzYxNjc3YjczMzMzMzY5NmU2NzVmNjgzMzc4N2Q&amp;ieol=CRLF&amp;oeol=CRLF">CyberChef</a></p>
+<pre><code class="language-bash">$ python3
+Python 3.13.3 (main, Apr 10 2025, 21:38:51) [GCC 14.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; bytes.fromhex("666c61677b733333696e675f6833787d").decode()
+'flag{s33ing_h3x}'
+</code></pre>
+<h2 id="ascii"><a class="header" href="#ascii">ASCII</a></h2>
+<p>ASCII（<strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，美国标准信息交换码）是一种字符编码方案。</p>
+<p>在计算机中，所有数据存储和运算都使用二进制表示，因计算机通过高电平和低电平分别对应 1 和 0。字母、数字以及常用符号在计算机中也需要使用二进制表示。为确保互通，必须使用统一的编码规则，因此美国标准化组织制定了 ASCII 编码，规定了常用符号对应的二进制数字。</p>
+<p>标准 ASCII 使用 7 个比特来表示字符，因此可以编码 128 个不同的字符。扩展 ASCII 是在标准 ASCII 的基础上，使用 8 个比特来表示字符。</p>
+<p><img src="../images/ASCII-Table-wide.svg" alt="ASCII-Table" /></p>
+<h2 id="unicode"><a class="header" href="#unicode">Unicode</a></h2>
+<p>Unicode 是一种计算机字符编码标准，于 1987 年首次提出，旨在为所有语言和字符提供一个统一的编码系统。它的主要目的是解决不同字符集之间的不兼容问题，确保能够在全球范围内一致地处理和显示文本。Unicode 支持几乎所有现代书写系统，包括拉丁文、汉字、阿拉伯文、希腊文、德文和许多其他语言的符号和字符。</p>
+<p>Unicode 支持多种编码形式，以满足不同应用程序的需求，包括：</p>
+<ul>
+<li>UTF-8：可变长度编码，兼容 ASCII，广泛用于互联网和现代应用。一个字符可以使用 1 到 4 个字节表示。对于 ASCII 字符（0-127），编码与标准 ASCII 相同；而对于其他字符，UTF-8 使用多个字节。</li>
+<li>UTF-16：通常用于需要处理大量东亚字符的环境，比如 Java 和 Windows。它使用 2 或 4 个字节表示每个字符。</li>
+<li>UTF-32：固定长度编码，使用 4 个字节表示每个字符，常用于内部处理和某些特定情况下。</li>
+</ul>
+<h2 id="url编码"><a class="header" href="#url编码">URL编码</a></h2>
+<h2 id="html实体编码"><a class="header" href="#html实体编码">HTML实体编码</a></h2>
+<h2 id="异或xor"><a class="header" href="#异或xor">异或<code>XOR</code></a></h2>
+<p>异或（XOR）是一种<strong>位运算符</strong>，符号为 <code>^</code>。其规则是：<strong>两个二进制位相同则结果为 0，不同则结果为 1</strong>。</p>
+<div class="table-wrapper"><table><thead><tr><th>A</th><th>B</th><th>A ^ B</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td></tr>
+</tbody></table>
+</div>
+<p>异或的性质：</p>
+<ol>
+<li>任意数与 0 异或结果为其本身：<code>A ^ 0 = A</code></li>
+<li>任意数与自身异或结果为 0：<code>A ^ A = 0</code></li>
+<li>异或运算满足交换律和结合律：<code>A ^ B = B ^ A</code>，<code>(A ^ B) ^ C = A ^ (B ^ C)</code></li>
+</ol>
+<h3 id="示例代码"><a class="header" href="#示例代码">示例代码</a></h3>
+<h2 id="例题分析"><a class="header" href="#例题分析">例题分析</a></h2>
+<h3 id="例题-xor"><a class="header" href="#例题-xor">例题-<code>XOR</code></a></h3>
+<pre><code>79737e786477706f7a4066706a406a6c7a7b407e406c7c6d766f6b62
+</code></pre>
+<ul>
+<li>题目分析</li>
+</ul>
+<p>题目提供了一串十六进制数字，我们知道两个十六进制数字可以表示一个字节。根据题目名称，可以通过暴力破解方式来寻找异或秘钥，以实现解密。</p>
+<ul>
+<li>解法一</li>
+</ul>
+<pre><code class="language-python">cipher = bytes.fromhex("79737e786477706f7a4066706a406a6c7a7b407e406c7c6d766f6b62")
+
+# 遍历所有可能的单字节密钥（从 0x00 到 0xff）
+for i in range(0x00, 0xff):
+    result = "".join(chr(i ^ j) for j in cipher)
+    if "flag" in result:
+        print("Flag found:", result)
+</code></pre>
+<ul>
+<li>解法二</li>
+</ul>
+<p>我们主要使用 <a href="https://gchq.github.io/CyberChef/#recipe=From_Hex(&#x27;None&#x27;)XOR_Brute_Force(1,100,0,&#x27;Standard&#x27;,false,true,false,&#x27;flag&#x27;)&amp;input=Nzk3MzdlNzg2NDc3NzA2ZjdhNDA2NjcwNmE0MDZhNmM3YTdiNDA3ZTQwNmM3YzZkNzY2ZjZiNjI">CyberChef</a> 的<code>XOR Brute Force</code>模块，在正确使用该模块之前，需要首先使用<code>From Hex</code>功能将提供的字符串转为以两个十六进制数表示的字节数组。</p>
+<p><img src="../images/cyberchef-xor-brute-force.png" alt="CyberChef XOR Brute Force" /></p>
+<h2 id="字母频率统计"><a class="header" href="#字母频率统计">字母频率统计</a></h2>
+<pre><code class="language-bash">$ cat flag.txt | fold -w1 | sort | uniq -c | sort -nr
+2508 G
+2481 X
+2453 Y
+2301 {
+2221 g
+2087 a
+</code></pre>
+<ul>
+<li><code>fold -w1</code> 将每个字符放在单独的一行。</li>
+<li><code>sort</code> 对字符进行排序。</li>
+<li><code>uniq -c</code> 统计出现次数。</li>
+<li><code>sort -nr</code> 根据出现次数从高到低排序。</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="encodings/base.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="encodings/base.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

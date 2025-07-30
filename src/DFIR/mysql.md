@@ -20,11 +20,11 @@ mysql -h <hostname> -u -p
 mysql -h <hostname> -u -p123456
 ```
 
-1.在/etc/my.cnf文件mysqld块中新建一个【secure_file_priv=NULL】，重启mysql【systemctlrestartmysqll
-2.在/etc/my.cnf文件mysqld块中新建一个【log_raw=OFF】，重启mysql【systemctlrestartmysql]
+1.在/etc/my.cnf 文件 mysqld 块中新建一个【secure_file_priv=NULL】，重启 mysql【systemctlrestartmysqll
+2.在/etc/my.cnf 文件 mysqld 块中新建一个【log_raw=OFF】，重启 mysql【systemctlrestartmysql]
 3.执行【mysqlbinlog --stop-position=55024--database=drug/var/lib/mysql/mysql-
 bin.000001|mysql-uroot】命令
-4.关于mysqlbinlog数据回滚的参考链接：
+4.关于 mysqlbinlog 数据回滚的参考链接：
 <https://blog.csdn.net/lnterest1_wyt/article/details/115028429>
 
 配置 MySQL 为非标准端口 55434。

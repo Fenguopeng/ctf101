@@ -20,7 +20,7 @@
   - [跨站请求伪造](web/csrf.md)
   - [服务端请求伪造](web/ssrf.md)
   - [SQL 注入漏洞](web/sqli.md)
-  - [PHP 反序列化漏洞](web/PHP.md)
+  - [PHP 反序列化漏洞](web/php-deserialization.md)
   - [XML外部实体注入漏洞](web/xxe.md)
   - [JWT](web/jwt.md)
   - [服务端模板注入漏洞](web/ssti.md)

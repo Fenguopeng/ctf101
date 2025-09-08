@@ -24,6 +24,8 @@
   - [XML外部实体注入漏洞](web/xxe.md)
   - [JWT](web/jwt.md)
   - [服务端模板注入漏洞](web/ssti.md)
+  - [Python 沙箱逃逸](web/python-sanbox-escape.md)
+  - [Python 反序列化漏洞](web/python-deserialization.md)
 - [取证](forensic/README.md)
   - [压缩包分析]()
   - [流量分析]()
